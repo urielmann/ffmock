@@ -1,0 +1,315 @@
+/**
+  @brief VSCode tasks configuration
+  @author Uriel Mann
+  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+
+:: Permission is hereby granted, free of charge, to any person obtaining a copy
+:: of this software and associated documentation files (the "Software"), to deal
+:: in the Software without restriction, including without limitation the rights
+:: to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+:: copies of the Software, and to permit persons to whom the Software is
+:: furnished to do so, subject to the following conditions:
+
+:: The above copyright notice and this permission notice shall be included in all
+:: copies or substantial portions of the Software.
+
+:: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+:: IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+:: FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+:: AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+:: LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+:: OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+:: SOFTWARE.
+*/
+
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Unit Tests build with lib (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/Fdbin/x64/UmockUnitTests_lib.pdb",
+                "/Febin/x64/UmockUnitTests_lib.exe",
+                "tst/Mocks.cpp",
+                "tst/UmockUnitTests.cpp",
+                "/link",
+                "/nologo",
+                "/WX",
+                "/IGNORE:4217",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "bin/x64/umock.lib",
+                "ucrtd.lib",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "gtest.lib",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.gtest.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": ["Link Static Library (x64)"]
+        },
+        {
+            "label": "Unit Tests build with source (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "@inc/def.rsp",
+                "/Fdbin/x64/UmockUnitTests.pdb",
+                "/Febin/x64/UmockUnitTests.exe",
+                "@inc/src.rsp",
+                "tst/Mocks.cpp",
+                "tst/UmockUnitTests.cpp",
+                "/link",
+                "/nologo",
+                "/WX",
+                "/IGNORE:4217",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "ucrtd.lib",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "gtest.lib",
+                "advapi32.lib",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.gtest.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+        },
+        {
+            "label": "TestService build (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/Fobin/x64/",
+                "/Fdbin/x64/TestService.pdb",
+                "/Febin/x64/TestService.exe",
+                "tst/TestService.cpp",
+                "/link",
+                "/nologo",
+                "/WX",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "kernel32.lib",
+                "advapi32.lib",
+                "bin/x64/umock.lib"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": ["Link Static Library (x64)"]
+        },
+        {
+            "label": "Service DLL build (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/link.exe",
+            "args": [
+                "/nologo",
+                "/dll",
+                "/DEBUG",
+                "/PDB:bin/x64/Service.pdb",
+                "/OUT:bin/x64/Service.dll",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "/MACHINE:X64",
+                "/IGNORE:4001",
+                "/WX",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "kernel32.lib",
+                "advapi32.lib",
+                "bin/x64/umock.lib",
+                "/DEF:dll/Service.def"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.sdk.x64.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": ["Link Static Library (x64)"]
+        },
+        {
+            "label": "Build Static Library (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/c",
+                "@inc/src.rsp",
+            ],
+            "options": {
+                "env": {
+                    "include": "${config:umock.lib.dir};${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": "$msCompile",
+        },
+        {
+            "label": "Link Static Library (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/lib.exe",
+            "args": [
+                "/nologo",
+                "bin/x64/SCM.obj",
+                "bin/x64/EventLog.obj",
+                "bin/x64/Service.obj",
+                "bin/x64/Registry.obj",
+                "/OUT:bin/x64/umock.lib"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": "$msCompile",
+            "dependsOn": ["Build Static Library (x64)"]
+        },
+        {
+            "label": "Compile current file (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/c",
+                "${file}",
+            ],
+            "options": {
+                "env": {
+                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.tst.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": "$msCompile",
+        },
+    },
+    {
+        "label": "Build Mocks Library (x64)",
+        "type": "process",
+        "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+        "args": [
+            "@inc/cl.rsp",
+            "/c",
+            "tst/Mocks.cpp",
+        ],
+        "options": {
+            "env": {
+                "include": "${config:umock.lib.dir};${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+            }
+        },
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        },
+        "presentation": {
+            "reveal": "always",
+            "panel": "new"
+        },
+        "problemMatcher": "$msCompile",
+    },
+    {
+        "label": "Link Mocks Library (x64)",
+        "type": "process",
+        "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/lib.exe",
+        "args": [
+            "/nologo",
+            "bin/x64/Mocks.obj",
+            "/OUT:bin/x64/Mocks.lib"
+        ],
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        },
+        "presentation": {
+            "reveal": "always",
+            "panel": "new"
+        },
+        "problemMatcher": "$msCompile",
+        "dependsOn": ["Build Mocks Library (x64)"]
+    },
+    {
+            "label": "cfg.cmd (x64)",
+            "command": "${workspaceFolder}/cfg/cfg.cmd x64",
+            "type": "shell"
+        }
+    ],
+    "options": {
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}",
+        },
+    }
+}
