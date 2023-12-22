@@ -1,0 +1,14 @@
+/nologo
+/WX
+/IGNORE:4001
+/NODEFAULTLIB:LIBCMT
+/NODEFAULTLIB:LIBCMTD
+/INCREMENTAL:NO
+/MACHINE:X64
+/MAP
+vcruntimed.lib
+msvcrtd.lib
+ucrtd.lib
+kernel32.lib
+httpapi.lib
+winhttp.lib

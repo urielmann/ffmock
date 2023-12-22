@@ -1,0 +1,4 @@
+lib/SCM.cpp
+lib/EventLog.cpp
+lib/Service.cpp
+lib/Registry.cpp
