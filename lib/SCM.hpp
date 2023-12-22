@@ -57,8 +57,8 @@ public:
     SCM(SCM&&) = delete;
     SCM& operator=(SCM const&) = delete;
 
-    bool Initialize();
-    bool RegisterService(void);
+    bool Initialize(_In_opt_z_ char* AdditionalArgs);
+    bool RegisterService(_In_opt_z_ char* AdditionalArgs);
     bool StartService(void);
     bool StopService(void);
     bool DeleteService(void);

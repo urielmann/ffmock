@@ -234,6 +234,20 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+BOOL
+WINAPI
+CloseServiceHandle(
+    _In_ SC_HANDLE Service
+    ) try
+{
+    static Mocks::UMCloseServiceHandle mock(AdvAPI32);
+    return mock(Service);
+}
+catch(std::bad_alloc const&)
+{
+    return FALSE;
+}
+
 
 /*****************************************************************
  * @brief Mocked APIs for registry

@@ -58,7 +58,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/bin/x64/FFmockUnitTests_src.exe",
             "args": [
-                "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
+                "--gtest_filter=ServiceTestSuite.Test_Register_Failed"
             ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
@@ -92,6 +92,16 @@
             "justMyCode": false,
             "args": ["--input=C:/Play/ffmock/bin/x64/Mocks.obj"],
             "env": { "PYTHONPATH": "C:/Play/ffmock/py",},
+        },
+        {
+            "name": "Debug rundll32.exe (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "C:/Windows/System32/rundll32.exe",
+            "args": [ "${workspaceFolder}/bin/x64/Service.dll,Service::Register" ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
         },
     ]
 }

@@ -176,6 +176,15 @@ DECLARE_MOCK(StartServiceW, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
                                         LPCWSTR*  ServiceArgVectors
     ));
 
+/**
+ * @brief Mock for CloseServiceHandle
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-closeservicehandle
+ */
+DECLARE_MOCK(CloseServiceHandle, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
+    (
+    _In_ SC_HANDLE Service
+    ));
+
 
 /*****************************************************************
  * @brief Mocked APIs for registry
