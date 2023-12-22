@@ -38,7 +38,7 @@ bool Registry::Open(_In_z_ PCWSTR KeyPath)
     LSTATUS status{RegOpenKeyW(HKEY_LOCAL_MACHINE, KeyPath, &key)};
     if (status)
     {
-        UserErrorMessage(L"RegOpenKeyW() failure");
+        UserErrorMessage(L"RegOpenKeyW() failure", status);
         return false;
     }
     Key.reset(key);
@@ -57,10 +57,18 @@ bool Registry::Open(_In_z_ PCWSTR KeyPath)
 bool Registry::Create(_In_z_ PCWSTR KeyPath)
 {
     HKEY key{};
-    LSTATUS status{RegCreateKeyW(HKEY_LOCAL_MACHINE, KeyPath, &key)};
+    LSTATUS status{RegCreateKeyExW(HKEY_LOCAL_MACHINE,
+                                   KeyPath,
+                                   0,
+                                   nullptr,
+                                   0,
+                                   KEY_ALL_ACCESS,
+                                   nullptr,
+                                   &key,
+                                   nullptr)};
     if (status)
     {
-        UserErrorMessage(L"RegCreateKeyW() failure");
+        UserErrorMessage(L"RegCreateKeyExW() failure", status);
         return false;
     }
     Key.reset(key);
@@ -88,7 +96,7 @@ bool Registry::AddStringValue(_In_z_ PCWSTR Name, _In_z_ PCWSTR Value, _In_ DWOR
                                   static_cast<DWORD>(wcslen(Value) * sizeof(*Value)))};
     if (status)
     {
-        UserErrorMessage(L"RegSetValueExW() failure");
+        UserErrorMessage(L"RegSetValueExW() failure", status);
         return false;
     }
 

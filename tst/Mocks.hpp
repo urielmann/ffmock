@@ -222,6 +222,23 @@ DECLARE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR, APIENTRY,
     ));
 
 /**
+ * @brief Mock for RegCreateKeyExW
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw
+ */
+DECLARE_MOCK(RegCreateKeyExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR, APIENTRY,
+    (
+    _In_       HKEY    Key,
+    _In_opt_   LPCWSTR SubKey,
+    _Reserved_ DWORD Reserved,
+    _In_opt_   LPWSTR Class,
+    _In_       DWORD Options,
+    _In_       REGSAM SamDesired,
+    _In_opt_ CONST LPSECURITY_ATTRIBUTES SecurityAttributes,
+    _Out_      PHKEY   Result,
+    _Out_opt_  LPDWORD Disposition
+    ));
+
+/**
  * @brief Mock for RegOpenKeyW
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyw
  */

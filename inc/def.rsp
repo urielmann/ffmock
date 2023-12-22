@@ -10,5 +10,6 @@
 /DCloseServiceHandle=__mock_CloseServiceHandle
 /DRegCloseKey=__mock_RegCloseKey
 /DRegCreateKeyW=__mock_RegCreateKeyW
+/DRegCreateKeyExW=__mock_RegCreateKeyExW
 /DRegOpenKeyW=__mock_RegOpenKeyW
 /DRegSetValueExW=__mock_RegSetValueExW

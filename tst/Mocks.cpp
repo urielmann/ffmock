@@ -288,6 +288,30 @@ catch(std::bad_alloc const&)
 FFMOCK_IMPORT
 LSTATUS
 APIENTRY
+RegCreateKeyExW(
+    _In_       HKEY    Key,
+    _In_opt_   LPCWSTR SubKey,
+    _Reserved_ DWORD Reserved,
+    _In_opt_   LPWSTR Class,
+    _In_       DWORD Options,
+    _In_       REGSAM SamDesired,
+    _In_opt_ CONST LPSECURITY_ATTRIBUTES SecurityAttributes,
+    _Out_      PHKEY   Result,
+    _Out_opt_  LPDWORD Disposition
+    ) try
+{
+    static Mocks::UMRegCreateKeyExW mock(AdvAPI32);
+    return mock(Key, SubKey, Reserved,
+                Class, Options, SamDesired,
+                SecurityAttributes, Result, Disposition);
+}
+catch(std::bad_alloc const&)
+{
+    return ERROR_OUTOFMEMORY;
+}
+
+LSTATUS
+APIENTRY
 RegOpenKeyW(
     _In_     HKEY    Key,
     _In_opt_ LPCWSTR SubKey,
