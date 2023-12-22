@@ -46,6 +46,11 @@ class SCM
                                                  | SERVICE_START
                                                  | SERVICE_STOP };
 
+    /**
+     * @brief Allow access to privets by the unit tests
+     */
+protected:
+
     HANDLE_t Manager{nullptr, &CloseServiceHandle};
     HANDLE_t Service{nullptr, &CloseServiceHandle};
 

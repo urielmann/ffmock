@@ -34,6 +34,11 @@ class Registry
 {
     using HANDLE_t = std::unique_ptr<std::remove_pointer<HKEY>::type, decltype(&RegCloseKey)>;
 
+    /**
+     * @brief Allow access to privets by the unit tests
+     */
+protected:
+
     HANDLE_t Key{nullptr, &RegCloseKey};
 
 public:

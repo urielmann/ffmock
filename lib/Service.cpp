@@ -124,6 +124,18 @@ void CALLBACK Service::Register(_In_ HWND Wnd,
     UNREFERENCED_PARAMETER(Instance);
     UNREFERENCED_PARAMETER(CmdShow);
 
+    SCM scm;
+
+    if (CmdLine && !*CmdLine)
+    {
+        // No arguments given to rundll32.exe
+        if (!scm.Initialize(CmdLine))
+        {
+            return;
+        }
+        return;
+    }
+
     char* space = strchr(CmdLine, ' ');
     if (space)
     {
@@ -134,7 +146,6 @@ void CALLBACK Service::Register(_In_ HWND Wnd,
         // Q: Are there additional arguments given
         if (!*space) space = nullptr;
     }
-    SCM scm;
 
     try
     {

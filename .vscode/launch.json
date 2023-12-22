@@ -58,7 +58,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/bin/x64/FFmockUnitTests_src.exe",
             "args": [
-                "--gtest_filter=ServiceTestSuite.Test_Register_Failed"
+                "--gtest_filter=RegistryTestSuite.Test_Create"
             ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",

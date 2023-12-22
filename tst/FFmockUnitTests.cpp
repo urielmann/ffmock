@@ -61,7 +61,7 @@ TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
     ASSERT_FALSE(SvcStatusHandle);
 }
 
-TEST_F(ServiceTestSuite, Test_Register_Failed)
+TEST_F(ServiceTestSuite, Test_Register_Success)
 {
     char cmdLine[]{"FFmockSvc"};
     Mocks::UMRegisterServiceCtrlHandlerW::Guard guard;
@@ -77,7 +77,7 @@ TEST_F(ServiceTestSuite, Test_Register_Failed)
  * @todo Full functional and branch coverage
  ******************************************************/
 class RegistryTestSuite : public testing::Test
-                             , public Registry
+                        , public Registry
 {
 protected:
     void SetUp(void) override
@@ -92,9 +92,16 @@ protected:
     }
 };
 
-TEST_F(RegistryTestSuite, Test_Open)
+TEST_F(RegistryTestSuite, Test_Open_Fail)
 {
     ASSERT_FALSE(Open(L"Software\\_DeleteMe_"));
+    ASSERT_FALSE(Key);
+}
+
+TEST_F(RegistryTestSuite, Test_Open_Success)
+{
+    ASSERT_TRUE(Open(L"Software\\Microsoft"));
+    ASSERT_TRUE(Key);
 }
 
 TEST_F(RegistryTestSuite, Test_Create)
