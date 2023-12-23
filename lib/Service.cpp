@@ -26,6 +26,7 @@
 #include "SCM.hpp"
 #include <winerror.h>
 #include <synchapi.h>
+#include <consoleapi.h>
 #include <functional>
 #include <map>
 
@@ -123,6 +124,13 @@ void CALLBACK Service::Register(_In_ HWND Wnd,
     UNREFERENCED_PARAMETER(Wnd);
     UNREFERENCED_PARAMETER(Instance);
     UNREFERENCED_PARAMETER(CmdShow);
+
+    FILE* fp;
+    // rundll32.exe is a Windows GUI app. Make sure the output goes to the
+    // parent process console to have any error output visible.
+    AttachConsole(ATTACH_PARENT_PROCESS);
+    freopen_s(&fp, "CONOUT$", "w", stdout);
+    freopen_s(&fp, "CONOUT$", "w", stderr);
 
     SCM scm;
 
