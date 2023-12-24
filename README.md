@@ -1,2 +1,6 @@
-# umock
-Microsoft Win32 API mocking library
+# **umock** - Microsoft Win32 API mocking library
+## General
+This library is a header only package to provide simple and versatile method of mocking Microsoft's Win32 native API. Most mocking packages are geared to mocking C++ objects. It makes it easy to inject dependencies if wrapped in an interfaces. The are not designed to mock free functions. For example the popular Google Test (gtest) tells you that you need to [wrap free functions into interfaces](https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#mocking-free-functions). While this approach would work it present both an additional work as well as additional executional overhead.
+The umock package is a light weight method to directly replace free functions with a mock. It has the advantage that any trace of the mock completely disappears once the final code compiles. The free functions are linked directly into your executable. Additionally, there's no need write any additional code to use the free functions in order to mock them. As such, the same mocks can be used to in multiple projects without changes. Wrapping the same functions into different classes you may need to modify your code as more methods are added to for other functions - which would be the case if the code was enhanced.
+For umock any function mocked can be immediately used anywhere else.
+
