@@ -1,7 +1,7 @@
 /**
   @brief VSCode launch configuration
   @author Uriel Mann
-  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+  @copyright 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -29,10 +29,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug unit test (x64)",
+            "name": "Debug static linked unit test (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/UmockUnitTests.exe",
+            "program": "${workspaceFolder}/demo/bin/x64/FFmockUnitTests_lib.exe",
             "args": [
                 "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
             ],
@@ -41,14 +41,47 @@
             "environment": [],
         },
         {
-            "name": "Debug test server (x64)",
+            "name": "Debug dynamic linked unit test (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/TestService.exe",
-            "args": [],
+            "program": "${workspaceFolder}/demo/bin/x64/FFmockUnitTests_dll.exe",
+            "args": [
+                "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
+            ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
+        },
+        {
+            "name": "Debug unit test built with source (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/demo/bin/x64/FFmockUnitTests_src.exe",
+            "args": [
+                "--gtest_filter=RegistryTestSuite.Test_Create"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+        },
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
+        },
+        {
+            "name": "Python: Run exports(Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/demo/py/exports.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["--input=${workspaceFolder}/build/demo/tst/Debug/Mocks_dll.dll"],
+            "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
         },
     ]
 }
