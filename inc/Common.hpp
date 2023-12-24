@@ -35,7 +35,7 @@ template<typename HandleCloser_t = decltype(&CloseHandle)>
 using HANDLEImpl_t = std::unique_ptr<std::remove_pointer<HANDLE>::type, HandleCloser_t>;
 using HANDLE_t = HANDLEImpl_t<>;
 
-#define SVCNAME L"UmockSvc"
+#define SVCNAME L"FFmockSvc"
 #define SVCMODULE L"Service.dll"
 
 /**

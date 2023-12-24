@@ -26,5 +26,5 @@ LIBRARY
 ;; Export Service::Register() and Service::ServiceMain() for use by svchost.exe. See
 ;; Service.cpp for more info.
 EXPORTS
-    ServiceMain=?ServiceMain@Service@@KAXKPEAPEA_W@Z                    @1
-    Register=?Register@Service@@KAXPEAUHWND__@@PEAUHINSTANCE__@@PEADH@Z @2
+    Service::Main=?ServiceMain@Service@@KAXKPEAPEA_W@Z                           @1
+    Service::Register=?Register@Service@@KAXPEAUHWND__@@PEAUHINSTANCE__@@PEADH@Z @2

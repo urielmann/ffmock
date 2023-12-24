@@ -34,6 +34,11 @@ class Registry
 {
     using HANDLE_t = std::unique_ptr<std::remove_pointer<HKEY>::type, decltype(&RegCloseKey)>;
 
+    /**
+     * @brief Allow access to privets by the unit tests
+     */
+protected:
+
     HANDLE_t Key{nullptr, &RegCloseKey};
 
 public:
@@ -47,4 +52,5 @@ public:
     bool Open(_In_z_ PCWSTR KeyPath);
     bool Create(_In_z_ PCWSTR KeyPath);
     bool AddStringValue(_In_z_ PCWSTR Name, _In_z_ PCWSTR Value, _In_ DWORD Type);
+    bool DeleteStringValue(_In_z_ PCWSTR Name);
 };

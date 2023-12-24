@@ -1,5 +1,6 @@
-/**
-  @brief VSCode InteliSense configuration
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  @brief ffmock unit tests manifest
   @author Uriel Mann
   @copyright 2023 Uriel Mann (abba.mann@gmail.com)
 
@@ -20,30 +21,21 @@
 :: LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 :: OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 :: SOFTWARE.
-*/
-
-{
-    "configurations": [
-        {
-            "name": "Win32",
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "compilerPath": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
-            "windowsSdkVersion": "10.0.22621.0",
-            "intelliSenseMode": "msvc-x64",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "includePath": [
-                "${config:ffmock.msvc.dir}/include",
-                "${config:ffmock.wdk.inc.dir}/ucrt",
-                "${config:ffmock.inc.dir}",
-                "${config:ffmock.lib.dir}",
-                "${config:ffmock.gtest.inc.dir}"
-            ]
-        }
-    ],
-    "version": 4
-}
+-->
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0"> 
+  <assemblyIdentity version="1.0.0.0"
+     processorArchitecture="*"
+     name="FFmockUnitTests.exe"
+     type="win32"/> 
+  <description>Unit tests for ffmock</description> 
+  <!-- Identify the application security requirements. -->
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel
+          level="requireAdministrator"
+          uiAccess="false"/>
+        </requestedPrivileges>
+       </security>
+  </trustInfo>
+</assembly>

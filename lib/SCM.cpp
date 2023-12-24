@@ -42,9 +42,11 @@ SCM::~SCM(void)
 /**
  * @brief Setup service and start it
  *
+ * @param[in] AdditionalArgs - Additional command line arguments
+ *
  * @return true if successful
  */
-bool SCM::Initialize(void)
+bool SCM::Initialize(_In_opt_z_ char* AdditionalArgs)
 {
     _ASSERT(!Manager);
     _ASSERT(!Service);
@@ -76,7 +78,7 @@ bool SCM::Initialize(void)
         {
             case ERROR_SERVICE_DOES_NOT_EXIST:
                 // Need to create the service
-                return RegisterService();
+                return RegisterService(AdditionalArgs);
 
             default:
                 UserErrorMessage(L"OpenServiceW() failure", lastError);
@@ -91,23 +93,43 @@ bool SCM::Initialize(void)
 /**
  * @brief Register service DLL using svchost.exe
  *
+ * @param[in] AdditionalArgs - Additional command line arguments
+ *
  * @return true if successful
  */
-bool SCM::RegisterService(void)
+bool SCM::RegisterService(_In_opt_z_ char* AdditionalArgs)
 {
     _ASSERT(Manager);
     _ASSERT(!Service);
 
-    std::cout << "Registering new umock service..." << std::endl;
+    std::wstring cmdLine;
+    try
+    {
+        cmdLine = L"%SystemRoot%\\System32\\svchost.exe -k " SVCNAME;
+        if (AdditionalArgs)
+        {
+            // Append any additional command line to be passed to the service
+            // when it is starting
+            cmdLine += L" ";
+            const size_t length = strnlen(AdditionalArgs, MAX_PATH);
+            cmdLine.append(AdditionalArgs, AdditionalArgs + length);
+        }
+    }
+    catch(std::bad_alloc const&)
+    {
+        UserErrorMessage(__FUNCTIONW__ L" failure", ERROR_OUTOFMEMORY);
+    }
+    
+    std::cout << "Registering new ffmock service..." << std::endl;
     // Create the service for the first time
     if (!CreateServiceW(Manager.get(),
                         SVCNAME,
-                        L"umock programming challenged service",
+                        L"ffmock programming sample service",
                         ServiceDesiredAccess_k,
                         SERVICE_WIN32_OWN_PROCESS,
                         SERVICE_DEMAND_START,
                         SERVICE_ERROR_NORMAL,
-                        L"C:\\Windows\\System32\\svchost.exe -k " SVCNAME,
+                        cmdLine.c_str(),
                         nullptr,
                         nullptr,
                         nullptr,
@@ -120,7 +142,7 @@ bool SCM::RegisterService(void)
 
     wchar_t serviceDllPath[MAX_PATH]{};
     // Assume the service DLL is in the same directory as this process image
-    if (!GetModuleFileNameW(nullptr, serviceDllPath, _countof(serviceDllPath)))
+    if (!GetModuleFileNameW(GetModuleHandleW(SVCMODULE), serviceDllPath, _countof(serviceDllPath)))
     {
         UserErrorMessage(L"GetModuleFileNameW() failure");
         return false;
@@ -152,7 +174,7 @@ bool SCM::RegisterService(void)
     }
 
     // Expose the DLL entrypoint for svchost.exe
-    if (!svcParametersKey.AddStringValue(L"ServiceMain", L"ServiceMain", REG_SZ))
+    if (!svcParametersKey.AddStringValue(L"ServiceMain", L"Service::Main", REG_SZ))
     {
         return false;
     }
@@ -177,7 +199,7 @@ bool SCM::StartService(void)
 
     DWORD lastError;
 
-    std::cout << "Starting umock service..." << std::endl;
+    std::cout << "Starting ffmock service..." << std::endl;
 
     // Try to start the service
     if (!::StartServiceW(Service.get(), 0, nullptr))
@@ -207,17 +229,17 @@ bool SCM::StartService(void)
         switch (ServiceStatus.dwCurrentState)
         {
             case SERVICE_RUNNING:
-                std::cout << "Service " << SVCNAME << " started successfully" << std::endl;
+                std::wcout << L"Service " << SVCNAME << L" started successfully" << std::endl;
                 return  true;
 
             case SERVICE_STOP_PENDING:
-                std::cout << "Waiting for " << SVCNAME << "service to start..." << std::endl;
+                std::wcout << L"Waiting for " << SVCNAME << L"service to start..." << std::endl;
                 std::this_thread::sleep_for(std::chrono::seconds(5));
                 break;
 
             default:
-                std::cerr << "Unable to start service: (" << SVCNAME
-                          << "). -  Current state is: " << ServiceStatus.dwCurrentState<< std::endl;
+                std::wcerr << L"Unable to start service: (" << SVCNAME
+                           << L"). -  Current state is: " << ServiceStatus.dwCurrentState<< std::endl;
                 return false;
         }
     }
@@ -236,11 +258,16 @@ bool SCM::StopService(void)
 
     SERVICE_STATUS ServiceStatus{};
 
-    std::cout << "Stopping umock service..." << std::endl;
+    std::cout << "Stopping ffmock service..." << std::endl;
 
     // Try to stop the service
     if (!::ControlService(Service.get(), SERVICE_CONTROL_STOP, &ServiceStatus))
     {
+        if (SERVICE_STOPPED == ServiceStatus.dwCurrentState)
+        {
+            return true;
+        }
+
         UserErrorMessage(L"ControlService() failure");
         return false;
     }
@@ -251,11 +278,11 @@ bool SCM::StopService(void)
         switch (ServiceStatus.dwCurrentState)
         {
             case SERVICE_STOPPED:
-                std::cout << "Service " << SVCNAME << " shutdown successfully" << std::endl;
+                std::wcout << L"Service " << SVCNAME << L" shutdown successfully" << std::endl;
                 return  true;
 
             case SERVICE_STOP_PENDING:
-                std::cout << "Waiting for " << SVCNAME << "service to stop..." << std::endl;
+                std::wcout << L"Waiting for " << SVCNAME << L"service to stop..." << std::endl;
                 std::this_thread::sleep_for(std::chrono::seconds(5));
 
                 if (!QueryServiceStatus(Service.get(), &ServiceStatus))
@@ -266,8 +293,8 @@ bool SCM::StopService(void)
                 break;
 
             default:
-                std::cerr << "Unable to stop service: (" << SVCNAME
-                          << "). -  Current state is: " << ServiceStatus.dwCurrentState<< std::endl;
+                std::wcerr << L"Unable to stop service: (" << SVCNAME
+                           << L"). -  Current state is: " << ServiceStatus.dwCurrentState<< std::endl;
                 return false;
         }
     }
@@ -278,20 +305,72 @@ bool SCM::StopService(void)
 /**
  * @brief Delete service DLL using svchost.exe
  *
- * @todo Remove the entries from svchost.exe key (SvchostKey_k)
+ * @details Also remove the entries from svchost.exe key (SvchostKey_k)
  *
  * @return true if successful
  */
 bool SCM::DeleteService(void)
 {
-    _ASSERT(Service);
+    _ASSERT(!Manager);
+    _ASSERT(!Service);
 
-    std::cout << "Deleting umock service..." << std::endl;
+    DWORD lastError;
+
+    Manager.reset(OpenSCManagerW(nullptr,  nullptr, ManagerDesiredAccess_k));
+    if (!Manager)
+    {
+        lastError = GetLastError();
+        if (ERROR_ACCESS_DENIED == lastError)
+        {
+            std::cerr << "Restart the program with admin rights" << std::endl;
+        }
+        else
+        {
+            UserErrorMessage(L"OpenSCManager() failure", lastError);
+        }
+
+        return false;
+    }
+
+    // Q: Does the service still exists?
+    Service.reset(OpenServiceW(Manager.get(), SVCNAME, ServiceDesiredAccess_k));
+    if (!Service)
+    {
+        lastError = GetLastError();
+        switch(lastError)
+        {
+            case ERROR_SERVICE_DOES_NOT_EXIST:
+                // No such service
+                return true;
+
+            default:
+                UserErrorMessage(L"OpenServiceW() failure", lastError);
+                return false;
+        }
+    }
+
+    // First stop the service
+    if (!StopService())
+    {
+        return false;
+    }
+
+    std::cout << "Deleting ffmock service..." << std::endl;
 
     // Create the service for the first time
     if (!::DeleteService(Service.get()))
     {
         UserErrorMessage(L"DeleteService() failure");
+        return false;
+    }
+
+    std::cout << "Deleting svchost.exe entries..." << std::endl;
+
+    // Clear value for svchost.exe pointing to the service
+    Registry svchostKey;
+    if (!svchostKey.Open(SvchostKey_k)
+     || !svchostKey.DeleteStringValue(SVCNAME))
+    {
         return false;
     }
 

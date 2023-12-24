@@ -1,5 +1,5 @@
 /**
-  @brief umock unit tests
+  @brief ffmock unit tests
   @author Uriel Mann
   @copyright 2023 Uriel Mann (abba.mann@gmail.com)
 
@@ -45,8 +45,8 @@ protected:
 TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 {
     wchar_t* argv[] = {L"UnitTest"};
-    Mocks::UMRegisterServiceCtrlHandlerW::Guard rschGuard;
-    Mocks::UMSetServiceStatus::Guard sssGuard(
+    Mocks::FFRegisterServiceCtrlHandlerW::Guard rschGuard;
+    Mocks::FFSetServiceStatus::Guard sssGuard(
         [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
            _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
         {
@@ -61,10 +61,10 @@ TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
     ASSERT_FALSE(SvcStatusHandle);
 }
 
-TEST_F(ServiceTestSuite, Test_Register_Failed)
+TEST_F(ServiceTestSuite, Test_Register_Success)
 {
-    char cmdLine[]{"UmockSvc"};
-    Mocks::UMRegisterServiceCtrlHandlerW::Guard guard;
+    char cmdLine[]{"FFmockSvc"};
+    Mocks::FFRegisterServiceCtrlHandlerW::Guard guard;
 
     Service::Register(nullptr, nullptr, cmdLine, SW_NORMAL);
 
@@ -77,19 +77,36 @@ TEST_F(ServiceTestSuite, Test_Register_Failed)
  * @todo Full functional and branch coverage
  ******************************************************/
 class RegistryTestSuite : public testing::Test
-                             , public Registry
+                        , public Registry
 {
 protected:
+    void SetUp(void) override
+    {
+        RegDeleteTreeW(HKEY_LOCAL_MACHINE, L"Software\\_DeleteMe_");
+        RegDeleteKeyW(HKEY_LOCAL_MACHINE, L"Software\\_DeleteMe_");
+    }
+
+    void TearDown(void) override
+    {
+        SetUp();
+    }
 };
 
-TEST_F(RegistryTestSuite, Test_Open)
+TEST_F(RegistryTestSuite, Test_Open_Fail)
 {
     ASSERT_FALSE(Open(L"Software\\_DeleteMe_"));
+    ASSERT_FALSE(Key);
+}
+
+TEST_F(RegistryTestSuite, Test_Open_Success)
+{
+    ASSERT_TRUE(Open(L"Software\\Microsoft"));
+    ASSERT_TRUE(Key);
 }
 
 TEST_F(RegistryTestSuite, Test_Create)
 {
-    ASSERT_TRUE(Open(L"Software\\_DeleteMe_"));
+    ASSERT_TRUE(Create(L"Software\\_DeleteMe_"));
 }
 
 /**

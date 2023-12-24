@@ -27,7 +27,42 @@
 #pragma warning(disable:4273) // inconsistent dll linkage
 
 static HMODULE AdvAPI32{LoadLibraryW(L"advapi32.dll")};
-static HMODULE HttpAPI{LoadLibraryW(L"httpapi.dll")};
+
+/**
+ * @brief Instances of the mock's Guard class members
+ */
+DEFINE_GUARD(Mocks, RegisterServiceCtrlHandlerW);
+DEFINE_GUARD(Mocks, SetServiceStatus);
+DEFINE_GUARD(Mocks, ControlService);
+DEFINE_GUARD(Mocks, CreateServiceW);
+DEFINE_GUARD(Mocks, OpenSCManagerW);
+DEFINE_GUARD(Mocks, OpenServiceW);
+DEFINE_GUARD(Mocks, QueryServiceStatus);
+DEFINE_GUARD(Mocks, StartServiceW);
+DEFINE_GUARD(Mocks, DeleteService);
+DEFINE_GUARD(Mocks, RegCloseKey);
+DEFINE_GUARD(Mocks, RegCreateKeyW);
+DEFINE_GUARD(Mocks, RegOpenKeyW);
+DEFINE_GUARD(Mocks, RegSetValueExW);
+
+/**
+ * @brief Instances of the mock's static members
+ */
+DEFINE_MOCK(RegisterServiceCtrlHandlerW, SERVICE_STATUS_HANDLE, nullptr, ERROR_NOT_ENOUGH_MEMORY);
+DEFINE_MOCK(SetServiceStatus, BOOL, FALSE, ERROR_INVALID_HANDLE);
+DEFINE_MOCK(ControlService, BOOL, FALSE, ERROR_INVALID_HANDLE);
+DEFINE_MOCK(CreateServiceW, SC_HANDLE, nullptr, ERROR_INVALID_PARAMETER);
+DEFINE_MOCK(OpenSCManagerW, SC_HANDLE, nullptr, ERROR_INVALID_PARAMETER);
+DEFINE_MOCK(OpenServiceW, SC_HANDLE, nullptr, ERROR_INVALID_PARAMETER);
+DEFINE_MOCK(QueryServiceStatus, BOOL, FALSE, ERROR_INVALID_HANDLE);
+DEFINE_MOCK(StartServiceW, BOOL, FALSE, ERROR_INVALID_HANDLE);
+DEFINE_MOCK(DeleteService, BOOL, FALSE, ERROR_INVALID_HANDLE);
+DEFINE_MOCK(RegCloseKey, LSTATUS, ERROR_INVALID_HANDLE, NO_ERROR);
+DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR);
+DEFINE_MOCK(RegCreateKeyExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+DEFINE_MOCK(RegSetValueExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+
 
 extern "C"
 {
@@ -37,6 +72,7 @@ extern "C"
  *****************************************************************/
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SERVICE_STATUS_HANDLE
 WINAPI
 RegisterServiceCtrlHandlerW(
@@ -45,7 +81,7 @@ RegisterServiceCtrlHandlerW(
          LPHANDLER_FUNCTION HandlerProc
     ) try
 {
-    static Mocks::UMRegisterServiceCtrlHandlerW mock(AdvAPI32);
+    static Mocks::FFRegisterServiceCtrlHandlerW mock(AdvAPI32);
     return mock(ServiceName, HandlerProc);
 }
 catch(std::bad_alloc const&)
@@ -53,6 +89,7 @@ catch(std::bad_alloc const&)
     return nullptr;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 SetServiceStatus(
@@ -60,7 +97,7 @@ SetServiceStatus(
     _In_ LPSERVICE_STATUS      ServiceStatus
     ) try
 {
-    static Mocks::UMSetServiceStatus mock(AdvAPI32);
+    static Mocks::FFSetServiceStatus mock(AdvAPI32);
     return mock(ServiceHandle, ServiceStatus);
 }
 catch(std::bad_alloc const&)
@@ -68,6 +105,7 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 ControlService(
@@ -76,7 +114,7 @@ ControlService(
     _Out_       LPSERVICE_STATUS    ServiceStatus
     ) try
 {
-    static Mocks::UMControlService mock(AdvAPI32);
+    static Mocks::FFControlService mock(AdvAPI32);
     return mock(ServiceHandle, Control, ServiceStatus);
 }
 catch(std::bad_alloc const&)
@@ -85,6 +123,7 @@ catch(std::bad_alloc const&)
 }
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SC_HANDLE
 WINAPI
 CreateServiceW(
@@ -103,7 +142,7 @@ CreateServiceW(
     _In_opt_  LPCWSTR   Password
     ) try
 {
-    static Mocks::UMCreateServiceW mock(AdvAPI32);
+    static Mocks::FFCreateServiceW mock(AdvAPI32);
     return mock(SCManager, ServiceName, DisplayName,
                 DesiredAccess, ServiceType, StartType,
                 ErrorControl, BinaryPathName, LoadOrderGroup,
@@ -114,13 +153,14 @@ catch(std::bad_alloc const&)
     return nullptr;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 DeleteService(
     _In_ SC_HANDLE Service
     ) try
 {
-    static Mocks::UMDeleteService mock(AdvAPI32);
+    static Mocks::FFDeleteService mock(AdvAPI32);
     return mock(Service);
 }
 catch(std::bad_alloc const&)
@@ -129,6 +169,7 @@ catch(std::bad_alloc const&)
 }
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SC_HANDLE
 WINAPI
 OpenSCManagerW(
@@ -137,7 +178,7 @@ OpenSCManagerW(
     _In_     DWORD   DesiredAccess
     ) try
 {
-    static Mocks::UMOpenSCManagerW mock(AdvAPI32);
+    static Mocks::FFOpenSCManagerW mock(AdvAPI32);
     return mock(MachineName, DatabaseName,  DesiredAccess);
 }
 catch(std::bad_alloc const&)
@@ -146,6 +187,7 @@ catch(std::bad_alloc const&)
 }
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SC_HANDLE
 WINAPI
 OpenServiceW(
@@ -154,7 +196,7 @@ OpenServiceW(
     _In_ DWORD     DesiredAccess
     ) try
 {
-    static Mocks::UMOpenServiceW mock(AdvAPI32);
+    static Mocks::FFOpenServiceW mock(AdvAPI32);
     return mock(SCManager, ServiceName,  DesiredAccess);
 }
 catch(std::bad_alloc const&)
@@ -162,6 +204,7 @@ catch(std::bad_alloc const&)
     return nullptr;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 QueryServiceStatus(
@@ -169,7 +212,7 @@ QueryServiceStatus(
     _Out_ LPSERVICE_STATUS ServiceStatus
     ) try
 {
-    static Mocks::UMQueryServiceStatus mock(AdvAPI32);
+    static Mocks::FFQueryServiceStatus mock(AdvAPI32);
     return mock(Service, ServiceStatus);
 }
 catch(std::bad_alloc const&)
@@ -177,6 +220,7 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 StartServiceW(
@@ -186,8 +230,23 @@ StartServiceW(
                                         LPCWSTR*  ServiceArgVectors
     ) try
 {
-    static Mocks::UMStartServiceW mock(AdvAPI32);
+    static Mocks::FFStartServiceW mock(AdvAPI32);
     return mock(Service, NumServiceArgs, ServiceArgVectors);
+}
+catch(std::bad_alloc const&)
+{
+    return FALSE;
+}
+
+FFMOCK_IMPORT
+BOOL
+WINAPI
+CloseServiceHandle(
+    _In_ SC_HANDLE Service
+    ) try
+{
+    static Mocks::FFCloseServiceHandle mock(AdvAPI32);
+    return mock(Service);
 }
 catch(std::bad_alloc const&)
 {
@@ -199,13 +258,14 @@ catch(std::bad_alloc const&)
  * @brief Mocked APIs for registry
  *****************************************************************/
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegCloseKey(
     _In_ HKEY Key
     ) try
 {
-    static Mocks::UMRegCloseKey mock(AdvAPI32);
+    static Mocks::FFRegCloseKey mock(AdvAPI32);
     return mock(Key);
 }
 catch(std::bad_alloc const&)
@@ -213,6 +273,7 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegCreateKeyW(
@@ -221,7 +282,7 @@ RegCreateKeyW(
     _Out_    PHKEY   Result
     ) try
 {
-    static Mocks::UMRegCreateKeyW mock(AdvAPI32);
+    static Mocks::FFRegCreateKeyW mock(AdvAPI32);
     return mock(Key, SubKey, Result);
 }
 catch(std::bad_alloc const&)
@@ -229,6 +290,32 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
+LSTATUS
+APIENTRY
+RegCreateKeyExW(
+    _In_       HKEY    Key,
+    _In_opt_   LPCWSTR SubKey,
+    _Reserved_ DWORD Reserved,
+    _In_opt_   LPWSTR Class,
+    _In_       DWORD Options,
+    _In_       REGSAM SamDesired,
+    _In_opt_ CONST LPSECURITY_ATTRIBUTES SecurityAttributes,
+    _Out_      PHKEY   Result,
+    _Out_opt_  LPDWORD Disposition
+    ) try
+{
+    static Mocks::FFRegCreateKeyExW mock(AdvAPI32);
+    return mock(Key, SubKey, Reserved,
+                Class, Options, SamDesired,
+                SecurityAttributes, Result, Disposition);
+}
+catch(std::bad_alloc const&)
+{
+    return ERROR_OUTOFMEMORY;
+}
+
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegOpenKeyW(
@@ -237,7 +324,7 @@ RegOpenKeyW(
     _Out_    PHKEY   Result
     ) try
 {
-    static Mocks::UMRegOpenKeyW mock(AdvAPI32);
+    static Mocks::FFRegOpenKeyW mock(AdvAPI32);
     return mock(Key, SubKey, Result);
 }
 catch(std::bad_alloc const&)
@@ -245,6 +332,7 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegSetValueExW(
@@ -256,7 +344,7 @@ RegSetValueExW(
     _In_       DWORD DataCount
     ) try
 {
-    static Mocks::UMRegSetValueExW mock(AdvAPI32);
+    static Mocks::FFRegSetValueExW mock(AdvAPI32);
     return mock(Key, ValueName, Reserved, Type, Data, DataCount);
 }
 catch(std::bad_alloc const&)

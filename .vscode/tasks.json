@@ -28,13 +28,14 @@
         {
             "label": "Unit Tests build with lib (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
-                "/Fdbin/x64/UmockUnitTests_lib.pdb",
-                "/Febin/x64/UmockUnitTests_lib.exe",
+                "/Fdbin/x64/FFmockUnitTests_lib.pdb",
+                "/Febin/x64/FFmockUnitTests_lib.exe",
+                "/DFFMOCK_IMPORT=",
                 "tst/Mocks.cpp",
-                "tst/UmockUnitTests.cpp",
+                "tst/FFmockUnitTests.cpp",
                 "/link",
                 "/nologo",
                 "/WX",
@@ -43,7 +44,8 @@
                 "/NODEFAULTLIB:LIBCMTD",
                 "/INCREMENTAL:NO",
                 "/MAP",
-                "bin/x64/umock.lib",
+                "bin/x64/FFmockUnitTests.res",
+                "bin/x64/ffmock.lib",
                 "ucrtd.lib",
                 "vcruntimed.lib",
                 "msvcrtd.lib",
@@ -59,24 +61,76 @@
             "problemMatcher": "$msCompile",
             "options": {
                 "env": {
-                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:umock.gtest.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
-            "dependsOn": ["Link Static Library (x64)"]
+            "dependsOn": [
+                "Link Static Library (x64)",
+                "Compile unit tests resources (x64)"
+            ]
+        },
+        {
+            "label": "Unit Tests build with DLL (x64)",
+            "type": "process",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/Fdbin/x64/FFmockUnitTests_dll.pdb",
+                "/Febin/x64/FFmockUnitTests_dll.exe",
+                "/DFFMOCK_IMPORT=__declspec(dllimport)",
+                "tst/FFmockUnitTests.cpp",
+                "/link",
+                "/nologo",
+                "/WX",
+                "/IGNORE:4217",
+                "/DEFAULTLIB:Mocks_dll.lib",
+                "/NODEFAULTLIB:ADVAPI32.lib",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "bin/x64/FFmockUnitTests.res",
+                "bin/x64/ffmock.lib",
+                "bin/x64/Mocks_dll.lib",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "gtest.lib",
+                "advapi32.lib",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": [
+                "Link Static Library (x64)",
+                "Mocks DLL build (x64)",
+                "Compile unit tests resources (x64)"
+            ]
         },
         {
             "label": "Unit Tests build with source (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
                 "@inc/def.rsp",
-                "/Fdbin/x64/UmockUnitTests.pdb",
-                "/Febin/x64/UmockUnitTests.exe",
+                "/Fdbin/x64/FFmockUnitTests_src.pdb",
+                "/Febin/x64/FFmockUnitTests_src.exe",
+                "/DFFMOCK_IMPORT=",
                 "@inc/src.rsp",
                 "tst/Mocks.cpp",
-                "tst/UmockUnitTests.cpp",
+                "tst/FFmockUnitTests.cpp",
                 "/link",
                 "/nologo",
                 "/WX",
@@ -85,6 +139,7 @@
                 "/NODEFAULTLIB:LIBCMTD",
                 "/INCREMENTAL:NO",
                 "/MAP",
+                "bin/x64/FFmockUnitTests.res",
                 "ucrtd.lib",
                 "vcruntimed.lib",
                 "msvcrtd.lib",
@@ -101,15 +156,18 @@
             "problemMatcher": "$msCompile",
             "options": {
                 "env": {
-                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:umock.gtest.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
+            "dependsOn": [
+                "Compile unit tests resources (x64)"
+            ]
         },
         {
             "label": "TestService build (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
                 "/Fobin/x64/",
@@ -127,7 +185,7 @@
                 "msvcrtd.lib",
                 "kernel32.lib",
                 "advapi32.lib",
-                "bin/x64/umock.lib"
+                "bin/x64/ffmock.lib"
             ],
             "group": {
                 "kind": "build",
@@ -139,8 +197,8 @@
             "problemMatcher": "$msCompile",
             "options": {
                 "env": {
-                    "include": "${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": ["Link Static Library (x64)"]
@@ -148,7 +206,7 @@
         {
             "label": "Service DLL build (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/link.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/link.exe",
             "args": [
                 "/nologo",
                 "/dll",
@@ -166,7 +224,7 @@
                 "msvcrtd.lib",
                 "kernel32.lib",
                 "advapi32.lib",
-                "bin/x64/umock.lib",
+                "bin/x64/ffmock.lib",
                 "/DEF:dll/Service.def"
             ],
             "group": {
@@ -179,24 +237,116 @@
             "problemMatcher": "$msCompile",
             "options": {
                 "env": {
-                    "include": "${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:umock.sdk.x64.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.sdk.x64.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": ["Link Static Library (x64)"]
         },
         {
-            "label": "Build Static Library (x64)",
+            "label": "Mocks DLL build (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
+                "/Fdbin/x64/Mocks_dll.pdb",
+                "/Febin/x64/Mocks_dll.exe",
+                "/DFFMOCK_IMPORT=__declspec(dllexport)",
+                "tst/Mocks.cpp",
+                "/link",
+                "/nologo",
+                "/dll",
+                "/DEBUG",
+                "/PDB:bin/x64/Mocks.pdb",
+                "/OUT:bin/x64/Mocks.dll",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "/MACHINE:X64",
+                "/IGNORE:4001",
+                "/WX",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "bin/x64/Mocks.lib",
+                "/IMPLIB:bin/x64/Mocks_dll.lib",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.sdk.x64.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                }
+            },
+        },
+        {
+            "label": "Compile unit tests resources (x64)",
+            "type": "process",
+            "command": "${config:ffmock.kits.bin.x64.dir}/rc.exe",
+            "args": [
+                "/nologo",
+                "/fo",
+                "bin/x64/FFmockUnitTests.res",
+                "tst/FFmockUnitTests.rc",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                }
+            },
+        },
+        {
+            "label": "Compile unit tests resources (x64)",
+            "type": "process",
+            "command": "${config:ffmock.kits.bin.x64.dir}/rc.exe",
+            "args": [
+                "/nologo",
+                "/fo",
+                "bin/x64/FFmockUnitTests.res",
+                "tst/FFmockUnitTests.rc",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                }
+            },
+        },
+        {
+            "label": "Build Static Library (x64)",
+            "type": "process",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/DFFMOCK_IMPORT=",
                 "/c",
                 "@inc/src.rsp",
             ],
             "options": {
                 "env": {
-                    "include": "${config:umock.lib.dir};${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "include": "${config:ffmock.lib.dir};${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
                 }
             },
             "group": {
@@ -212,14 +362,14 @@
         {
             "label": "Link Static Library (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/lib.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/lib.exe",
             "args": [
                 "/nologo",
                 "bin/x64/SCM.obj",
                 "bin/x64/EventLog.obj",
                 "bin/x64/Service.obj",
                 "bin/x64/Registry.obj",
-                "/OUT:bin/x64/umock.lib"
+                "/OUT:bin/x64/ffmock.lib"
             ],
             "group": {
                 "kind": "build",
@@ -235,15 +385,16 @@
         {
             "label": "Compile current file (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
+                "/DFFMOCK_IMPORT=__declspec(dllexport)",
                 "/c",
                 "${file}",
             ],
             "options": {
                 "env": {
-                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.tst.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.tst.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
                 }
             },
             "group": {
@@ -256,50 +407,6 @@
             },
             "problemMatcher": "$msCompile",
         },
-    },
-    {
-        "label": "Build Mocks Library (x64)",
-        "type": "process",
-        "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
-        "args": [
-            "@inc/cl.rsp",
-            "/c",
-            "tst/Mocks.cpp",
-        ],
-        "options": {
-            "env": {
-                "include": "${config:umock.lib.dir};${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
-            }
-        },
-        "group": {
-            "kind": "build",
-            "isDefault": true
-        },
-        "presentation": {
-            "reveal": "always",
-            "panel": "new"
-        },
-        "problemMatcher": "$msCompile",
-    },
-    {
-        "label": "Link Mocks Library (x64)",
-        "type": "process",
-        "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/lib.exe",
-        "args": [
-            "/nologo",
-            "bin/x64/Mocks.obj",
-            "/OUT:bin/x64/Mocks.lib"
-        ],
-        "group": {
-            "kind": "build",
-            "isDefault": true
-        },
-        "presentation": {
-            "reveal": "always",
-            "panel": "new"
-        },
-        "problemMatcher": "$msCompile",
-        "dependsOn": ["Build Mocks Library (x64)"]
     },
     {
             "label": "cfg.cmd (x64)",
