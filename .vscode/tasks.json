@@ -186,6 +186,45 @@
             "dependsOn": ["Link Static Library (x64)"]
         },
         {
+            "label": "Mocks DLL build (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/link.exe",
+            "args": [
+                "/nologo",
+                "/dll",
+                "/DEBUG",
+                "/PDB:bin/x64/Mocks.pdb",
+                "/OUT:bin/x64/Mocks.dll",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "/MACHINE:X64",
+                "/IGNORE:4001",
+                "/WX",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "bin/x64/Mocks.lib",
+                "/IMPLIB:tst/Mocks.lib",
+                "/DEF:tst/Mocks.def",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.sdk.x64.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": ["Link Static Library (x64)"]
+        },
+        {
             "label": "Build Static Library (x64)",
             "type": "process",
             "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
