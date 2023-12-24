@@ -29,12 +29,36 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug unit test (x64)",
+            "name": "Debug static linked unit test (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/UmockUnitTests.exe",
+            "program": "${workspaceFolder}/demo/bin/x64/FFmockUnitTests_lib.exe",
             "args": [
                 "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+        },
+        {
+            "name": "Debug dynamic linked unit test (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/demo/bin/x64/FFmockUnitTests_dll.exe",
+            "args": [
+                "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+        },
+        {
+            "name": "Debug unit test built with source (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/demo/bin/x64/FFmockUnitTests_src.exe",
+            "args": [
+                "--gtest_filter=RegistryTestSuite.Test_Create"
             ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
@@ -44,8 +68,37 @@
             "name": "Debug test server (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/TestService.exe",
+            "program": "${workspaceFolder}/demo/bin/x64/TestService.exe",
             "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+        },
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
+        },
+        {
+            "name": "Python: Run exports(Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/demo/py/exports.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["--input=C:/Play/ffmock/demo/bin/x64/Mocks.obj"],
+            "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
+        },
+        {
+            "name": "Debug rundll32.exe (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "C:/Windows/System32/rundll32.exe",
+            "args": [ "${workspaceFolder}/demo/bin/x64/Service.dll,Service::Delete" ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],

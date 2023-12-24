@@ -1,0 +1,11 @@
+/nologo
+/Fodemo/bin/x64/
+/std:c++17
+/EHsc
+/Z7
+/GR-
+/MT
+/W4
+/WX
+/D_DEBUG
+/D_AMD64_

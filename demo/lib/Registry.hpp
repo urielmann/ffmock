@@ -1,5 +1,5 @@
 /**
-  @brief VSCode InteliSense configuration
+  @brief Windows Registry utility class
   @author Uriel Mann
   @copyright 2023 Uriel Mann (abba.mann@gmail.com)
 
@@ -22,28 +22,35 @@
 :: SOFTWARE.
 */
 
+#pragma once
+
+#include <Common.hpp>
+#include <winreg.h>
+
+/**
+ * @brief Class implementing Windows registry functionality
+ */
+class Registry
 {
-    "configurations": [
-        {
-            "name": "Win32",
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "compilerPath": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
-            "windowsSdkVersion": "10.0.22621.0",
-            "intelliSenseMode": "msvc-x64",
-            "cStandard": "c11",
-            "cppStandard": "c++17",
-            "includePath": [
-                "${config:ffmock.msvc.dir}/include",
-                "${config:ffmock.wdk.inc.dir}/ucrt",
-                "${config:ffmock.inc.dir}",
-                "${config:ffmock.lib.dir}",
-                "${config:ffmock.gtest.inc.dir}"
-            ]
-        }
-    ],
-    "version": 4
-}
+    using HANDLE_t = std::unique_ptr<std::remove_pointer<HKEY>::type, decltype(&RegCloseKey)>;
+
+    /**
+     * @brief Allow access to privets by the unit tests
+     */
+protected:
+
+    HANDLE_t Key{nullptr, &RegCloseKey};
+
+public:
+    Registry(void) = default;
+    ~Registry(void) = default;
+
+    Registry(Registry const&) = delete;
+    Registry(Registry&&) = delete;
+    Registry& operator=(Registry const&) = delete;
+
+    bool Open(_In_z_ PCWSTR KeyPath);
+    bool Create(_In_z_ PCWSTR KeyPath);
+    bool AddStringValue(_In_z_ PCWSTR Name, _In_z_ PCWSTR Value, _In_ DWORD Type);
+    bool DeleteStringValue(_In_z_ PCWSTR Name);
+};

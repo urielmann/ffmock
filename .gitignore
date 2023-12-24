@@ -25,12 +25,11 @@
 
 # Compiled Object files
 *.obj
+*.res
+*.log
 
 # Precompiled Headers
 *.pch
-
-# Compiled Dynamic libraries
-*.dll
 
 # Compiled Static libraries
 *.lib
@@ -42,6 +41,19 @@
 *.pdb
 *.map
 *.exp
+*.res
+
+# Visual Studio
+*.idb
+*.tlog/
+*.recipe
+*.aps
+
+# Visual Studio
+*.idb
+*.tlog/
+*.recipe
+*.aps
 
 # Debuggers
 *.debugtarget
@@ -50,3 +62,12 @@
 *.ipch
 *.sln
 .vs/
+x64/
+x86/
+
+# CMake
+build/
+
+# Doxygen
+docs/html/
+docs/latex/
