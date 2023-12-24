@@ -52,4 +52,5 @@ public:
     bool Open(_In_z_ PCWSTR KeyPath);
     bool Create(_In_z_ PCWSTR KeyPath);
     bool AddStringValue(_In_z_ PCWSTR Name, _In_z_ PCWSTR Value, _In_ DWORD Type);
+    bool DeleteStringValue(_In_z_ PCWSTR Name);
 };

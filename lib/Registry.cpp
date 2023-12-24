@@ -88,6 +88,8 @@ bool Registry::Create(_In_z_ PCWSTR KeyPath)
  */
 bool Registry::AddStringValue(_In_z_ PCWSTR Name, _In_z_ PCWSTR Value, _In_ DWORD Type)
 {
+    _ASSERT(Key);
+
     LSTATUS status{RegSetValueExW(Key.get(),
                                   Name,
                                   0,
@@ -97,6 +99,27 @@ bool Registry::AddStringValue(_In_z_ PCWSTR Name, _In_z_ PCWSTR Value, _In_ DWOR
     if (status)
     {
         UserErrorMessage(L"RegSetValueExW() failure", status);
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * @brief Delete a string value to a key
+ *
+ * @param[in] Name - Value name
+ *
+ * @return true if successful
+ */
+bool Registry::DeleteStringValue(_In_z_ PCWSTR Name)
+{
+    _ASSERT(Key);
+
+    LSTATUS status{RegDeleteValueW(Key.get(), Name)};
+    if (status)
+    {
+        UserErrorMessage(L"RegDeleteValueW() failure", status);
         return false;
     }
 

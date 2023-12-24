@@ -263,6 +263,11 @@ bool SCM::StopService(void)
     // Try to stop the service
     if (!::ControlService(Service.get(), SERVICE_CONTROL_STOP, &ServiceStatus))
     {
+        if (SERVICE_STOPPED == ServiceStatus.dwCurrentState)
+        {
+            return true;
+        }
+
         UserErrorMessage(L"ControlService() failure");
         return false;
     }
@@ -300,13 +305,55 @@ bool SCM::StopService(void)
 /**
  * @brief Delete service DLL using svchost.exe
  *
- * @todo Remove the entries from svchost.exe key (SvchostKey_k)
+ * @details Also remove the entries from svchost.exe key (SvchostKey_k)
  *
  * @return true if successful
  */
 bool SCM::DeleteService(void)
 {
-    _ASSERT(Service);
+    _ASSERT(!Manager);
+    _ASSERT(!Service);
+
+    DWORD lastError;
+
+    Manager.reset(OpenSCManagerW(nullptr,  nullptr, ManagerDesiredAccess_k));
+    if (!Manager)
+    {
+        lastError = GetLastError();
+        if (ERROR_ACCESS_DENIED == lastError)
+        {
+            std::cerr << "Restart the program with admin rights" << std::endl;
+        }
+        else
+        {
+            UserErrorMessage(L"OpenSCManager() failure", lastError);
+        }
+
+        return false;
+    }
+
+    // Q: Does the service still exists?
+    Service.reset(OpenServiceW(Manager.get(), SVCNAME, ServiceDesiredAccess_k));
+    if (!Service)
+    {
+        lastError = GetLastError();
+        switch(lastError)
+        {
+            case ERROR_SERVICE_DOES_NOT_EXIST:
+                // No such service
+                return true;
+
+            default:
+                UserErrorMessage(L"OpenServiceW() failure", lastError);
+                return false;
+        }
+    }
+
+    // First stop the service
+    if (!StopService())
+    {
+        return false;
+    }
 
     std::cout << "Deleting ffmock service..." << std::endl;
 
@@ -314,6 +361,16 @@ bool SCM::DeleteService(void)
     if (!::DeleteService(Service.get()))
     {
         UserErrorMessage(L"DeleteService() failure");
+        return false;
+    }
+
+    std::cout << "Deleting svchost.exe entries..." << std::endl;
+
+    // Clear value for svchost.exe pointing to the service
+    Registry svchostKey;
+    if (!svchostKey.Open(SvchostKey_k)
+     || !svchostKey.DeleteStringValue(SVCNAME))
+    {
         return false;
     }
 
