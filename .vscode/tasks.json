@@ -173,6 +173,7 @@
                 "/Febin/x64/FFmockUnitTests_src.exe",
                 "/DFFMOCK_IMPORT=",
                 "@inc/src.rsp",
+                "/DUMOCK_IMPORT=",
                 "tst/Mocks.cpp",
                 "tst/FFmockUnitTests.cpp",
                 "/link",
