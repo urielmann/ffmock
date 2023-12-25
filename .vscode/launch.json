@@ -74,5 +74,24 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
         },
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": { "PYTHONPATH": "C:/Play/sumock/py",},
+        },
+        {
+            "name": "Python: Run exports(Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/py/exports.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["--input=C:/Play/umock/bin/x64/Mocks.obj"],
+            "env": { "PYTHONPATH": "C:/Play/sumock/py",},
+        },
     ]
 }
