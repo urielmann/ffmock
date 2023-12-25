@@ -33,6 +33,7 @@
                 "@inc/cl.rsp",
                 "/Fdbin/x64/UmockUnitTests_lib.pdb",
                 "/Febin/x64/UmockUnitTests_lib.exe",
+                "/DUMOCK_IMPORT=",
                 "tst/Mocks.cpp",
                 "tst/UmockUnitTests.cpp",
                 "/link",
@@ -119,6 +120,7 @@
                 "/Fdbin/x64/UmockUnitTests.pdb",
                 "/Febin/x64/UmockUnitTests.exe",
                 "@inc/src.rsp",
+                "/DUMOCK_IMPORT=",
                 "tst/Mocks.cpp",
                 "tst/UmockUnitTests.cpp",
                 "/link",
@@ -274,6 +276,7 @@
             "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
+                "/DUMOCK_IMPORT=",
                 "/c",
                 "@inc/src.rsp",
             ],
