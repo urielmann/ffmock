@@ -126,6 +126,7 @@
                 "@inc/cl.rsp",
                 "/Fdbin/x64/UmockUnitTests_dll.pdb",
                 "/Febin/x64/UmockUnitTests_dll.exe",
+                "/DUMOCK_IMPORT=__declspec(dllimport)",
                 "tst/UmockUnitTests.cpp",
                 "/link",
                 "/nologo",
