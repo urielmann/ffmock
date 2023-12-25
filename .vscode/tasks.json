@@ -73,6 +73,7 @@
                 "@inc/cl.rsp",
                 "/Fdbin/x64/UmockUnitTests_dll.pdb",
                 "/Febin/x64/UmockUnitTests_dll.exe",
+                "/DUMOCK_IMPORT=__declspec(dllimport)",
                 "tst/UmockUnitTests.cpp",
                 "/link",
                 "/nologo",
@@ -320,6 +321,7 @@
             "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
+                "/DUMOCK_IMPORT=__declspec(dllexport)",
                 "/c",
                 "${file}",
             ],
@@ -345,6 +347,7 @@
         "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
         "args": [
             "@inc/cl.rsp",
+            "/DUMOCK_IMPORT=__declspec(dllexport)",
             "/c",
             "tst/Mocks.cpp",
         ],
