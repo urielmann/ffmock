@@ -29,7 +29,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug unit test (x64)",
+            "name": "Debug static linked unit test (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/x64/UmockUnitTests_lib.exe",
+            "args": [
+                "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+        },
+        {
+            "name": "Debug dynamic linked unit test (x64)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/x64/UmockUnitTests_dll.exe",
+            "args": [
+                "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
+            ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+        },
+        {
+            "name": "Debug unit test built with source (x64)",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/x64/UmockUnitTests.exe",
@@ -49,6 +73,25 @@
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
+        },
+        {
+            "name": "Python: Current File (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": { "PYTHONPATH": "C:/Play/sumock/py",},
+        },
+        {
+            "name": "Python: Run exports(Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/py/exports.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": ["--input=C:/Play/umock/bin/x64/Mocks.obj"],
+            "env": { "PYTHONPATH": "C:/Play/sumock/py",},
         },
     ]
 }

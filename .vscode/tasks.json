@@ -66,6 +66,50 @@
             "dependsOn": ["Link Static Library (x64)"]
         },
         {
+            "label": "Unit Tests build with DLL (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "args": [
+                "@inc/cl.rsp",
+                "/Fdbin/x64/UmockUnitTests_dll.pdb",
+                "/Febin/x64/UmockUnitTests_dll.exe",
+                "/DUMOCK_IMPORT=__declspec(dllimport)",
+                "tst/UmockUnitTests.cpp",
+                "/link",
+                "/nologo",
+                "/WX",
+                "/IGNORE:4217",
+                "/DEFAULTLIB:Mocks.lib",
+                "/NODEFAULTLIB:ADVAPI32.lib",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "bin/x64/umock.lib",
+                "tst/Mocks.lib",
+                "ucrtd.lib",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "gtest.lib",
+                "advapi32.lib",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.gtest.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": [ "Link Static Library (x64)", "Mocks DLL build (x64)" ]
+        },
+        {
             "label": "Unit Tests build with source (x64)",
             "type": "process",
             "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
@@ -186,6 +230,45 @@
             "dependsOn": ["Link Static Library (x64)"]
         },
         {
+            "label": "Mocks DLL build (x64)",
+            "type": "process",
+            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/link.exe",
+            "args": [
+                "/nologo",
+                "/dll",
+                "/DEBUG",
+                "/PDB:bin/x64/Mocks.pdb",
+                "/OUT:bin/x64/Mocks.dll",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "/MACHINE:X64",
+                "/IGNORE:4001",
+                "/WX",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "bin/x64/Mocks.lib",
+                "/IMPLIB:tst/Mocks.lib",
+                "/DEF:tst/Mocks.def",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:umock.inc.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:umock.sdk.x64.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": ["Link Mocks Library (x64)"]
+        },
+        {
             "label": "Build Static Library (x64)",
             "type": "process",
             "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
@@ -238,6 +321,7 @@
             "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
+                "/DUMOCK_IMPORT=__declspec(dllexport)",
                 "/c",
                 "${file}",
             ],
@@ -263,6 +347,7 @@
         "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
         "args": [
             "@inc/cl.rsp",
+            "/DUMOCK_IMPORT=__declspec(dllexport)",
             "/c",
             "tst/Mocks.cpp",
         ],

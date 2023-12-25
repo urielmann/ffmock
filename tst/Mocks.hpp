@@ -29,16 +29,6 @@
 #include <winsvc.h>
 #include <winreg.h>
 
-#define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)   \
-class UM##API_NAME                                                                      \
-    : public ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>       \
-{                                                                                       \
-    friend RET_TYPE                                                                     \
-    CALL_TYPE                                                                           \
-    ::API_NAME CALL_ARGS;                                                               \
-    UM##API_NAME(HMODULE Module) : Mock_t(Module, #API_NAME) {}                         \
-}
-
 
 namespace Mocks
 {

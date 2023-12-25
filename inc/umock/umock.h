@@ -82,8 +82,11 @@ struct function_traits<RetType_t(Args_t...)>
  * @tparam Error - Error value to return as generic failure
  * @tparam Error2Set - Value to set as last error (optional)
  */
+#pragma warning(disable:4251)
 template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
-class Mock
+class
+UMOCK_IMPORT
+Mock
 {
 protected:
 
@@ -172,15 +175,29 @@ public:
     };
 };
 
+} // namespace umock
+
+
+/**
+ * @brief Declaration of mocked Win32 API
+ */
+#define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)   \
+class UM##API_NAME                                                                      \
+    : public ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>       \
+{                                                                                       \
+    friend RET_TYPE                                                                     \
+    CALL_TYPE                                                                           \
+    ::API_NAME CALL_ARGS;                                                               \
+    UM##API_NAME(HMODULE Module) : Mock_t(Module, #API_NAME) {}                         \
+}
+
 /**
  * @brief Instances of the mock's static members
  */
-template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
-__declspec(selectany)
-typename Mock<RetType, API, Error, Error2Set>::Api_t Mock<RetType, API, Error, Error2Set>::RealAPI;
-
-template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
-__declspec(selectany)
-typename Mock<RetType, API, Error, Error2Set>::Api_t Mock<RetType, API, Error, Error2Set>::MockAPI;
-
-} // namespace umock
+#define DEFINE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR)                          \
+template<>                                                                              \
+typename ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
+    umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::RealAPI;        \
+template<>                                                                              \
+typename ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
+    umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::MockAPI;
