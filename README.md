@@ -12,7 +12,118 @@ Each mock is made of two parts:
   1. Templated class with general parameters
   2. The substituting function with static instance of the above class
 
-Here's an example of 
+Here's an example of the required code:
+```C++
+// Mocks.hpp
+#include <umock/umock.h>
+#include <winsvc.h>
+
+
+namespace Mocks
+{
+
+/*****************************************************************
+ * @brief Mocked APIs for services
+ *****************************************************************/
+
+/**
+ * @brief Mock for RegisterServiceCtrlHandlerW
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerw
+ */
+class UMRegisterServiceCtrlHandlerW
+    : public ::umock::Mock<SERVICE_STATUS_HANDLE, decltype(::RegisterServiceCtrlHandlerW), nullptr, ERROR_NOT_ENOUGH_MEMORY>
+{
+    friend SERVICE_STATUS_HANDLE
+    WINAPI
+    ::RegisterServiceCtrlHandlerW(
+        _In_ LPCWSTR            ServiceName,
+        _In_ __callback
+             LPHANDLER_FUNCTION HandlerProc
+        );
+
+    UMRegisterServiceCtrlHandlerW(HMODULE Module) : Mock_t(Module, "RegisterServiceCtrlHandlerW")
+    {
+    }
+};
+
+/**
+ * @brief Mock for SetServiceStatus
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setservicestatus
+ */
+class UMSetServiceStatus
+    : public ::umock::Mock<BOOL, decltype(::SetServiceStatus), FALSE, ERROR_INVALID_HANDLE>
+{
+    friend BOOL
+    WINAPI
+    ::SetServiceStatus(
+        _In_ SERVICE_STATUS_HANDLE ServiceHandle,
+        _In_ LPSERVICE_STATUS      ServiceStatus
+        );
+
+    UMSetServiceStatus(HMODULE Module) : Mock_t(Module, "SetServiceStatus")
+    {
+    }
+};
+
+} // namespace Mocks
+```
+Note that the __*friend*__ functions' declarations were taken verbatim out of the Microsoft headers.  
+
+For convenience, a preprocessor macro is defined and can be used for each of the class declarations.
+``` C++
+/**
+ * @brief Declaration of mocked Win32 API
+ *
+ * @param API_NAME - The API being mocked
+ * @param RET_TYPE - Return type of the API
+ * @param RET_ERROR - Default value to return when the API fails
+ * @param LAST_ERROR - Win32 API commonly set last error code to be retrieved by
+ *                     GetLastError(). This is always used for functions returning
+ *                     BOOL and the return value is set to FALSE.
+ * @param CALL_TYPE - Function calling convention
+ * @param CALL_ARGS - Parenthesize list of API arguments
+ */
+#define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)
+```
+
+So the previous code can also be written as:
+
+```C++
+// Mocks.hpp
+#include <umock/umock.h>
+#include <winsvc.h>
+
+
+namespace Mocks
+{
+
+/*****************************************************************
+ * @brief Mocked APIs for services
+ *****************************************************************/
+
+/**
+ * @brief Mock for RegisterServiceCtrlHandlerW
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerw
+ */
+DECLARE_MOCK(RegisterServiceCtrlHandlerW, SERVICE_STATUS_HANDLE, nullptr, ERROR_NOT_ENOUGH_MEMORY, WINAPI,
+    (
+        _In_ LPCWSTR            ServiceName,
+        _In_ __callback
+             LPHANDLER_FUNCTION HandlerProc
+    ));
+
+/**
+ * @brief Mock for SetServiceStatus
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setservicestatus
+ */
+DECLARE_MOCK(SetServiceStatus, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
+    (
+    _In_ SC_HANDLE Service
+    ));
+
+} // namespace Mocks
+```
+
 
 
 ### Linking Free Function Mocks into Unit Tests
