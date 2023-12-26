@@ -123,8 +123,62 @@ DECLARE_MOCK(SetServiceStatus, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
 
 } // namespace Mocks
 ```
+The actual mock needs to be defined in a C++ source file. Here's an example of the two mocks from the previous example. It starts with defining a global handle for Advapi32.dll. Next, macro is used to create instances of mocks' static data members followed by the mocked free functions.
+```C++
+// Mocks.cpp
+#include "Mocks.hpp"
 
+#pragma warning(disable:4273) // inconsistent dll linkage
 
+static HMODULE AdvAPI32{LoadLibraryW(L"advapi32.dll")};
+
+/**
+ * @brief Instances of the mock's static members
+ */
+DEFINE_MOCK(RegisterServiceCtrlHandlerW, SERVICE_STATUS_HANDLE, nullptr, ERROR_NOT_ENOUGH_MEMORY);
+DEFINE_MOCK(SetServiceStatus, BOOL, FALSE, ERROR_INVALID_HANDLE);
+
+extern "C"
+{
+
+/*****************************************************************
+ * @brief Mocked APIs for services
+ *****************************************************************/
+
+_Must_inspect_result_
+SERVICE_STATUS_HANDLE
+WINAPI
+RegisterServiceCtrlHandlerW(
+    _In_ LPCWSTR            ServiceName,
+    _In_ __callback
+         LPHANDLER_FUNCTION HandlerProc
+    ) try
+{
+    static Mocks::UMRegisterServiceCtrlHandlerW mock(AdvAPI32);
+    return mock(ServiceName, HandlerProc);
+}
+catch(std::bad_alloc const&)
+{
+    return nullptr;
+}
+
+BOOL
+WINAPI
+SetServiceStatus(
+    _In_ SERVICE_STATUS_HANDLE ServiceHandle,
+    _In_ LPSERVICE_STATUS      ServiceStatus
+    ) try
+{
+    static Mocks::UMSetServiceStatus mock(AdvAPI32);
+    return mock(ServiceHandle, ServiceStatus);
+}
+catch(std::bad_alloc const&)
+{
+    return FALSE;
+}
+
+} // extern "C"
+```
 
 ### Linking Free Function Mocks into Unit Tests
 Microsoft added special feature to its linker to prevent from accidentally linking a function with the same signature or name as any of the Win32 API. If you link a function with the same name as an exiting Win32 API function, the linker will issue an error. For example:  
