@@ -109,6 +109,7 @@ protected:
     Mock(HMODULE Module, const char* ApiName)
     {
         RealAPI = Ptr_t(GetProcAddress(Module, ApiName));
+        _ASSERT(RealAPI);
         if (!MockAPI)
         {
             MockAPI = RealAPI;
@@ -162,11 +163,30 @@ public:
          */
         Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
         {
-            Mock_t::MockAPI = MockImpl;
+            Set(MockImpl);
         }
 
         /**
          * @brief Destroy the Guard object and restore the real API
+         */
+        ~Guard(void)
+        {
+            Clear();
+        }
+
+        /**
+         * @brief Set object
+         * 
+         * @param MockImpl - See the constructor above for details
+         */
+        Api_t const& Set(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
+        {
+            _ASSERT(MockImpl);
+            Mock_t::MockAPI = MockImpl;
+        }
+
+        /**
+         * @brief Clear the Guard object and restore the real API
          */
         ~Guard(void)
         {

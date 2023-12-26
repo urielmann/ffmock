@@ -12,7 +12,7 @@ Each mock is made of two parts:
   1. Templated class with general parameters
   2. The substituting function with static instance of the above class
 
-Here's an example of the required code:
+Here's an example of the required code for mocking [**RegisterServiceCtrlHandlerW**](tst/Mocks.hpp#L44) and [**SetServiceStatus**](tst/Mocks.hpp#L64):
 ```C++
 // Mocks.hpp
 #include <umock/umock.h>
@@ -69,7 +69,7 @@ class UMSetServiceStatus
 ```
 Note that the __*friend*__ functions' declarations were taken verbatim out of the Microsoft headers.  
 
-For convenience, a preprocessor macro is defined and can be used for each of the class declarations.
+For convenience, a [preprocessor macro](inc/umock/umock.h#L200) is defined and can be used for each of the class declarations.
 ``` C++
 /**
  * @brief Declaration of mocked Win32 API
@@ -178,6 +178,42 @@ catch(std::bad_alloc const&)
 }
 
 } // extern "C"
+```
+
+##### Using the Mocks in Your Unit Tests
+Once the mocks are defined, using them in a unit test is trivial. Use the mock's [**Guard**](inc/umock/umock.h#L164) nested class to assure that the API call will fail or to modify the API's behavior. The **Guard** will substitute the call to the real implementation. If no argument is given to the **Guard** instance, any call to the mocked API will return the value specified in the [**RetType Error**](inc/umock/umock.h#L86) of the Mock template class. If desired, you the value returned by SetLastError() can also be controlled by providing the requested value as the [**DWORD Error2Set**](inc/umock/umock.h#L86) template parameter.  
+Occasionally, there's a need to have a more elaborate modification to the API behavior. This can be returning specific value to an out-param of the API, checking any of the argument values passed to the API, or failing the API after the Nth call, etc. Such action can be achieved by providing a lambda instance with the desired logic. Such lambda must have the exact same signature as the mocked API, including the parameters types and the return value type.  
+Here's an example:
+```C++
+/******************************************************
+ * @brief Service class unit tests
+ *
+ * @todo Full functional and branch coverage
+ ******************************************************/
+class ServiceTestSuite : public testing::Test
+                       , public Service
+{
+protected:
+};
+
+TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
+{
+    wchar_t* argv[] = {L"UnitTest"};
+    Mocks::UMRegisterServiceCtrlHandlerW::Guard rschGuard;
+    Mocks::UMSetServiceStatus::Guard sssGuard(
+        [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
+           _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
+        {
+            EXPECT_EQ(ServiceHandle, nullptr);
+            EXPECT_TRUE(ServiceStatus->dwWin32ExitCode == ERROR_NOT_ENOUGH_MEMORY);
+            EXPECT_TRUE(ServiceStatus->dwCurrentState == SERVICE_STOPPED);
+            return TRUE;
+        });
+
+    Service::ServiceMain(_countof(argv), argv);
+
+    ASSERT_FALSE(SvcStatusHandle);
+}
 ```
 
 ### Linking Free Function Mocks into Unit Tests
