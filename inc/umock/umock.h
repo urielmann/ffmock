@@ -109,6 +109,7 @@ protected:
     Mock(HMODULE Module, const char* ApiName)
     {
         RealAPI = Ptr_t(GetProcAddress(Module, ApiName));
+        _ASSERT(RealAPI);
         if (!MockAPI)
         {
             MockAPI = RealAPI;
@@ -162,11 +163,30 @@ public:
          */
         Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
         {
-            Mock_t::MockAPI = MockImpl;
+            Set(MockImpl);
         }
 
         /**
          * @brief Destroy the Guard object and restore the real API
+         */
+        ~Guard(void)
+        {
+            Clear();
+        }
+
+        /**
+         * @brief Set object
+         * 
+         * @param MockImpl - See the constructor above for details
+         */
+        Api_t const& Set(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
+        {
+            _ASSERT(MockImpl);
+            Mock_t::MockAPI = MockImpl;
+        }
+
+        /**
+         * @brief Clear the Guard object and restore the real API
          */
         ~Guard(void)
         {
@@ -180,6 +200,15 @@ public:
 
 /**
  * @brief Declaration of mocked Win32 API
+ *
+ * @param API_NAME - The API being mocked
+ * @param RET_TYPE - Return type of the API
+ * @param RET_ERROR - Default value to return when the API fails
+ * @param LAST_ERROR - Win32 API commonly set last error code to be retrieved by
+ *                     GetLastError(). This is always used for functions returning
+ *                     BOOL and the return value is set to FALSE.
+ * @param CALL_TYPE - Function calling convention
+ * @param CALL_ARGS - Parenthesize list of API arguments
  */
 #define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)   \
 class UM##API_NAME                                                                      \
@@ -193,6 +222,13 @@ class UM##API_NAME                                                              
 
 /**
  * @brief Instances of the mock's static members
+ *
+ * @param API_NAME - The API being mocked
+ * @param RET_TYPE - Return type of the API
+ * @param RET_ERROR - Default value to return when the API fails
+ * @param LAST_ERROR - Win32 API commonly set last error code to be retrieved by
+ *                     GetLastError(). This is always used for functions returning
+ *                     BOOL and the return value is set to FALSE.
  */
 #define DEFINE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR)                          \
 template<>                                                                              \
