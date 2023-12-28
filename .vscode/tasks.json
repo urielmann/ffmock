@@ -311,6 +311,30 @@
             },
         },
         {
+            "label": "Compile unit tests resources (x64)",
+            "type": "process",
+            "command": "${config:ffmock.kits.bin.x64.dir}/rc.exe",
+            "args": [
+                "/nologo",
+                "/fo",
+                "bin/x64/FFmockUnitTests.res",
+                "tst/FFmockUnitTests.rc",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                }
+            },
+        },
+        {
             "label": "Build Static Library (x64)",
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
