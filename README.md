@@ -5,7 +5,7 @@ The ffmock package is a light weight method to directly replace free functions w
 
 ## How to Add a Free Function Mock
 In order to mock any free function in your unit tests you need to allow the linker to link in a replacement function with the exact same signature as the original API. The mock allow full control over the execution of the original API. At this point the function can provide the original functionality by calling into the free function implementing the API, or return any other outcome as needed. Since the Win32 API are all hosted in system loadable modules (system DLLs provided by Microsoft), these can be easily substituted.  
-The functionality provided by the system is linked in using import libraries. These provide your code with import table entries to call into the system DLLs. Umock substitute these entries with an actual function with the exact same parameters. When any of these functions are called, your unit tests are in full control of the action taken. It allowed to check the call's parameters values. Return specific values as the result of the call, or populate any out-params with modified values to be sent to your code.
+The functionality provided by the system is linked in using import libraries. These provide your code with import table entries to call into the system DLLs. Ffmock substitute these entries with an actual function with the exact same parameters. When any of these functions are called, your unit tests are in full control of the action taken. It allowed to check the call's parameters values. Return specific values as the result of the call, or populate any out-params with modified values to be sent to your code.
 
 #### Implementing Free Function Mock
 Each mock is made of two parts:  
@@ -219,8 +219,8 @@ TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 ### Linking Free Function Mocks into Unit Tests
 Microsoft added special feature to its linker to prevent from accidentally linking a function with the same signature or name as any of the Win32 API. If you link a function with the same name as an exiting Win32 API function, the linker will issue an error. For example:  
 > *advapi32.lib(ADVAPI32.dll) : error LNK2005: **ControlService** already defined in Mocks.obj  
->   Creating library bin\x64\UmockUnitTests.lib and object bin\x64\UmockUnitTests.exp  
-> bin\x64\UmockUnitTests.exe : fatal error LNK1169: one or more multiply defined symbols found*   
+>   Creating library bin\x64\FFmockUnitTests.lib and object bin\x64\FFmockUnitTests.exp  
+> bin\x64\FFmockUnitTests.exe : fatal error LNK1169: one or more multiply defined symbols found*   
 
 There are three ways to deal with this issue. Each has its advantages and disadvantages.  
 
