@@ -24,7 +24,7 @@
 
 #pragma once
 
-#include <umock/umock.h>
+#include <ffmock/ffmock.h>
 #include <Common.hpp>
 #include <winsvc.h>
 #include <winreg.h>
@@ -42,7 +42,7 @@ namespace Mocks
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerw
  */
 class UMRegisterServiceCtrlHandlerW
-    : public ::umock::Mock<SERVICE_STATUS_HANDLE, decltype(::RegisterServiceCtrlHandlerW), nullptr, ERROR_NOT_ENOUGH_MEMORY>
+    : public ::ffmock::Mock<SERVICE_STATUS_HANDLE, decltype(::RegisterServiceCtrlHandlerW), nullptr, ERROR_NOT_ENOUGH_MEMORY>
 {
     friend SERVICE_STATUS_HANDLE
     WINAPI
@@ -62,7 +62,7 @@ class UMRegisterServiceCtrlHandlerW
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setservicestatus
  */
 class UMSetServiceStatus
-    : public ::umock::Mock<BOOL, decltype(::SetServiceStatus), FALSE, ERROR_INVALID_HANDLE>
+    : public ::ffmock::Mock<BOOL, decltype(::SetServiceStatus), FALSE, ERROR_INVALID_HANDLE>
 {
     friend BOOL
     WINAPI
@@ -81,7 +81,7 @@ class UMSetServiceStatus
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-controlservice
  */
 class UMControlService
-    : public ::umock::Mock<BOOL, decltype(::ControlService), FALSE, ERROR_INVALID_HANDLE>
+    : public ::ffmock::Mock<BOOL, decltype(::ControlService), FALSE, ERROR_INVALID_HANDLE>
 {
     friend BOOL
     WINAPI
@@ -180,7 +180,7 @@ DECLARE_MOCK(StartServiceW, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regclosekey
  */
 class UMRegCloseKey
-    : public ::umock::Mock<LSTATUS, decltype(::RegCloseKey), ERROR_INVALID_HANDLE>
+    : public ::ffmock::Mock<LSTATUS, decltype(::RegCloseKey), ERROR_INVALID_HANDLE>
 {
     friend LSTATUS
     APIENTRY

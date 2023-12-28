@@ -31,17 +31,17 @@
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "compilerPath": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "windowsSdkVersion": "10.0.22621.0",
             "intelliSenseMode": "msvc-x64",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "includePath": [
-                "${config:umock.msvc.dir}/include",
-                "${config:umock.wdk.inc.dir}/ucrt",
-                "${config:umock.inc.dir}",
-                "${config:umock.lib.dir}",
-                "${config:umock.gtest.inc.dir}"
+                "${config:ffmock.msvc.dir}/include",
+                "${config:ffmock.wdk.inc.dir}/ucrt",
+                "${config:ffmock.inc.dir}",
+                "${config:ffmock.lib.dir}",
+                "${config:ffmock.gtest.inc.dir}"
             ]
         }
     ],
