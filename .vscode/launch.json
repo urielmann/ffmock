@@ -32,7 +32,7 @@
             "name": "Debug static linked unit test (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/UmockUnitTests_lib.exe",
+            "program": "${workspaceFolder}/bin/x64/FFmockUnitTests_lib.exe",
             "args": [
                 "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
             ],
@@ -44,7 +44,7 @@
             "name": "Debug dynamic linked unit test (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/UmockUnitTests_dll.exe",
+            "program": "${workspaceFolder}/bin/x64/FFmockUnitTests_dll.exe",
             "args": [
                 "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
             ],
@@ -56,7 +56,7 @@
             "name": "Debug unit test built with source (x64)",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/x64/UmockUnitTests.exe",
+            "program": "${workspaceFolder}/bin/x64/FFmockUnitTests_src.exe",
             "args": [
                 "--gtest_filter=ServiceTestSuite.Test_ServiceMain_Failed"
             ],
@@ -81,7 +81,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "env": { "PYTHONPATH": "C:/Play/sumock/py",},
+            "env": { "PYTHONPATH": "C:/Play/ffmock/py",},
         },
         {
             "name": "Python: Run exports(Integrated Terminal)",
@@ -91,7 +91,7 @@
             "console": "integratedTerminal",
             "justMyCode": false,
             "args": ["--input=C:/Play/ffmock/bin/x64/Mocks.obj"],
-            "env": { "PYTHONPATH": "C:/Play/sumock/py",},
+            "env": { "PYTHONPATH": "C:/Play/ffmock/py",},
         },
     ]
 }

@@ -63,7 +63,7 @@ TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 
 TEST_F(ServiceTestSuite, Test_Register_Failed)
 {
-    char cmdLine[]{"UmockSvc"};
+    char cmdLine[]{"FFmockSvc"};
     Mocks::UMRegisterServiceCtrlHandlerW::Guard guard;
 
     Service::Register(nullptr, nullptr, cmdLine, SW_NORMAL);

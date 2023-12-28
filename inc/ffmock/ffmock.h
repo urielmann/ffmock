@@ -85,7 +85,7 @@ struct function_traits<RetType_t(Args_t...)>
 #pragma warning(disable:4251)
 template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
 class
-UMOCK_IMPORT
+FFMOCK_IMPORT
 Mock
 {
 protected:
