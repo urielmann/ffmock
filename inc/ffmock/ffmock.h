@@ -28,7 +28,7 @@
 #include <minwindef.h>
 #include <winerror.h>
 
-namespace umock
+namespace ffmock
 {
 
 /**
@@ -149,7 +149,7 @@ public:
          * @example
          * @code {.cpp}
          * // Validate parameters passed into the API
-         * umock::UMSetServiceStatus::Guard guard(
+         * ffmock::UMSetServiceStatus::Guard guard(
          *      [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
          *         _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
          *      {
@@ -163,7 +163,7 @@ public:
          */
         Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
         {
-            Set(MockImpl);
+            Set(std::forward<Api_t>(MockImpl));
         }
 
         /**
@@ -179,23 +179,25 @@ public:
          * 
          * @param MockImpl - See the constructor above for details
          */
-        Api_t const& Set(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
+        Api_t Set(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
         {
             _ASSERT(MockImpl);
+            Api_t mockAPI = std::move(MockAPI);
             Mock_t::MockAPI = MockImpl;
+            return mockAPI;
         }
 
         /**
          * @brief Clear the Guard object and restore the real API
          */
-        ~Guard(void)
+        void Clear(void)
         {
             Mock_t::MockAPI = Mock_t::RealAPI;
         }
     };
 };
 
-} // namespace umock
+} // namespace ffmock
 
 
 /**
@@ -212,7 +214,7 @@ public:
  */
 #define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)   \
 class UM##API_NAME                                                                      \
-    : public ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>       \
+    : public ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>       \
 {                                                                                       \
     friend RET_TYPE                                                                     \
     CALL_TYPE                                                                           \
@@ -232,8 +234,8 @@ class UM##API_NAME                                                              
  */
 #define DEFINE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR)                          \
 template<>                                                                              \
-typename ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
-    umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::RealAPI;        \
+typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
+    ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::RealAPI;        \
 template<>                                                                              \
-typename ::umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
-    umock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::MockAPI;
+typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
+    ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::MockAPI;

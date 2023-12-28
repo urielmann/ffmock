@@ -1,5 +1,5 @@
 /**
-  @brief umock unit tests
+  @brief ffmock unit tests
   @author Uriel Mann
   @copyright 2023 Uriel Mann (abba.mann@gmail.com)
 

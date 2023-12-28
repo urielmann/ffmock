@@ -90,7 +90,7 @@
             "program": "${workspaceFolder}/py/exports.py",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "args": ["--input=C:/Play/umock/bin/x64/Mocks.obj"],
+            "args": ["--input=C:/Play/ffmock/bin/x64/Mocks.obj"],
             "env": { "PYTHONPATH": "C:/Play/sumock/py",},
         },
     ]

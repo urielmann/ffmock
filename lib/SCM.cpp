@@ -98,11 +98,11 @@ bool SCM::RegisterService(void)
     _ASSERT(Manager);
     _ASSERT(!Service);
 
-    std::cout << "Registering new umock service..." << std::endl;
+    std::cout << "Registering new ffmock service..." << std::endl;
     // Create the service for the first time
     if (!CreateServiceW(Manager.get(),
                         SVCNAME,
-                        L"umock programming challenged service",
+                        L"ffmock programming challenged service",
                         ServiceDesiredAccess_k,
                         SERVICE_WIN32_OWN_PROCESS,
                         SERVICE_DEMAND_START,
@@ -177,7 +177,7 @@ bool SCM::StartService(void)
 
     DWORD lastError;
 
-    std::cout << "Starting umock service..." << std::endl;
+    std::cout << "Starting ffmock service..." << std::endl;
 
     // Try to start the service
     if (!::StartServiceW(Service.get(), 0, nullptr))
@@ -236,7 +236,7 @@ bool SCM::StopService(void)
 
     SERVICE_STATUS ServiceStatus{};
 
-    std::cout << "Stopping umock service..." << std::endl;
+    std::cout << "Stopping ffmock service..." << std::endl;
 
     // Try to stop the service
     if (!::ControlService(Service.get(), SERVICE_CONTROL_STOP, &ServiceStatus))
@@ -286,7 +286,7 @@ bool SCM::DeleteService(void)
 {
     _ASSERT(Service);
 
-    std::cout << "Deleting umock service..." << std::endl;
+    std::cout << "Deleting ffmock service..." << std::endl;
 
     // Create the service for the first time
     if (!::DeleteService(Service.get()))
