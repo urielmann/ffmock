@@ -121,7 +121,7 @@
         {
             "label": "Unit Tests build with DLL (x64)",
             "type": "process",
-            "command": "${config:umock.msvc.dir}/bin/Hostx64/x64/cl.exe",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
                 "@inc/cl.rsp",
                 "/Fdbin/x64/UmockUnitTests_dll.pdb",
@@ -138,7 +138,7 @@
                 "/NODEFAULTLIB:LIBCMTD",
                 "/INCREMENTAL:NO",
                 "/MAP",
-                "bin/x64/umock.lib",
+                "bin/x64/ffmock.lib",
                 "tst/Mocks.lib",
                 "ucrtd.lib",
                 "vcruntimed.lib",
@@ -156,8 +156,8 @@
             "problemMatcher": "$msCompile",
             "options": {
                 "env": {
-                    "include": "${config:umock.gtest.inc.dir};${config:umock.inc.dir};${config:umock.lib.dir};${config:umock.sdk.dir};${config:umock.shared.dir};${config:umock.msvc.dir}/include;${config:umock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:umock.gtest.lib.dir};${config:umock.msvc.dir}/lib/x64;${config:umock.wdk.lib.dir}/ucrt/x64;${config:umock.wdk.lib.dir}/um/x64",
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": [ "Link Static Library (x64)", "Mocks DLL build (x64)" ]
