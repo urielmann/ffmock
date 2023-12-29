@@ -35,6 +35,7 @@
       <AdditionalDependencies>kernel32.lib;vcruntimed.lib;msvcrtd.lib;ucrtd.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCMTD</IgnoreSpecificDefaultLibraries>
       <AdditionalOptions>/IGNORE:4001 %(AdditionalOptions)</AdditionalOptions>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
   </ItemDefinitionGroup>
 </Project>
