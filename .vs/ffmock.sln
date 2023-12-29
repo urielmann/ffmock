@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFMockUnitTests_lib", "tst\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffmock_tst", "lib\ffmock_tst.vcxproj", "{333FE9EA-C70F-4A9A-A697-6BD504D0CAD8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mocks_lib", "tst\Mocks_lib.vcxproj", "{863AD651-5D1C-4095-89CE-9C9E17D14B87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -68,6 +70,14 @@ Global
 		{333FE9EA-C70F-4A9A-A697-6BD504D0CAD8}.Release|x64.Build.0 = Release|x64
 		{333FE9EA-C70F-4A9A-A697-6BD504D0CAD8}.Release|x86.ActiveCfg = Release|Win32
 		{333FE9EA-C70F-4A9A-A697-6BD504D0CAD8}.Release|x86.Build.0 = Release|Win32
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Debug|x64.ActiveCfg = Debug|x64
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Debug|x64.Build.0 = Debug|x64
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Debug|x86.ActiveCfg = Debug|Win32
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Debug|x86.Build.0 = Debug|Win32
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Release|x64.ActiveCfg = Release|x64
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Release|x64.Build.0 = Release|x64
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Release|x86.ActiveCfg = Release|Win32
+		{863AD651-5D1C-4095-89CE-9C9E17D14B87}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
