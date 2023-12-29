@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFMockUnitTests_dll", "tst\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mocks_dll", "tst\Mocks_dll.vcxproj", "{560B1E85-E2D8-448A-844C-A35F68C01057}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFMockUnitTests_dll", "tst\FFMockUnitTests_dll.vcxproj", "{C1949997-F253-4E2A-ACB6-6A5160ED7D5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
