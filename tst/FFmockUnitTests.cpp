@@ -89,7 +89,7 @@ TEST_F(RegistryTestSuite, Test_Open)
 
 TEST_F(RegistryTestSuite, Test_Create)
 {
-    ASSERT_TRUE(Open(L"Software\\_DeleteMe_"));
+    ASSERT_TRUE(Create(L"Software\\_DeleteMe_"));
 }
 
 /**
