@@ -80,6 +80,16 @@ class RegistryTestSuite : public testing::Test
                              , public Registry
 {
 protected:
+    void SetUp(void) override
+    {
+        RegDeleteTreeW(HKEY_LOCAL_MACHINE, L"Software\\_DeleteMe_");
+        RegDeleteKeyW(HKEY_LOCAL_MACHINE, L"Software\\_DeleteMe_");
+    }
+
+    void TearDown(void) override
+    {
+        SetUp();
+    }
 };
 
 TEST_F(RegistryTestSuite, Test_Open)
