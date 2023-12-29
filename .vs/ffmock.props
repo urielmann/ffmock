@@ -2,6 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <SourceRoot>$(SolutionDir)../</SourceRoot>
+    <GoogleTestDir>C:/Play/googletest/</GoogleTestDir>
   </PropertyGroup>
   <PropertyGroup>
     <IntDir>$(SourceRoot)bin/x64/</IntDir>
@@ -11,6 +12,9 @@
   <ItemGroup>
     <BuildMacro Include="SourceRoot">
       <Value>$(SourceRoot)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GoogleTestDir">
+      <Value>$(GoogleTestDir)</Value>
     </BuildMacro>
   </ItemGroup>
   <ItemDefinitionGroup>

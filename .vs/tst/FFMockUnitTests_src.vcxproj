@@ -63,13 +63,17 @@
     <Import Project="$(ProjectDir)Mocks.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;;_HAS_ITERATOR_DEBUGGING;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:/Play/googletest/googletest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GoogleTestDir)googletest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
+      <AdditionalLibraryDirectories>$(GoogleTestDir)build/lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -78,22 +82,23 @@
     <ClCompile>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:/Play/googletest/googletest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(GoogleTestDir)googletest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(GoogleTestDir)build/lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:/Play/googletest/googletest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;;_CONSOLE;_HAS_ITERATOR_DEBUGGING;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(GoogleTestDir)googletest/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_HAS_ITERATOR_DEBUGGING;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:/Play/googletest/build/lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(GoogleTestDir)build/lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -106,6 +111,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(GoogleTestDir)build/lib/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -122,6 +128,14 @@
     <ClInclude Include="$(SourceRoot)lib/SCM.hpp" />
     <ClInclude Include="$(SourceRoot)lib/Service.hpp" />
     <ClInclude Include="$(SourceRoot)tst/Mocks.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="$(SourceRoot)tst/FFmockUnitTests.rc">
+      <ResourceOutputFileName>$(IntDir)%(Filename)_src.res</ResourceOutputFileName>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="$(SourceRoot)tst/FFmockUnitTests.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
