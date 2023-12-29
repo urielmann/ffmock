@@ -25,6 +25,7 @@
 
 # Compiled Object files
 *.obj
+*.res
 
 # Precompiled Headers
 *.pch
