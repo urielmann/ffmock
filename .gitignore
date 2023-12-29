@@ -53,6 +53,7 @@
 *.idb
 *.tlog/
 *.recipe
+*.aps
 
 # Debuggers
 *.debugtarget

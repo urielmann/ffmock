@@ -138,6 +138,7 @@
                 "/NODEFAULTLIB:LIBCMTD",
                 "/INCREMENTAL:NO",
                 "/MAP",
+                "bin/x64/FFmockUnitTests.res",
                 "bin/x64/ffmock.lib",
                 "tst/Mocks.lib",
                 "ucrtd.lib",
@@ -160,7 +161,11 @@
                     "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
-            "dependsOn": [ "Link Static Library (x64)", "Mocks DLL build (x64)" ]
+            "dependsOn": [
+                "Link Static Library (x64)",
+                "Mocks DLL build (x64)",
+                "Compile unit tests resources (x64)"
+            ]
         },
         {
             "label": "Unit Tests build with source (x64)",
@@ -327,6 +332,30 @@
                 "env": {
                     "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
                     "lib": "${config:ffmock.sdk.x64.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                }
+            },
+        },
+        {
+            "label": "Compile unit tests resources (x64)",
+            "type": "process",
+            "command": "${config:ffmock.kits.bin.x64.dir}/rc.exe",
+            "args": [
+                "/nologo",
+                "/fo",
+                "bin/x64/FFmockUnitTests.res",
+                "tst/FFmockUnitTests.rc",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.inc.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
                 }
             },
         },
