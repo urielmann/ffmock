@@ -20,6 +20,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(SourceRoot)tst/Mocks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="$(SourceRoot)tst/Mocks.def">
       <Filter>Source Files</Filter>
     </None>

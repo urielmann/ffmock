@@ -27,6 +27,7 @@
 #include <functional>
 #include <minwindef.h>
 #include <winerror.h>
+#include <libloaderapi.h>
 
 namespace ffmock
 {
@@ -179,12 +180,10 @@ public:
          * 
          * @param MockImpl - See the constructor above for details
          */
-        Api_t Set(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
+        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<Error, Error2Set>)
         {
             _ASSERT(MockImpl);
-            Api_t mockAPI = std::move(MockAPI);
-            Mock_t::MockAPI = MockImpl;
-            return mockAPI;
+            MockAPI = MockImpl;
         }
 
         /**

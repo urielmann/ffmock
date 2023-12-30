@@ -5,7 +5,7 @@
     <GoogleTestDir>C:/Play/googletest/</GoogleTestDir>
   </PropertyGroup>
   <PropertyGroup>
-    <IntDir>$(SourceRoot)bin/x64/</IntDir>
+    <IntDir>$(SourceRoot)bin/x64/$(ProjectName)/</IntDir>
     <OutDir>$(SourceRoot)bin/x64/</OutDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
