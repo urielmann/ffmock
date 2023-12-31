@@ -7,7 +7,9 @@
 /DOpenServiceW=__mock_OpenServiceW
 /DQueryServiceStatus=__mock_QueryServiceStatus
 /DStartServiceW=__mock_StartServiceW
+/DCloseServiceHandle=__mock_CloseServiceHandle
 /DRegCloseKey=__mock_RegCloseKey
 /DRegCreateKeyW=__mock_RegCreateKeyW
+/DRegCreateKeyExW=__mock_RegCreateKeyExW
 /DRegOpenKeyW=__mock_RegOpenKeyW
 /DRegSetValueExW=__mock_RegSetValueExW

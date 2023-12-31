@@ -23,8 +23,12 @@
 */
 
 #include "Service.hpp"
+#include "SCM.hpp"
 #include <winerror.h>
 #include <synchapi.h>
+#include <consoleapi.h>
+#include <functional>
+#include <map>
 
 SERVICE_STATUS Service::SvcStatus =
 {
@@ -114,10 +118,82 @@ void CALLBACK Service::Register(_In_ HWND Wnd,
                                 _In_  LPSTR CmdLine,
                                 _In_  int CmdShow)
 {
+    using Action_t = std::function<bool(PSTR)>;
+    using Map_t = std::map<std::string, Action_t>;
+
     UNREFERENCED_PARAMETER(Wnd);
     UNREFERENCED_PARAMETER(Instance);
-    UNREFERENCED_PARAMETER(CmdLine);
     UNREFERENCED_PARAMETER(CmdShow);
+
+    FILE* fp;
+    // rundll32.exe is a Windows GUI app. Make sure the output goes to the
+    // parent process console to have any error output visible.
+    AttachConsole(ATTACH_PARENT_PROCESS);
+    freopen_s(&fp, "CONOUT$", "w", stdout);
+    freopen_s(&fp, "CONOUT$", "w", stderr);
+
+    SCM scm;
+
+    if (CmdLine && !*CmdLine)
+    {
+        // No arguments given to rundll32.exe
+        if (!scm.Initialize(CmdLine))
+        {
+            return;
+        }
+        return;
+    }
+
+    char* space = strchr(CmdLine, ' ');
+    if (space)
+    {
+        *space = '\0';
+        // Move to next token
+        while (*++space && ' ' != *space)
+            ;
+        // Q: Are there additional arguments given
+        if (!*space) space = nullptr;
+    }
+
+    try
+    {
+        const size_t length = strnlen_s(CmdLine, MAX_PATH);
+        _strlwr_s(CmdLine, length + 1);
+        Map_t actions{
+            { "register", [&scm](_In_ char* Args)
+                {
+                    return scm.Initialize(Args);
+                }
+            },
+            { "delete", [&scm](_In_ char* Args)
+                {
+                    UNREFERENCED_PARAMETER(Args);
+                    return scm.DeleteService();
+                }
+            },
+        };
+
+        auto action{actions.find(CmdLine)};
+        if (actions.cend() == action)
+        {
+            if (!scm.Initialize(space))
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (!action->second(space))
+            {
+                return;
+            }
+        }
+    }
+    catch(std::bad_alloc const &)
+    {
+        UserErrorMessage(__FUNCTIONW__ L" failure", ERROR_OUTOFMEMORY);
+        return;
+    }
 }
 
 /**

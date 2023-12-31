@@ -176,6 +176,15 @@ DECLARE_MOCK(StartServiceW, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
                                         LPCWSTR*  ServiceArgVectors
     ));
 
+/**
+ * @brief Mock for CloseServiceHandle
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-closeservicehandle
+ */
+DECLARE_MOCK(CloseServiceHandle, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
+    (
+    _In_ SC_HANDLE Service
+    ));
+
 
 /*****************************************************************
  * @brief Mocked APIs for registry
@@ -210,6 +219,23 @@ DECLARE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR, APIENTRY,
     _In_     HKEY    Key,
     _In_opt_ LPCWSTR SubKey,
     _Out_    PHKEY   Result
+    ));
+
+/**
+ * @brief Mock for RegCreateKeyExW
+ * @see https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regcreatekeyexw
+ */
+DECLARE_MOCK(RegCreateKeyExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR, APIENTRY,
+    (
+    _In_       HKEY    Key,
+    _In_opt_   LPCWSTR SubKey,
+    _Reserved_ DWORD Reserved,
+    _In_opt_   LPWSTR Class,
+    _In_       DWORD Options,
+    _In_       REGSAM SamDesired,
+    _In_opt_ CONST LPSECURITY_ATTRIBUTES SecurityAttributes,
+    _Out_      PHKEY   Result,
+    _Out_opt_  LPDWORD Disposition
     ));
 
 /**

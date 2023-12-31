@@ -57,6 +57,7 @@ DEFINE_MOCK(DeleteService, BOOL, FALSE, ERROR_INVALID_HANDLE);
 DEFINE_MOCK(RegCloseKey, LSTATUS, ERROR_INVALID_HANDLE, NO_ERROR);
 DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
 DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR);
+DEFINE_MOCK(RegCreateKeyExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
 DEFINE_MOCK(RegSetValueExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
 
 
@@ -234,6 +235,20 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+BOOL
+WINAPI
+CloseServiceHandle(
+    _In_ SC_HANDLE Service
+    ) try
+{
+    static Mocks::UMCloseServiceHandle mock(AdvAPI32);
+    return mock(Service);
+}
+catch(std::bad_alloc const&)
+{
+    return FALSE;
+}
+
 
 /*****************************************************************
  * @brief Mocked APIs for registry
@@ -272,6 +287,30 @@ catch(std::bad_alloc const&)
 }
 
 FFMOCK_IMPORT
+LSTATUS
+APIENTRY
+RegCreateKeyExW(
+    _In_       HKEY    Key,
+    _In_opt_   LPCWSTR SubKey,
+    _Reserved_ DWORD Reserved,
+    _In_opt_   LPWSTR Class,
+    _In_       DWORD Options,
+    _In_       REGSAM SamDesired,
+    _In_opt_ CONST LPSECURITY_ATTRIBUTES SecurityAttributes,
+    _Out_      PHKEY   Result,
+    _Out_opt_  LPDWORD Disposition
+    ) try
+{
+    static Mocks::UMRegCreateKeyExW mock(AdvAPI32);
+    return mock(Key, SubKey, Reserved,
+                Class, Options, SamDesired,
+                SecurityAttributes, Result, Disposition);
+}
+catch(std::bad_alloc const&)
+{
+    return ERROR_OUTOFMEMORY;
+}
+
 LSTATUS
 APIENTRY
 RegOpenKeyW(
