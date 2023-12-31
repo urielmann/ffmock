@@ -86,7 +86,6 @@ struct function_traits<RetType_t(Args_t...)>
 #pragma warning(disable:4251)
 template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
 class
-FFMOCK_IMPORT
 Mock
 {
 protected:
@@ -97,7 +96,9 @@ protected:
     using Api_t = typename Traits_t::Api_t;
     using Mock_t = Mock;
 
+    FFMOCK_IMPORT
     static Api_t RealAPI;
+    FFMOCK_IMPORT
     static Api_t MockAPI;
     static constexpr Ret_t Error_k = Error;
 
@@ -162,37 +163,28 @@ public:
          * @endcode
          *
          */
-        Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>)
-        {
-            Set(std::forward<Api_t>(MockImpl));
-        }
+        FFMOCK_IMPORT                                                                                   \
+        Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>);
 
         /**
          * @brief Destroy the Guard object and restore the real API
          */
-        ~Guard(void)
-        {
-            Clear();
-        }
+        FFMOCK_IMPORT                                                                                   \
+        ~Guard(void);
 
         /**
          * @brief Set object
          * 
          * @param MockImpl - See the constructor above for details
          */
-        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<Error, Error2Set>)
-        {
-            _ASSERT(MockImpl);
-            MockAPI = MockImpl;
-        }
+        FFMOCK_IMPORT                                                                                   \
+        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<Error, Error2Set>);
 
         /**
          * @brief Clear the Guard object and restore the real API
          */
-        void Clear(void)
-        {
-            Mock_t::MockAPI = Mock_t::RealAPI;
-        }
+        FFMOCK_IMPORT                                                                                   \
+        void Clear(void);
     };
 };
 
@@ -213,9 +205,11 @@ public:
  */
 #define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)   \
 class UM##API_NAME                                                                      \
-    : public ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>       \
+    : public ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>      \
 {                                                                                       \
-    friend RET_TYPE                                                                     \
+    friend                                                                              \
+    FFMOCK_IMPORT                                                                       \
+    RET_TYPE                                                                            \
     CALL_TYPE                                                                           \
     ::API_NAME CALL_ARGS;                                                               \
     UM##API_NAME(HMODULE Module) : Mock_t(Module, #API_NAME) {}                         \
@@ -233,8 +227,40 @@ class UM##API_NAME                                                              
  */
 #define DEFINE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR)                          \
 template<>                                                                              \
-typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
-    ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::RealAPI;        \
+FFMOCK_IMPORT                                                                           \
+typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t   \
+    ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::RealAPI;       \
 template<>                                                                              \
-typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t    \
-    ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::MockAPI;
+FFMOCK_IMPORT                                                                           \
+typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::Api_t   \
+    ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::MockAPI
+
+/**
+ * @brief Instances of the mock's Guard members
+ *
+ * @param API_NAME - The API being mocked
+ */
+#define DEFINE_GUARD(API_NAME)                              \
+FFMOCK_IMPORT                                               \
+Mocks::UM##API_NAME::Guard::Guard(Api_t&& MockImpl)         \
+{                                                           \
+    Set(std::forward<Api_t>(MockImpl));                     \
+}                                                           \
+FFMOCK_IMPORT                                               \
+Mocks::UM##API_NAME::Guard::~Guard(void)                    \
+{                                                           \
+    Clear();                                                \
+}                                                           \
+template <>                                                 \
+FFMOCK_IMPORT                                               \
+void Mocks::UM##API_NAME::Guard::Set(const Api_t& MockImpl) \
+{                                                           \
+    _ASSERT(MockImpl);                                      \
+    MockAPI = MockImpl;                                     \
+}                                                           \
+template <>                                                 \
+FFMOCK_IMPORT                                               \
+void Mocks::UM##API_NAME::Guard::Clear(void)                \
+{                                                           \
+    MockAPI = RealAPI;                                      \
+}

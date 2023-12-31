@@ -44,7 +44,9 @@ namespace Mocks
 class UMRegisterServiceCtrlHandlerW
     : public ::ffmock::Mock<SERVICE_STATUS_HANDLE, decltype(::RegisterServiceCtrlHandlerW), nullptr, ERROR_NOT_ENOUGH_MEMORY>
 {
-    friend SERVICE_STATUS_HANDLE
+    friend
+    FFMOCK_IMPORT
+    SERVICE_STATUS_HANDLE
     WINAPI
     ::RegisterServiceCtrlHandlerW(
         _In_ LPCWSTR            ServiceName,
@@ -64,7 +66,9 @@ class UMRegisterServiceCtrlHandlerW
 class UMSetServiceStatus
     : public ::ffmock::Mock<BOOL, decltype(::SetServiceStatus), FALSE, ERROR_INVALID_HANDLE>
 {
-    friend BOOL
+    friend
+    FFMOCK_IMPORT
+    BOOL
     WINAPI
     ::SetServiceStatus(
         _In_ SERVICE_STATUS_HANDLE ServiceHandle,
@@ -83,7 +87,9 @@ class UMSetServiceStatus
 class UMControlService
     : public ::ffmock::Mock<BOOL, decltype(::ControlService), FALSE, ERROR_INVALID_HANDLE>
 {
-    friend BOOL
+    friend
+    FFMOCK_IMPORT
+    BOOL
     WINAPI
     ::ControlService(
         _In_  SC_HANDLE        ServiceHandle,
@@ -182,7 +188,9 @@ DECLARE_MOCK(StartServiceW, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
 class UMRegCloseKey
     : public ::ffmock::Mock<LSTATUS, decltype(::RegCloseKey), ERROR_INVALID_HANDLE>
 {
-    friend LSTATUS
+    friend
+    FFMOCK_IMPORT
+    LSTATUS
     APIENTRY
     ::RegCloseKey(
         _In_ HKEY hKey
@@ -208,7 +216,7 @@ DECLARE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR, APIENTRY,
  * @brief Mock for RegOpenKeyW
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regopenkeyw
  */
-DECLARE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR, APIENTRY,
+DECLARE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR, APIENTRY,
     (
     _In_     HKEY    Key,
     _In_opt_ LPCWSTR SubKey,
