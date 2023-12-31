@@ -27,7 +27,20 @@
 #pragma warning(disable:4273) // inconsistent dll linkage
 
 static HMODULE AdvAPI32{LoadLibraryW(L"advapi32.dll")};
-static HMODULE HttpAPI{LoadLibraryW(L"httpapi.dll")};
+
+DEFINE_GUARD(RegisterServiceCtrlHandlerW);
+DEFINE_GUARD(SetServiceStatus);
+DEFINE_GUARD(ControlService);
+DEFINE_GUARD(CreateServiceW);
+DEFINE_GUARD(OpenSCManagerW);
+DEFINE_GUARD(OpenServiceW);
+DEFINE_GUARD(QueryServiceStatus);
+DEFINE_GUARD(StartServiceW);
+DEFINE_GUARD(DeleteService);
+DEFINE_GUARD(RegCloseKey);
+DEFINE_GUARD(RegCreateKeyW);
+DEFINE_GUARD(RegOpenKeyW);
+DEFINE_GUARD(RegSetValueExW);
 
 /**
  * @brief Instances of the mock's static members
@@ -43,7 +56,7 @@ DEFINE_MOCK(StartServiceW, BOOL, FALSE, ERROR_INVALID_HANDLE);
 DEFINE_MOCK(DeleteService, BOOL, FALSE, ERROR_INVALID_HANDLE);
 DEFINE_MOCK(RegCloseKey, LSTATUS, ERROR_INVALID_HANDLE, NO_ERROR);
 DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
-DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR);
 DEFINE_MOCK(RegSetValueExW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
 
 
@@ -55,6 +68,7 @@ extern "C"
  *****************************************************************/
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SERVICE_STATUS_HANDLE
 WINAPI
 RegisterServiceCtrlHandlerW(
@@ -71,6 +85,7 @@ catch(std::bad_alloc const&)
     return nullptr;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 SetServiceStatus(
@@ -86,6 +101,7 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 ControlService(
@@ -103,6 +119,7 @@ catch(std::bad_alloc const&)
 }
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SC_HANDLE
 WINAPI
 CreateServiceW(
@@ -132,6 +149,7 @@ catch(std::bad_alloc const&)
     return nullptr;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 DeleteService(
@@ -147,6 +165,7 @@ catch(std::bad_alloc const&)
 }
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SC_HANDLE
 WINAPI
 OpenSCManagerW(
@@ -164,6 +183,7 @@ catch(std::bad_alloc const&)
 }
 
 _Must_inspect_result_
+FFMOCK_IMPORT
 SC_HANDLE
 WINAPI
 OpenServiceW(
@@ -180,6 +200,7 @@ catch(std::bad_alloc const&)
     return nullptr;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 QueryServiceStatus(
@@ -195,6 +216,7 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 StartServiceW(
@@ -217,6 +239,7 @@ catch(std::bad_alloc const&)
  * @brief Mocked APIs for registry
  *****************************************************************/
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegCloseKey(
@@ -231,6 +254,7 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegCreateKeyW(
@@ -247,6 +271,7 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegOpenKeyW(
@@ -263,6 +288,7 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegSetValueExW(
