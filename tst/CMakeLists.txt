@@ -1,3 +1,6 @@
+#
+# @brief Unit tests using mocks in different ways
+#
 # Copyright (C) 2019 Uriel Mann (abba.mann@gmail.com)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy

@@ -34,8 +34,8 @@ project(ffmock)
                 Registry.cpp
                 Registry.hpp
         )
-        target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
-        target_compile_definitions(${PROJECT_NAME}
+    target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
+    target_compile_definitions(${PROJECT_NAME}
         PRIVATE _DEBUG
                 _AMD64_
                 "FFMOCK_IMPORT="
