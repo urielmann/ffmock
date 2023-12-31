@@ -65,16 +65,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;MOCKS_EXPORTS;_WINDOWS;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;MOCKS_EXPORTS;_CONSOLE;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)tst/Mocks.def</ModuleDefinitionFile>
       <IgnoreSpecificDefaultLibraries>ADVAPI32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vcruntimed.lib;msvcrtd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,33 +78,23 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;MOCKS_EXPORTS;_WINDOWS;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;MOCKS_EXPORTS;_CONSOLE;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)tst/Mocks.def</ModuleDefinitionFile>
       <IgnoreSpecificDefaultLibraries>ADVAPI32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vcruntimed.lib;msvcrtd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;MOCKS_EXPORTS;_WINDOWS;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;MOCKS_EXPORTS;_CONSOLE;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)tst/Mocks.def</ModuleDefinitionFile>
       <IgnoreSpecificDefaultLibraries>ADVAPI32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vcruntimed.lib;msvcrtd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -116,18 +102,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;MOCKS_EXPORTS;_WINDOWS;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;MOCKS_EXPORTS;_CONSOLE;_USRDLL;FFMOCK_IMPORT=__declspec(dllexport);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)tst/Mocks.def</ModuleDefinitionFile>
       <IgnoreSpecificDefaultLibraries>ADVAPI32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <AdditionalDependencies>libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>vcruntimed.lib;msvcrtd.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -136,14 +116,6 @@
   <ItemGroup>
     <ClCompile Include="$(SourceRoot)tst/Mocks.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(SourceRoot)tst/Mocks.def" />
-  </ItemGroup>
-  <!--ItemGroup>
-    <ProjectReference Include="Mocks_lib.vcxproj">
-      <Project>{863ad651-5d1c-4095-89ce-9c9e17d14b87}</Project>
-    </ProjectReference>
-  </ItemGroup -->
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
