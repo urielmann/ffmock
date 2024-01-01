@@ -289,4 +289,19 @@ catch(std::bad_alloc const&)
  > *advapi32.lib(ADVAPI32.dll) : error LNK2005: **ControlService** already defined in Mocks.obj  
 >   Creating library bin\x64\FFmockUnitTests.lib and object bin\x64\FFmockUnitTests.exp  
 > bin\x64\FFmockUnitTests.exe : fatal error LNK1169: one or more multiply defined symbols found*   
- * Duplicate template instantiation
+ * Duplicate template instantiation. Code such as this:  
+```C++
+DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+```
+Can cause the following errors:  
+ > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2084: function 'ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Guard(std::function<long (HKEY,LPCWSTR,PHKEY)> &&)' already has a body*  
+ > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2084: function 'ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::~Guard(void)' already has a body*  
+ > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2995: 'void ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Set(const std::function<long (HKEY,LPCWSTR,PHKEY)> &)': function template has already been defined*  
+ > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2995: 'void ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Clear(void)': function template has already been defined*  
+ This error is a result of the base template class for one or more mock classes has the same template parameters. In this case both, *RegCreateKeyW()*, and *RegOpenKeyW()* functions having the same signature (i.e., *long (HKEY,LPCWSTR,PHKEY)*). To fix this issue make sure the instances are unique by providing different return error code, or setting different values for *SetLastError()*.  
+ Example:  
+ ```C++
+DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
+DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR);
+```
