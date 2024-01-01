@@ -61,3 +61,7 @@ x86/
 
 # CMake
 build/
+
+# Doxygen
+docs/html/
+docs/latex/

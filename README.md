@@ -30,7 +30,7 @@ namespace Mocks
  * @brief Mock for RegisterServiceCtrlHandlerW
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerw
  */
-class UMRegisterServiceCtrlHandlerW
+class FFRegisterServiceCtrlHandlerW
     : public ::ffmock::Mock<SERVICE_STATUS_HANDLE, decltype(::RegisterServiceCtrlHandlerW), nullptr, ERROR_NOT_ENOUGH_MEMORY>
 {
     friend SERVICE_STATUS_HANDLE
@@ -41,7 +41,7 @@ class UMRegisterServiceCtrlHandlerW
              LPHANDLER_FUNCTION HandlerProc
         );
 
-    UMRegisterServiceCtrlHandlerW(HMODULE Module) : Mock_t(Module, "RegisterServiceCtrlHandlerW")
+    FFRegisterServiceCtrlHandlerW(HMODULE Module) : Mock_t(Module, "RegisterServiceCtrlHandlerW")
     {
     }
 };
@@ -50,7 +50,7 @@ class UMRegisterServiceCtrlHandlerW
  * @brief Mock for SetServiceStatus
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setservicestatus
  */
-class UMSetServiceStatus
+class FFSetServiceStatus
     : public ::ffmock::Mock<BOOL, decltype(::SetServiceStatus), FALSE, ERROR_INVALID_HANDLE>
 {
     friend BOOL
@@ -60,7 +60,7 @@ class UMSetServiceStatus
         _In_ LPSERVICE_STATUS      ServiceStatus
         );
 
-    UMSetServiceStatus(HMODULE Module) : Mock_t(Module, "SetServiceStatus")
+    FFSetServiceStatus(HMODULE Module) : Mock_t(Module, "SetServiceStatus")
     {
     }
 };
@@ -154,7 +154,7 @@ RegisterServiceCtrlHandlerW(
          LPHANDLER_FUNCTION HandlerProc
     ) try
 {
-    static Mocks::UMRegisterServiceCtrlHandlerW mock(AdvAPI32);
+    static Mocks::FFRegisterServiceCtrlHandlerW mock(AdvAPI32);
     return mock(ServiceName, HandlerProc);
 }
 catch(std::bad_alloc const&)
@@ -169,7 +169,7 @@ SetServiceStatus(
     _In_ LPSERVICE_STATUS      ServiceStatus
     ) try
 {
-    static Mocks::UMSetServiceStatus mock(AdvAPI32);
+    static Mocks::FFSetServiceStatus mock(AdvAPI32);
     return mock(ServiceHandle, ServiceStatus);
 }
 catch(std::bad_alloc const&)
@@ -199,8 +199,8 @@ protected:
 TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 {
     wchar_t* argv[] = {L"UnitTest"};
-    Mocks::UMRegisterServiceCtrlHandlerW::Guard rschGuard;
-    Mocks::UMSetServiceStatus::Guard sssGuard(
+    Mocks::FFRegisterServiceCtrlHandlerW::Guard rschGuard;
+    Mocks::FFSetServiceStatus::Guard sssGuard(
         [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
            _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
         {

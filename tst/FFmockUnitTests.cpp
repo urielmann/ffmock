@@ -45,8 +45,8 @@ protected:
 TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 {
     wchar_t* argv[] = {L"UnitTest"};
-    Mocks::UMRegisterServiceCtrlHandlerW::Guard rschGuard;
-    Mocks::UMSetServiceStatus::Guard sssGuard(
+    Mocks::FFRegisterServiceCtrlHandlerW::Guard rschGuard;
+    Mocks::FFSetServiceStatus::Guard sssGuard(
         [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
            _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
         {
@@ -64,7 +64,7 @@ TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 TEST_F(ServiceTestSuite, Test_Register_Success)
 {
     char cmdLine[]{"FFmockSvc"};
-    Mocks::UMRegisterServiceCtrlHandlerW::Guard guard;
+    Mocks::FFRegisterServiceCtrlHandlerW::Guard guard;
 
     Service::Register(nullptr, nullptr, cmdLine, SW_NORMAL);
 

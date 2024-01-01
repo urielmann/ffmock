@@ -151,7 +151,7 @@ public:
          * @example
          * @code {.cpp}
          * // Validate parameters passed into the API
-         * ffmock::UMSetServiceStatus::Guard guard(
+         * ffmock::FFSetServiceStatus::Guard guard(
          *      [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
          *         _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
          *      {
@@ -204,7 +204,7 @@ public:
  * @param CALL_ARGS - Parenthesize list of API arguments
  */
 #define DECLARE_MOCK(API_NAME, RET_TYPE, RET_ERROR, LAST_ERROR, CALL_TYPE, CALL_ARGS)   \
-class UM##API_NAME                                                                      \
+class FF##API_NAME                                                                      \
     : public ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>      \
 {                                                                                       \
     friend                                                                              \
@@ -212,7 +212,7 @@ class UM##API_NAME                                                              
     RET_TYPE                                                                            \
     CALL_TYPE                                                                           \
     ::API_NAME CALL_ARGS;                                                               \
-    UM##API_NAME(HMODULE Module) : Mock_t(Module, #API_NAME) {}                         \
+    FF##API_NAME(HMODULE Module) : Mock_t(Module, #API_NAME) {}                         \
 }
 
 /**
@@ -238,29 +238,30 @@ typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::
 /**
  * @brief Instances of the mock's Guard members
  *
+ * @param NAME_SPACE - Optional namespace of the mocked class
  * @param API_NAME - The API being mocked
  */
-#define DEFINE_GUARD(API_NAME)                              \
-FFMOCK_IMPORT                                               \
-Mocks::UM##API_NAME::Guard::Guard(Api_t&& MockImpl)         \
-{                                                           \
-    Set(std::forward<Api_t>(MockImpl));                     \
-}                                                           \
-FFMOCK_IMPORT                                               \
-Mocks::UM##API_NAME::Guard::~Guard(void)                    \
-{                                                           \
-    Clear();                                                \
-}                                                           \
-template <>                                                 \
-FFMOCK_IMPORT                                               \
-void Mocks::UM##API_NAME::Guard::Set(const Api_t& MockImpl) \
-{                                                           \
-    _ASSERT(MockImpl);                                      \
-    MockAPI = MockImpl;                                     \
-}                                                           \
-template <>                                                 \
-FFMOCK_IMPORT                                               \
-void Mocks::UM##API_NAME::Guard::Clear(void)                \
-{                                                           \
-    MockAPI = RealAPI;                                      \
+#define DEFINE_GUARD(NAME_SPACE, API_NAME)                          \
+FFMOCK_IMPORT                                                       \
+NAME_SPACE::FF##API_NAME::Guard::Guard(Api_t&& MockImpl)            \
+{                                                                   \
+    Set(std::forward<Api_t>(MockImpl));                             \
+}                                                                   \
+FFMOCK_IMPORT                                                       \
+NAME_SPACE::FF##API_NAME::Guard::~Guard(void)                       \
+{                                                                   \
+    Clear();                                                        \
+}                                                                   \
+template <>                                                         \
+FFMOCK_IMPORT                                                       \
+void NAME_SPACE::FF##API_NAME::Guard::Set(const Api_t& MockImpl)    \
+{                                                                   \
+    _ASSERT(MockImpl);                                              \
+    MockAPI = MockImpl;                                             \
+}                                                                   \
+template <>                                                         \
+FFMOCK_IMPORT                                                       \
+void NAME_SPACE::FF##API_NAME::Guard::Clear(void)                   \
+{                                                                   \
+    MockAPI = RealAPI;                                              \
 }

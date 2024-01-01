@@ -41,7 +41,7 @@ namespace Mocks
  * @brief Mock for RegisterServiceCtrlHandlerW
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-registerservicectrlhandlerw
  */
-class UMRegisterServiceCtrlHandlerW
+class FFRegisterServiceCtrlHandlerW
     : public ::ffmock::Mock<SERVICE_STATUS_HANDLE, decltype(::RegisterServiceCtrlHandlerW), nullptr, ERROR_NOT_ENOUGH_MEMORY>
 {
     friend
@@ -54,7 +54,7 @@ class UMRegisterServiceCtrlHandlerW
              LPHANDLER_FUNCTION HandlerProc
         );
 
-    UMRegisterServiceCtrlHandlerW(HMODULE Module) : Mock_t(Module, "RegisterServiceCtrlHandlerW")
+    FFRegisterServiceCtrlHandlerW(HMODULE Module) : Mock_t(Module, "RegisterServiceCtrlHandlerW")
     {
     }
 };
@@ -63,7 +63,7 @@ class UMRegisterServiceCtrlHandlerW
  * @brief Mock for SetServiceStatus
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-setservicestatus
  */
-class UMSetServiceStatus
+class FFSetServiceStatus
     : public ::ffmock::Mock<BOOL, decltype(::SetServiceStatus), FALSE, ERROR_INVALID_HANDLE>
 {
     friend
@@ -75,7 +75,7 @@ class UMSetServiceStatus
         _In_ LPSERVICE_STATUS      ServiceStatus
         );
 
-    UMSetServiceStatus(HMODULE Module) : Mock_t(Module, "SetServiceStatus")
+    FFSetServiceStatus(HMODULE Module) : Mock_t(Module, "SetServiceStatus")
     {
     }
 };
@@ -84,7 +84,7 @@ class UMSetServiceStatus
  * @brief Mock for ControlService
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winsvc/nf-winsvc-controlservice
  */
-class UMControlService
+class FFControlService
     : public ::ffmock::Mock<BOOL, decltype(::ControlService), FALSE, ERROR_INVALID_HANDLE>
 {
     friend
@@ -97,7 +97,7 @@ class UMControlService
         _Out_ LPSERVICE_STATUS ServiceStatus
         );
 
-    UMControlService(HMODULE Module) : Mock_t(Module, "ControlService")
+    FFControlService(HMODULE Module) : Mock_t(Module, "ControlService")
     {
     }
 };
@@ -194,7 +194,7 @@ DECLARE_MOCK(CloseServiceHandle, BOOL, FALSE, ERROR_INVALID_HANDLE, WINAPI,
  * @brief Mock for RegCloseKey
  * @see https://learn.microsoft.com/en-us/windows/win32/api/winreg/nf-winreg-regclosekey
  */
-class UMRegCloseKey
+class FFRegCloseKey
     : public ::ffmock::Mock<LSTATUS, decltype(::RegCloseKey), ERROR_INVALID_HANDLE>
 {
     friend
@@ -205,7 +205,7 @@ class UMRegCloseKey
         _In_ HKEY hKey
         );
 
-    UMRegCloseKey(HMODULE Module) : Mock_t(Module, "RegCloseKey")
+    FFRegCloseKey(HMODULE Module) : Mock_t(Module, "RegCloseKey")
     {
     }
 };
