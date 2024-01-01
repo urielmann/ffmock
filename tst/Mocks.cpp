@@ -238,6 +238,7 @@ catch(std::bad_alloc const&)
     return FALSE;
 }
 
+FFMOCK_IMPORT
 BOOL
 WINAPI
 CloseServiceHandle(
@@ -314,6 +315,7 @@ catch(std::bad_alloc const&)
     return ERROR_OUTOFMEMORY;
 }
 
+FFMOCK_IMPORT
 LSTATUS
 APIENTRY
 RegOpenKeyW(

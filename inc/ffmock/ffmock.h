@@ -240,6 +240,34 @@ typename ::ffmock::Mock<RET_TYPE, decltype(::API_NAME), RET_ERROR, LAST_ERROR>::
  *
  * @param NAME_SPACE - Optional namespace of the mocked class
  * @param API_NAME - The API being mocked
+ *
+ * @warning The Guard class members must be linked into the same binary as the mocks.
+ *          It is very important that the same source file has both the mock as well
+ *          as the Guard definitions.
+ * @example
+ * @code {.cpp}
+ * // Define Guard methods, and mock class static members
+ * DEFINE_GUARD(Mocks, RegOpenKeyW);
+ * DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR);
+ *
+ * // Mock API definition
+ * FFMOCK_IMPORT
+ * LSTATUS
+ * APIENTRY
+ * RegOpenKeyW(
+ *     _In_     HKEY    Key,
+ *     _In_opt_ LPCWSTR SubKey,
+ *     _Out_    PHKEY   Result
+ *     ) try
+ * {
+ *     static Mocks::FFRegOpenKeyW mock(AdvAPI32);
+ *     return mock(Key, SubKey, Result);
+ * }
+ * catch(std::bad_alloc const&)
+ * {
+ *     return ERROR_OUTOFMEMORY;
+ * }
+ * @endcode
  */
 #define DEFINE_GUARD(NAME_SPACE, API_NAME)                          \
 FFMOCK_IMPORT                                                       \
