@@ -20,7 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-project(ffmock)
+#
+# @brief Service static library
+#
+project(Service)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
