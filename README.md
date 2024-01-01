@@ -25,7 +25,7 @@ Each mock is made of two parts:
   1. Templated class with general parameters
   2. The substituting function with static instance of the above class
 
-Here's an example of the required code for mocking [**RegisterServiceCtrlHandlerW**](tst/Mocks.hpp#L44) and [**SetServiceStatus**](tst/Mocks.hpp#L64):
+Here's an example of the required code for mocking [**RegisterServiceCtrlHandlerW**](tst/Mocks.hpp#L44) and [**SetServiceStatus**](tst/Mocks.hpp#L66):
 ```C++
 // Mocks.hpp
 #include <ffmock/ffmock.h>
@@ -86,7 +86,7 @@ class FFSetServiceStatus
 ```
 Note that the __*friend*__ functions' declarations were taken verbatim out of the Microsoft headers.  
 
-For convenience, a [preprocessor macro](inc/ffmock/ffmock.h#L200) is defined and can be used for each of the class declarations.
+For convenience, a [preprocessor macro](inc/ffmock/ffmock.h#L206) is defined and can be used for each of the class declarations.
 ``` C++
 /**
  * @brief Declaration of mocked Win32 API
@@ -206,7 +206,7 @@ catch(std::bad_alloc const&)
 ```
 
 #### Using the Mocks in Your Unit Tests
-Once the mocks are defined, using them in a unit test is trivial. Use the mock's [**Guard**](inc/ffmock/ffmock.h#L164) nested class to assure that the API call will fail, or to modify the API's behavior. The **Guard** will substitute the call to the real implementation. If no argument is given to the **Guard** instance, any call to the mocked API will return the value specified in the [**RetType Error**](inc/ffmock/ffmock.h#L86) of the Mock template class. If desired, you the value returned by SetLastError() can also be controlled by providing the requested value as the [**DWORD Error2Set**](inc/ffmock/ffmock.h#L86) template parameter.  
+Once the mocks are defined, using them in a unit test is trivial. Use the mock's [**Guard**](inc/ffmock/ffmock.h#L167) nested class to assure that the API call will fail, or to modify the API's behavior. The **Guard** will substitute the call to the real implementation. If no argument is given to the **Guard** instance, any call to the mocked API will return the value specified in the [**RetType Error**](inc/ffmock/ffmock.h#L87) of the Mock template class. If desired, you the value returned by SetLastError() can also be controlled by providing the requested value as the [**DWORD Error2Set**](inc/ffmock/ffmock.h#L87) template parameter.  
 Occasionally, there's a need to have a more elaborate modification to the API behavior. This can be returning specific value to an out-param of the API, checking any of the argument values passed to the API, or failing the API after the Nth call, etc. Such action can be achieved by providing a lambda instance with the desired logic. Such lambda must have the exact same signature as the mocked API, including the parameters types and the return value type.  
 Here's an example:
 ```C++
@@ -307,7 +307,8 @@ Can cause the following errors:
  > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2084: function 'ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Guard(std::function<long (HKEY,LPCWSTR,PHKEY)> &&)' already has a body*  
  > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2084: function 'ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::~Guard(void)' already has a body*  
  > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2995: 'void ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Set(const std::function<long (HKEY,LPCWSTR,PHKEY)> &)': function template has already been defined*  
- > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2995: 'void ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Clear(void)': function template has already been defined*  
+ > *C:\Play\ffmock\tst\Mocks.cpp(45,1): error C2995: 'void ffmock::Mock<LSTATUS,LSTATUS (HKEY,LPCWSTR,PHKEY),1015,0>::Guard::Clear(void)': function template has already been defined*   
+ 
  This error is a result of the base template class for one or more mock classes has the same template parameters. In this case both, *RegCreateKeyW()*, and *RegOpenKeyW()* functions having the same signature (i.e., *long (HKEY,LPCWSTR,PHKEY)*). To fix this issue make sure the instances are unique by providing different return error code, or setting different values for *SetLastError()*.  
  Example:  
  ```C++
