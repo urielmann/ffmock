@@ -13,7 +13,7 @@
     - [Host all mocks in a separate DLL.](#host-all-mocks-in-a-separate-dll)
   - [Troubleshooting](#troubleshooting)
 ## General
-This library is a header only package to provide simple and versatile method of mocking Microsoft's Win32 native API. Most mocking packages are geared to mocking C++ objects (classes, structs). It makes it easy to inject dependencies, if the mocks are wrapped in an interfaces. They are not designed to mock free functions. For example, the popular Google Test (gtest) tells you that you need to [wrap free functions into interfaces](https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#mocking-free-functions). While this approach would work, it present both an additional work, as well as, additional executional overhead.
+This library is a header only package to provide simple and versatile method of mocking Microsoft's Win32 native API. Most mocking packages are geared to mocking C++ objects (classes, structs). It makes it easy to inject dependencies, if the mocks are wrapped in an interface. They are not designed to mock free functions. For example, the popular Google Test (gtest) tells you that you need to [wrap free functions into interfaces](https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#mocking-free-functions). While this approach would work, it presents both an additional work, as well as, additional executional overhead.
 
 The **ffmock** package is a light weight method to directly replace free functions with a mock. It has the advantage that any trace of the mock completely disappears once the final production code compiles. The free functions are linked directly into your executable from the Microsoft's libraries. Additionally, there's no need write any additional code to use the free functions in order to mock them. As such, the same mocks can be used to in multiple projects without changes. Additionally, if you are wrapping the same functions into different classes you may need to modify your code as more methods are added to for other functions - which would be the case if the code was enhanced.  
 
@@ -21,12 +21,12 @@ Another excellent use case for **ffmock** is unit testing driver kernel code or 
 
 ## How to Add a Free Function Mock
 In order to mock any free function in your unit tests you need to allow the linker to link in a replacement function with the exact same name and signature as the original API. The mock allows full control over the execution of the original API. At this point the function can provide the original functionality by calling into Microsoft's free function implementing the API, or return any other outcome as needed. Since the Win32 API are all hosted in system loadable modules (system DLLs provided by Microsoft), these can be easily substituted.  
-The functionality provided by the system is linked in using import libraries. These provide your code with import table entries to call into the system DLLs. **Ffmock** substitute these entries with an actual function with the exact same parameters. When any of these functions are called, your unit tests are in full control of the action taken. It allowed to check the call's parameters values. Return specific values as the result of the call, or populate any out-params with modified values to be sent to your code.
+The functionality provided by the system is linked in using import libraries. These provide your code with import table entries to call into the system DLLs. **Ffmock** substitute these entries with an actual function with the exact same parameters. When any of these functions are called, your unit tests are in full control of the action taken. It allows to check the call's parameters values, return specific values as the result of the call, or populate any out-params with modified values to be sent to your code.
 
 ### Implementing Free Function Mock
 Each mock is made of two parts:  
   1. Templated class with general parameters
-  2. The substituting the original with a method of the same name and signature. The function has static instance of the above class to control execution.
+  2. The substituting of the original API with a method of the same name and signature. The function has static instance of the above class to control execution.
 
 Here's an example of the required code for mocking [**RegisterServiceCtrlHandlerW**](tst/Mocks.hpp#L44) and [**SetServiceStatus**](tst/Mocks.hpp#L66). If you are writing a service process, you'll need to call these functions. However, calling them outside a service process is invalid, so you can't test your code in a regular unit test.  
 ```C++
@@ -209,7 +209,7 @@ catch(std::bad_alloc const&)
 ```
 
 ### Using the Mocks in Your Unit Tests
-Once the mocks are defined, using them in a unit test is trivial. Use the mock's [**Guard**](inc/ffmock/ffmock.h#L167) nested class to assure that the API call will fail, or to modify the API's behavior. The **Guard** will substitute the call to the real implementation. If no argument is given to the **Guard** instance, any call to the mocked API will return the value specified in the [**RetType Error**](inc/ffmock/ffmock.h#L87) of the Mock template class. If desired, you the value returned by SetLastError() can also be controlled by providing the requested value as the [**DWORD Error2Set**](inc/ffmock/ffmock.h#L87) template parameter.  
+Once the mocks are defined, using them in a unit test is trivial. Use the mock's [**Guard**](inc/ffmock/ffmock.h#L167) nested class to assure that the API call will fail, or to modify the API's behavior. The **Guard** will substitute the call to the real implementation. If no argument is given to the **Guard** instance, any call to the mocked API will return the value specified in the [**RetType Error**](inc/ffmock/ffmock.h#L87) of the Mock template class. If desired, the value returned by SetLastError() can also be controlled by providing the requested value as the [**DWORD Error2Set**](inc/ffmock/ffmock.h#L87) template parameter.  
 Occasionally, there's a need to have a more elaborate modification to the API behavior. This can be, returning specific value to an out-param of the API, checking any of the argument values passed to the API, or failing the API after the Nth call, etc. Such action can be achieved by providing a lambda instance with the desired logic. Such lambda must have the exact same signature as the mocked API, including the parameters types and the return value type.  
 Here's an example:
 ```C++
@@ -246,12 +246,12 @@ TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
 ```
 
 ### Linking Free Function Mocks into Unit Tests
-Microsoft added special feature to its linker to prevent from accidentally linking a function with the same signature or name as any of the Win32 API. If you link a function with the same name as an exiting Win32 API function, the linker will issue an error. For example:  
+Microsoft added a special feature to its linker to prevent it from accidentally linking a function with the same signature or name as any of the Win32 API. If you link a function with the same name as an exiting Win32 API function, the linker will issue an error. For example:  
 > *advapi32.lib(ADVAPI32.dll) : error LNK2005: **ControlService** already defined in Mocks.obj  
 >   Creating library bin\x64\FFmockUnitTests.lib and object bin\x64\FFmockUnitTests.exp  
 > bin\x64\FFmockUnitTests.exe : fatal error LNK1169: one or more multiply defined symbols found*   
 
-There are three ways to deal with this issue. Each has its advantages and disadvantages. To select the right linkage for your unit tests it is important first understand the implications.  
+There are three ways to deal with this issue. Each has its advantages and disadvantages. To select the right linkage for your unit tests it is important to first understand the implications.  
 
 ### Define mocks for all APIs
 If all Win32 API functions hosted in a specific DLL are mocked, you can remove the dependency on the Microsoft library and the linker will resolve all of Microsoft's library symbols from the mocks. This has the disadvantage of having to add a mock function even if none of the unit tests uses it.  
@@ -261,12 +261,12 @@ This will require each mocked function to be given an alternative name using com
  * If many APIs are mocked, the compiler command line becomes cluttered with definitions. The resulting command line could run out of the executing shell limits
  * The tested code will have to be directly included in the unit test, or a library with the mangled names will be needed in addition to library of production code.
 
-The above choices, are required when the mocks are statically linked to the unit tests. The next section describe the third choice, when mocks are hosted in its own DLL. In such case, the names are never mangled, and you are free to define as few, or as many, mocks required.  
+The above choices, are required when the mocks are statically linked to the unit tests. The next section describes the third choice, when mocks are hosted in their own DLL. In such case, the names are never mangled, and you are free to define as few, or as many, mocks as required.  
 
 ### Host all mocks in a separate DLL.
-While creating a DLL with mocks is an additional step, the final result had many advantages:  
+While creating a DLL with mocks is an additional step, the final result has many advantages:  
  * If could help reduce the size the entire build takes on disk. If the same mock library is shared by multiple unit tests, all unit tests will use a single instance of the same DLL.  
- The mocks are implementing the mocked action using [*std::function*](https://en.cppreference.com/w/cpp/utility/functional/function) objects. These classes require the standard library C++ runtime support. On Windows, the support is implemented for each module separately. While the functionality is similar for all modules, the modules each carry its own implementation. The per-module implementation is needed because when a module is loaded or unloaded, global and static scope instances are allocated or released.  
+ The mocks are implementing the mocked action using [*std::function*](https://en.cppreference.com/w/cpp/utility/functional/function) objects. These classes require the standard library C++ runtime support. On Windows, the support is implemented for each module separately. While the functionality is similar for all modules, the modules each carry their own implementation. The per-module implementation is needed because when a module is loaded or unloaded, global and static scope instances are allocated or released.  
  In the cases of statically linked mocks above, the runtime support is in the executable itself. When the mocks are in a DLL the mocks must be linked to assure the correct runtime support is used. This is the reason that the Guard class implementation, mock class static members, and the mock function itself, all have to be in the same binary as the mock implementation.  
  Example:  
  ```C++
