@@ -44,7 +44,8 @@ class SCM
     static constexpr DWORD ServiceDesiredAccess_k{ SERVICE_CHANGE_CONFIG
                                                  | SERVICE_QUERY_STATUS
                                                  | SERVICE_START
-                                                 | SERVICE_STOP };
+                                                 | SERVICE_STOP
+                                                 | DELETE };
 
     /**
      * @brief Allow access to privets by the unit tests
