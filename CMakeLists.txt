@@ -23,6 +23,6 @@ project(ffmock
     VERSION 0.1
     DESCRIPTION "Free Functions Mocking Library")
 
-    add_subdirectory(lib)
-    add_subdirectory(tst)
-    add_subdirectory(dll)
+    add_subdirectory(demo/lib)
+    add_subdirectory(demo/tst)
+    add_subdirectory(demo/dll)

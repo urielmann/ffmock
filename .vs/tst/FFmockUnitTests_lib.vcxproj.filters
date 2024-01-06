@@ -15,34 +15,34 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(SourceRoot)tst/FFmockUnitTests.cpp">
+    <ClCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="$(SourceRoot)tst/Mocks.cpp">
+    <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)tst/Mocks.hpp">
+    <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)lib/Registry.hpp">
+    <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)lib/SCM.hpp">
+    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)lib/Service.hpp">
+    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="$(SourceRoot)tst/FFmockUnitTests.rc">
+    <ResourceCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="$(SourceRoot)tst/FFmockUnitTests.manifest">
+    <Manifest Include="$(SourceRoot)demo/tst/FFmockUnitTests.manifest">
       <Filter>Resource Files</Filter>
     </Manifest>
   </ItemGroup>

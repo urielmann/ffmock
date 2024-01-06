@@ -1,5 +1,5 @@
 /nologo
-/Fobin/x64/
+/Fodemo/bin/x64/
 /std:c++17
 /EHsc
 /Z7

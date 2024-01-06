@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>RegisterServiceCtrlHandlerW=__mock_RegisterServiceCtrlHandlerW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions>SetServiceStatus=__mock_SetServiceStatus;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -15,6 +15,9 @@
       <PreprocessorDefinitions>QueryServiceStatus=__mock_QueryServiceStatus;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions>StartServiceW=__mock_StartServiceW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions>RegCloseKey=__mock_RegCloseKey;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RegCreateKeyW=__mock_RegCreateKeyW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>RegCreateKeyExW=__mock_RegCreateKeyExW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>CloseServiceHandle=__mock_CloseServiceHandle;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

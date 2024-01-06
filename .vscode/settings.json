@@ -28,8 +28,9 @@
     //
     "ffmock.sdk.ver": "10.0.22621.0",
     "ffmock.inc.dir": "${workspaceFolder}/inc",
-    "ffmock.lib.dir": "${workspaceFolder}/lib",
-    "ffmock.tst.dir": "${workspaceFolder}/tst",
+    "ffmock.demo.inc.dir": "${workspaceFolder}/demo/inc",
+    "ffmock.lib.dir": "${workspaceFolder}/demo/lib",
+    "ffmock.tst.dir": "${workspaceFolder}/demo/tst",
     "ffmock.kits.dir": "C:/Program Files (x86)/Windows Kits/10",
     "ffmock.kits.bin.x64.dir": "${config:ffmock.kits.dir}/Bin/${config:ffmock.sdk.ver}/x64",
     "ffmock.kits.x64.bin.dir": "${config:ffmock.kits.dir}/Bin/${config:ffmock.sdk.ver}/Hostx64/x64",
@@ -47,6 +48,7 @@
         "PATH": "${env:PATH};${config:ffmock.msvc.dir}/bin/Hostx64/x64",
         "ffmock.sdk.ver": "${config:ffmock.sdk.ver}",
         "ffmock.inc.dir": "${config:ffmock.inc.dir}",
+        "ffmock.demo.inc.dir": "${config:ffmock.demo.inc.dir}",
         "ffmock.lib.dir": "${config:ffmock.lib.dir}",
         "ffmock.tst.dir": "${config:ffmock.tst.dir}",
         "ffmock.sdk.dir": "${config:ffmock.sdk.dir}",
@@ -59,7 +61,7 @@
         "ffmock.debugger.dir": "${config:ffmock.debugger.dir}",
         "ffmock.gtest.inc.dir": "${config:ffmock.gtest.inc.dir}",
         "ffmock.gtest.lib.dir": "${config:ffmock.gtest.lib.dir}",
-        "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+        "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
         "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
     },
     "cmake.environment": {
@@ -151,5 +153,6 @@
         "fstream": "cpp",
         "*.rh": "cpp"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "cmake.sourceDirectory": "C:/Play/ffmock/demo"
 }
