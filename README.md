@@ -28,7 +28,7 @@ Each mock is made of two parts:
   1. Templated class with general parameters
   2. The substituting of the original API with a method of the same name and signature. The function has static instance of the above class to control execution.
 
-Here's an example of the required code for mocking [**RegisterServiceCtrlHandlerW**](tst/Mocks.hpp#L44) and [**SetServiceStatus**](tst/Mocks.hpp#L66). If you are writing a service process, you'll need to call these functions. However, calling them outside a service process is invalid, so you can't test your code in a regular unit test.  
+Here's an example of the required code for mocking [**RegisterServiceCtrlHandlerW**](demo/tst/Mocks.hpp#L44) and [**SetServiceStatus**](demo/tst/Mocks.hpp#L66). If you are writing a service process, you'll need to call these functions. However, calling them outside a service process is invalid, so you can't test your code in a regular unit test.  
 ```C++
 // Mocks.hpp
 #include <ffmock/ffmock.h>
