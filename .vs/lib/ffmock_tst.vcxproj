@@ -98,14 +98,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/Service.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(SourceRoot)lib/Registry.cpp" />
-    <ClCompile Include="$(SourceRoot)lib/SCM.cpp" />
-    <ClCompile Include="$(SourceRoot)lib/Service.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/lib/Registry.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/lib/SCM.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/lib/Service.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

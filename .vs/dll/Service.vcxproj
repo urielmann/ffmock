@@ -72,7 +72,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)dll/Service.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(SourceRoot)demo/dll/Service.def</ModuleDefinitionFile>
       <AdditionalDependencies>advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -90,7 +90,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)dll/Service.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(SourceRoot)demo/dll/Service.def</ModuleDefinitionFile>
       <AdditionalDependencies>advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -104,7 +104,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)dll/Service.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(SourceRoot)demo/dll/Service.def</ModuleDefinitionFile>
       <AdditionalDependencies>advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,17 +122,17 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>$(SourceRoot)dll/Service.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>$(SourceRoot)demo/dll/Service.def</ModuleDefinitionFile>
       <AdditionalDependencies>advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/Service.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(SourceRoot)dll/Service.def" />
+    <None Include="$(SourceRoot)demo/dll/Service.def" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)lib\ffmock.vcxproj">

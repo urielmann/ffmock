@@ -117,25 +117,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(SourceRoot)lib/Registry.cpp" />
-    <ClCompile Include="$(SourceRoot)lib/SCM.cpp" />
-    <ClCompile Include="$(SourceRoot)lib/Service.cpp" />
-    <ClCompile Include="$(SourceRoot)tst/Mocks.cpp" />
-    <ClCompile Include="$(SourceRoot)tst/FFmockUnitTests.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/lib/Registry.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/lib/SCM.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/lib/Service.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/Service.hpp" />
-    <ClInclude Include="$(SourceRoot)tst/Mocks.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="$(SourceRoot)tst/FFmockUnitTests.rc">
+    <ResourceCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.rc">
       <ResourceOutputFileName>$(IntDir)%(Filename)_src.res</ResourceOutputFileName>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="$(SourceRoot)tst/FFmockUnitTests.manifest" />
+    <Manifest Include="$(SourceRoot)demo/tst/FFmockUnitTests.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

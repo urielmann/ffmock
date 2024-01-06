@@ -5,8 +5,8 @@
     <GoogleTestDir>C:/Play/googletest/</GoogleTestDir>
   </PropertyGroup>
   <PropertyGroup>
-    <IntDir>$(SourceRoot)bin/x64/$(ProjectName)/</IntDir>
-    <OutDir>$(SourceRoot)bin/x64/</OutDir>
+    <IntDir>$(SourceRoot)demo/bin/x64/$(ProjectName)/</IntDir>
+    <OutDir>$(SourceRoot)demo/bin/x64/</OutDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemGroup>
@@ -21,7 +21,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <AdditionalIncludeDirectories>$(SourceRoot)inc;$(SourceRoot)lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SourceRoot)inc;$(SourceRoot)demo/inc;$(SourceRoot)demo/lib</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_AMD64_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>

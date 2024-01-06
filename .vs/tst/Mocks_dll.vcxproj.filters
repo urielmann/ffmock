@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)tst/Mocks.hpp">
+    <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(SourceRoot)tst/Mocks.cpp">
+    <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)lib/Registry.hpp">
+    <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)lib/SCM.hpp">
+    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)lib/Service.hpp">
+    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(SourceRoot)dll/Service.def">
+    <None Include="$(SourceRoot)demo/dll/Service.def">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

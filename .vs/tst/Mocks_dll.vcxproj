@@ -111,10 +111,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)tst/Mocks.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(SourceRoot)tst/Mocks.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -117,22 +117,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="$(SourceRoot)tst/FFmockUnitTests.cpp" />
-    <ClCompile Include="$(SourceRoot)tst/Mocks.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.cpp" />
+    <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(SourceRoot)lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)lib/Service.hpp" />
-    <ClInclude Include="$(SourceRoot)tst/Mocks.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
+    <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="$(SourceRoot)tst/FFmockUnitTests.rc">
+    <ResourceCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.rc">
       <ResourceOutputFileName>$(IntDir)%(Filename)_lib.res</ResourceOutputFileName>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="$(SourceRoot)tst/FFmockUnitTests.manifest" />
+    <Manifest Include="$(SourceRoot)demo/tst/FFmockUnitTests.manifest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\ffmock_tst.vcxproj">
