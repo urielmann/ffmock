@@ -98,7 +98,7 @@
             "type": "cppvsdbg",
             "request": "launch",
             "program": "C:/Windows/System32/rundll32.exe",
-            "args": [ "${workspaceFolder}/demo/bin/x64/Service.dll,Service::Register", "delete" ],
+            "args": [ "${workspaceFolder}/demo/bin/x64/Service.dll,Service::Delete" ],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],

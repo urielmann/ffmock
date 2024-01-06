@@ -276,7 +276,7 @@
                 "kernel32.lib",
                 "advapi32.lib",
                 "demo/bin/x64/ffmock.lib",
-                "/DEF:dll/Service.def"
+                "/DEF:demo/dll/Service.def"
             ],
             "group": {
                 "kind": "build",
