@@ -28,7 +28,6 @@
 #include <synchapi.h>
 #include <consoleapi.h>
 #include <functional>
-#include <map>
 
 SERVICE_STATUS Service::SvcStatus =
 {
@@ -105,95 +104,90 @@ void WINAPI Service::SvcCtrlHandler(_In_ DWORD SvcCtrlCode)
 }
 
 /**
+ * @brief Redirect from Windows GUI process to parent console.
+ *
+ * @details rundll32.exe is a Windows GUI app. Make sure the output goes to the
+            parent process console to have any error output visible.
+ */
+static void Redirect(void)
+{
+    FILE* fp;
+    AttachConsole(ATTACH_PARENT_PROCESS);
+    freopen_s(&fp, "CONOUT$", "w", stdout);
+    freopen_s(&fp, "CONOUT$", "w", stderr);
+}
+
+/**
  * @brief Use rundll32.exe to register the service
  * 
- * @param Wnd - Desktop Window handle
- * @param Instance - Application instance
- * @param CmdLine - Rundll32 command line
- * @param CmdShow - Window state
+ * @param[in] Wnd - Desktop Window handle
+ * @param[in] Instance - Application instance
+ * @param[in] CmdLine - Rundll32 command line
+ * @param[in] CmdShow - Window state
  */
-__declspec(dllexport)
 void CALLBACK Service::Register(_In_ HWND Wnd,
                                 _In_ HINSTANCE Instance,
-                                _In_  LPSTR CmdLine,
-                                _In_  int CmdShow)
+                                _In_opt_z_ LPSTR CmdLine,
+                                _In_ int CmdShow)
 {
-    using Action_t = std::function<bool(PSTR)>;
-    using Map_t = std::map<std::string, Action_t>;
-
     UNREFERENCED_PARAMETER(Wnd);
     UNREFERENCED_PARAMETER(Instance);
     UNREFERENCED_PARAMETER(CmdShow);
 
-    FILE* fp;
-    // rundll32.exe is a Windows GUI app. Make sure the output goes to the
-    // parent process console to have any error output visible.
-    AttachConsole(ATTACH_PARENT_PROCESS);
-    freopen_s(&fp, "CONOUT$", "w", stdout);
-    freopen_s(&fp, "CONOUT$", "w", stderr);
+    Redirect();
 
+    SCM().Initialize(CmdLine);
+}
+
+/**
+ * @brief Use rundll32.exe to start the service
+ *
+ * @param[in] Wnd - Desktop Window handle
+ * @param[in] Instance - Application instance
+ * @param[in] CmdLine - Rundll32 command line
+ * @param[in] CmdShow - Window state
+ */
+void CALLBACK Service::Start(_In_ HWND Wnd,
+                             _In_ HINSTANCE Instance,
+                             _In_opt_z_ LPSTR CmdLine,
+                             _In_ int CmdShow)
+{
+    UNREFERENCED_PARAMETER(Wnd);
+    UNREFERENCED_PARAMETER(Instance);
+    UNREFERENCED_PARAMETER(CmdShow);
+
+    Redirect();
+
+    DWORD lastError{};
     SCM scm;
 
-    if (CmdLine && !*CmdLine)
+    if (scm.Open(lastError))
     {
-        // No arguments given to rundll32.exe
-        if (!scm.Initialize(CmdLine))
-        {
-            return;
-        }
-        return;
+        scm.Start(CmdLine);
     }
+}
 
-    char* space = strchr(CmdLine, ' ');
-    if (space)
-    {
-        *space = '\0';
-        // Move to next token
-        while (*++space && ' ' != *space)
-            ;
-        // Q: Are there additional arguments given
-        if (!*space) space = nullptr;
-    }
+/**
+ * @brief Use rundll32.exe to start the service
+ *
+ * @param[in] Wnd - Desktop Window handle
+ * @param[in] Instance - Application instance
+ * @param[in] CmdLine - Rundll32 command line
+ * @param[in] CmdShow - Window state
+ */
+void CALLBACK Service::Delete(_In_ HWND Wnd,
+                              _In_ HINSTANCE Instance,
+                              _In_opt_z_ LPSTR CmdLine,
+                              _In_ int CmdShow)
+{
+    UNREFERENCED_PARAMETER(Wnd);
+    UNREFERENCED_PARAMETER(Instance);
+    UNREFERENCED_PARAMETER(CmdLine);
+    UNREFERENCED_PARAMETER(CmdShow);
 
-    try
-    {
-        const size_t length = strnlen_s(CmdLine, MAX_PATH);
-        _strlwr_s(CmdLine, length + 1);
-        Map_t actions{
-            { "register", [&scm](_In_ char* Args)
-                {
-                    return scm.Initialize(Args);
-                }
-            },
-            { "delete", [&scm](_In_ char* Args)
-                {
-                    UNREFERENCED_PARAMETER(Args);
-                    return scm.DeleteService();
-                }
-            },
-        };
+    Redirect();
 
-        auto action{actions.find(CmdLine)};
-        if (actions.cend() == action)
-        {
-            if (!scm.Initialize(space))
-            {
-                return;
-            }
-        }
-        else
-        {
-            if (!action->second(space))
-            {
-                return;
-            }
-        }
-    }
-    catch(std::bad_alloc const &)
-    {
-        UserErrorMessage(__FUNCTIONW__ L" failure", ERROR_OUTOFMEMORY);
-        return;
-    }
+    SCM().Delete();
 }
 
 /**
@@ -208,7 +202,6 @@ void CALLBACK Service::Register(_In_ HWND Wnd,
  *       dll.def for more info.
  * @return None
  */
-__declspec(dllexport)
 void WINAPI Service::ServiceMain(_In_ DWORD Argc, _In_ PWSTR* Argv)
 {
     _ASSERT(Argc);

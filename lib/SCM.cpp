@@ -27,6 +27,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <vector>
 
 /**
  * @brief SCM cleanup
@@ -35,8 +36,58 @@ SCM::~SCM(void)
 {
     if (Service)
     {
-        (void)StopService();
+        (void)Stop();
     }
+}
+
+/**
+ * @brief Open SCM and the service
+ *
+ * @details If the service does not exist, the operation is successful, and the
+ *          returned LastError is set to ERROR_SERVICE_DOES_NOT_EXIST.
+ * @param LastError - Return the last error
+ *
+ * @return true if successful
+ */
+bool SCM::Open(_Out_ DWORD LastError)
+{
+    _ASSERT(!Manager);
+    _ASSERT(!Service);
+
+    Manager.reset(OpenSCManagerW(nullptr, nullptr, ManagerDesiredAccess_k));
+    if (!Manager)
+    {
+        LastError = GetLastError();
+        if (ERROR_ACCESS_DENIED == LastError)
+        {
+            std::cerr << "Restart the program with admin rights" << std::endl;
+        }
+        else
+        {
+            UserErrorMessage(L"OpenSCManager() failure", LastError);
+        }
+
+        return false;
+    }
+
+    // Q: Does the service still exists?
+    Service.reset(OpenServiceW(Manager.get(), SVCNAME, ServiceDesiredAccess_k));
+    if (!Service)
+    {
+        LastError = GetLastError();
+        switch (LastError)
+        {
+        case ERROR_SERVICE_DOES_NOT_EXIST:
+            // No such service
+            return true;
+
+        default:
+            UserErrorMessage(L"OpenServiceW() failure", LastError);
+            return false;
+        }
+    }
+
+    return true;
 }
 
 /**
@@ -51,53 +102,29 @@ bool SCM::Initialize(_In_opt_z_ char* AdditionalArgs)
     _ASSERT(!Manager);
     _ASSERT(!Service);
 
-    DWORD lastError;
+    DWORD lastError{};
 
-    Manager.reset(OpenSCManagerW(nullptr,  nullptr, ManagerDesiredAccess_k));
-    if (!Manager)
+    if (!Open(lastError))
     {
-        lastError = GetLastError();
-        if (ERROR_ACCESS_DENIED == lastError)
-        {
-            std::cerr << "Restart the program with admin rights" << std::endl;
-        }
-        else
-        {
-            UserErrorMessage(L"OpenSCManager() failure", lastError);
-        }
-
         return false;
     }
 
-    // Q: Does the service already exists?
-    Service.reset(OpenServiceW(Manager.get(), SVCNAME, ServiceDesiredAccess_k));
-    if (!Service)
-    {
-        lastError = GetLastError();
-        switch(lastError)
-        {
-            case ERROR_SERVICE_DOES_NOT_EXIST:
-                // Need to create the service
-                return RegisterService(AdditionalArgs);
-
-            default:
-                UserErrorMessage(L"OpenServiceW() failure", lastError);
-                return false;
-        }
-    }
 
     // Service existing and ready to go
-    return StartService();
+    return ERROR_SERVICE_DOES_NOT_EXIST == lastError ? Register(AdditionalArgs)
+                                                     : Start(AdditionalArgs);
 }
 
 /**
  * @brief Register service DLL using svchost.exe
  *
- * @param[in] AdditionalArgs - Additional command line arguments
+ * @param[in] AdditionalArgs - Additional command line arguments for the registration.
+ *
+ * @see https://nasbench.medium.com/demystifying-the-svchost-exe-process-and-its-command-line-options-508e9114e747
  *
  * @return true if successful
  */
-bool SCM::RegisterService(_In_opt_z_ char* AdditionalArgs)
+bool SCM::Register(_In_opt_z_ char* AdditionalArgs)
 {
     _ASSERT(Manager);
     _ASSERT(!Service);
@@ -185,28 +212,56 @@ bool SCM::RegisterService(_In_opt_z_ char* AdditionalArgs)
         return false;
     }
 
-    return StartService();
+    return Start(AdditionalArgs);
 }
 
 /**
  * @brief Start service DLL using svchost.exe
  *
+ * param[in] AdditionalArgs - Additional arguments to pass to the starting service
+ *
  * @return true if successful
  */
-bool SCM::StartService(void)
+bool SCM::Start(_In_opt_z_ char* AdditionalArgs)
 {
     _ASSERT(Service);
 
-    DWORD lastError;
-
     std::cout << "Starting ffmock service..." << std::endl;
 
-    // Try to start the service
-    if (!::StartServiceW(Service.get(), 0, nullptr))
+    std::vector<const wchar_t*> args;
+    std::vector<wchar_t> additionalArgs;
+    try
     {
-        lastError = GetLastError();
+        if (AdditionalArgs)
+        {
+            wchar_t* context;
+            const size_t length{ strnlen(AdditionalArgs, MAX_PATH) };
+
+            // Convert to UNICODE
+            additionalArgs.assign(AdditionalArgs, AdditionalArgs + length + 1);
+            // Tokenized the string into a multi-string
+            for (wchar_t* token{ wcstok_s(&additionalArgs.front(), L" ", &context) };
+                    token;
+                 token = wcstok_s(nullptr, L" ", &context))
+            {
+                args.push_back(token);
+            }
+        }
+    }
+    catch (std::bad_alloc const&)
+    {
+        UserErrorMessage(L"StartServiceW() failure", ERROR_OUTOFMEMORY);
+        return false;
+    }
+
+    // Try to start the service
+    if (!StartServiceW(Service.get(), static_cast<DWORD>(args.size()), &args.front()))
+    {
+        DWORD lastError{ GetLastError() };
         if (ERROR_SERVICE_ALREADY_RUNNING == lastError)
         {
+            // Prevent the service from shutting down when SCM class is destroyed
+            Service.reset();
             return true;
         }
 
@@ -230,6 +285,8 @@ bool SCM::StartService(void)
         {
             case SERVICE_RUNNING:
                 std::wcout << L"Service " << SVCNAME << L" started successfully" << std::endl;
+                // Prevent the service from shutting down when SCM class is destroyed
+                Service.reset();
                 return  true;
 
             case SERVICE_STOP_PENDING:
@@ -252,7 +309,7 @@ bool SCM::StartService(void)
  *
  * @return true if successful
  */
-bool SCM::StopService(void)
+bool SCM::Stop(void)
 {
     _ASSERT(Service);
 
@@ -261,7 +318,7 @@ bool SCM::StopService(void)
     std::cout << "Stopping ffmock service..." << std::endl;
 
     // Try to stop the service
-    if (!::ControlService(Service.get(), SERVICE_CONTROL_STOP, &ServiceStatus))
+    if (!ControlService(Service.get(), SERVICE_CONTROL_STOP, &ServiceStatus))
     {
         if (SERVICE_STOPPED == ServiceStatus.dwCurrentState)
         {
@@ -309,48 +366,24 @@ bool SCM::StopService(void)
  *
  * @return true if successful
  */
-bool SCM::DeleteService(void)
+bool SCM::Delete(void)
 {
-    _ASSERT(!Manager);
-    _ASSERT(!Service);
+    DWORD lastError{};
 
-    DWORD lastError;
-
-    Manager.reset(OpenSCManagerW(nullptr,  nullptr, ManagerDesiredAccess_k));
-    if (!Manager)
+    if (!Open(lastError))
     {
-        lastError = GetLastError();
-        if (ERROR_ACCESS_DENIED == lastError)
-        {
-            std::cerr << "Restart the program with admin rights" << std::endl;
-        }
-        else
-        {
-            UserErrorMessage(L"OpenSCManager() failure", lastError);
-        }
-
         return false;
     }
 
-    // Q: Does the service still exists?
-    Service.reset(OpenServiceW(Manager.get(), SVCNAME, ServiceDesiredAccess_k));
-    if (!Service)
-    {
-        lastError = GetLastError();
-        switch(lastError)
-        {
-            case ERROR_SERVICE_DOES_NOT_EXIST:
-                // No such service
-                return true;
 
-            default:
-                UserErrorMessage(L"OpenServiceW() failure", lastError);
-                return false;
-        }
+    // Service existing and ready to go
+    if (ERROR_SERVICE_DOES_NOT_EXIST == lastError)
+    {
+        return true;
     }
 
     // First stop the service
-    if (!StopService())
+    if (!Stop())
     {
         return false;
     }

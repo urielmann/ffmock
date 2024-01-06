@@ -23,6 +23,7 @@
 */
 
 #include <gtest/gtest.h>
+#include <SCM.hpp>
 #include <Service.hpp>
 #include <Registry.hpp>
 #include <psapi.h>
@@ -30,6 +31,22 @@
 #include <thread>
 #include <chrono>
 #include "Mocks.hpp"
+
+/******************************************************
+ * @brief Service control manager class unit tests
+ *
+ * @todo Full functional and branch coverage
+ ******************************************************/
+class SCMTestSuite : public testing::Test
+    , public SCM
+{
+protected:
+};
+
+TEST_F(SCMTestSuite, Test_Start_Failed)
+{
+    ASSERT_FALSE(Start(nullptr));
+}
 
 /******************************************************
  * @brief Service class unit tests

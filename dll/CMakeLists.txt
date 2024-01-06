@@ -38,6 +38,7 @@ project(Service_dll)
                 ${CMAKE_SOURCE_DIR}/lib/Registry.cpp
                 ${CMAKE_SOURCE_DIR}/lib/Registry.hpp
         )
+    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     add_dependencies(${PROJECT_NAME} Service)
     target_link_options(${PROJECT_NAME}
         PRIVATE "/DEF:Service.def"
@@ -47,7 +48,9 @@ project(Service_dll)
                 "/NODEFAULTLIB:LIBCMTD"
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
+                "/DEBUG:FULL"
                 "/MAP"
+                "/WX"
         )
     set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
     target_link_libraries(${PROJECT_NAME}

@@ -61,7 +61,7 @@ project(FFmockUnitTtsts_dll)
         PRIVATE ${CMAKE_SOURCE_DIR}/lib
                 "$ENV{ffmock.gtest.inc.dir}"
         )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
+    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
     target_link_options(${PROJECT_NAME}
         PRIVATE "/NODEFAULTLIB:ADVAPI32.lib"
@@ -69,7 +69,9 @@ project(FFmockUnitTtsts_dll)
                 "/NODEFAULTLIB:LIBCMTD"
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
+                "/DEBUG:FULL"
                 "/MAP"
+                "/WX"
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Service
@@ -94,7 +96,7 @@ project(FFmockUnitTtsts_dll)
                 _AMD64_
                 "FFMOCK_IMPORT=__declspec(dllimport)"
         )
-    add_dependencies(${PROJECT_NAME} Mocks_dll Service)
+        add_dependencies(${PROJECT_NAME} Mocks_dll Service)
 
 #
 # @brief Unit tests with included sources
@@ -106,7 +108,7 @@ project(FFmockUnitTtsts_src)
         PRIVATE ${CMAKE_SOURCE_DIR}/lib
                 "$ENV{ffmock.gtest.inc.dir}"
         )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
+    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
     target_link_options(${PROJECT_NAME}
         PRIVATE "/NODEFAULTLIB:ADVAPI32.lib"
@@ -115,7 +117,9 @@ project(FFmockUnitTtsts_src)
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
                 "/IGNORE:4217"
+                "/DEBUG:FULL"
                 "/MAP"
+                "/WX"
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE gtest.lib
@@ -161,7 +165,7 @@ project(Service_lib)
                 ${CMAKE_SOURCE_DIR}/lib/Registry.cpp
                 ${CMAKE_SOURCE_DIR}/lib/Registry.hpp
         )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
+    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE _DEBUG
                 _AMD64_
@@ -194,7 +198,7 @@ project(FFmockUnitTtsts_lib)
         PRIVATE ${CMAKE_SOURCE_DIR}/lib
                 "$ENV{ffmock.gtest.inc.dir}"
         )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
+    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
     target_link_options(${PROJECT_NAME}
         PRIVATE "/NODEFAULTLIB:ADVAPI32.lib"
@@ -203,7 +207,9 @@ project(FFmockUnitTtsts_lib)
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
                 "/IGNORE:4217"
+                "/DEBUG:FULL"
                 "/MAP"
+                "/WX"
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib

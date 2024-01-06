@@ -63,9 +63,10 @@ public:
     SCM(SCM&&) = delete;
     SCM& operator=(SCM const&) = delete;
 
+    bool Open(_Out_ DWORD LastError);
     bool Initialize(_In_opt_z_ char* AdditionalArgs);
-    bool RegisterService(_In_opt_z_ char* AdditionalArgs);
-    bool StartService(void);
-    bool StopService(void);
-    bool DeleteService(void);
+    bool Register(_In_opt_z_ char* AdditionalArgs);
+    bool Start(_In_opt_z_ char* AdditionalArgs);
+    bool Stop(void);
+    bool Delete(void);
 };

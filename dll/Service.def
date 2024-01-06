@@ -27,4 +27,6 @@ LIBRARY
 ;; Service.cpp for more info.
 EXPORTS
     Service::Main=?ServiceMain@Service@@KAXKPEAPEA_W@Z                           @1
-    Service::Register=?Register@Service@@KAXPEAUHWND__@@PEAUHINSTANCE__@@PEADH@Z @2
+    Service::Start=?Start@Service@@KAXPEAUHWND__@@PEAUHINSTANCE__@@PEADH@Z       @2
+    Service::Delete=?Delete@Service@@KAXPEAUHWND__@@PEAUHINSTANCE__@@PEADH@Z     @3
+    Service::Register=?Register@Service@@KAXPEAUHWND__@@PEAUHINSTANCE__@@PEADH@Z @4
