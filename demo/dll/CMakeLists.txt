@@ -27,16 +27,17 @@ project(Service_dll)
     add_library(${PROJECT_NAME} SHARED)
     target_include_directories(${PROJECT_NAME}
         PRIVATE ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/lib
+                ${CMAKE_SOURCE_DIR}/demo/inc
+                ${CMAKE_SOURCE_DIR}/demo/lib
         )
     target_sources(${PROJECT_NAME}
         PRIVATE Service.def
-                ${CMAKE_SOURCE_DIR}/lib/SCM.cpp
-                ${CMAKE_SOURCE_DIR}/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     add_dependencies(${PROJECT_NAME} Service)

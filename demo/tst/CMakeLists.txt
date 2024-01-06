@@ -25,6 +25,7 @@ project(Mocks_dll)
     add_library(${PROJECT_NAME} SHARED)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
     target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -58,7 +59,8 @@ project(FFmockUnitTtsts_dll)
     add_executable(${PROJECT_NAME})
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/lib
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
+                ${CMAKE_SOURCE_DIR}/demo/lib
                 "$ENV{ffmock.gtest.inc.dir}"
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
@@ -84,9 +86,9 @@ project(FFmockUnitTtsts_dll)
         PRIVATE FFmockUnitTests.cpp
                 FFmockUnitTests.manifest
                 Mocks.hpp
-                ${CMAKE_SOURCE_DIR}/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_sources(${PROJECT_NAME}
         PRIVATE FFmockUnitTests.rc
@@ -105,7 +107,8 @@ project(FFmockUnitTtsts_src)
     add_executable(${PROJECT_NAME})
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/lib
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
+                ${CMAKE_SOURCE_DIR}/demo/lib
                 "$ENV{ffmock.gtest.inc.dir}"
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
@@ -131,12 +134,12 @@ project(FFmockUnitTtsts_src)
                 FFmockUnitTests.manifest
                 Mocks.cpp
                 Mocks.hpp
-                ${CMAKE_SOURCE_DIR}/lib/SCM.cpp
-                ${CMAKE_SOURCE_DIR}/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_sources(${PROJECT_NAME}
         PRIVATE FFmockUnitTests.rc
@@ -155,15 +158,16 @@ project(Service_lib)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME}
-        PRIVATE ${CMAKE_SOURCE_DIR}/lib/SCM.cpp
-                ${CMAKE_SOURCE_DIR}/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/lib/EventLog.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Service.hpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.cpp
-                ${CMAKE_SOURCE_DIR}/lib/Registry.hpp
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/lib/SCM.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/EventLog.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
+                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_compile_definitions(${PROJECT_NAME}
@@ -180,6 +184,7 @@ project(Mocks_lib)
     add_library(${PROJECT_NAME} SHARED)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
     target_compile_definitions(${PROJECT_NAME} PRIVATE
@@ -195,7 +200,8 @@ project(FFmockUnitTtsts_lib)
     add_executable(${PROJECT_NAME})
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/lib
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
+                ${CMAKE_SOURCE_DIR}/demo/lib
                 "$ENV{ffmock.gtest.inc.dir}"
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")

@@ -27,6 +27,7 @@ project(Service)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME}
         PRIVATE SCM.cpp
