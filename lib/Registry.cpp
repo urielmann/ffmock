@@ -119,8 +119,22 @@ bool Registry::DeleteStringValue(_In_z_ PCWSTR Name)
     LSTATUS status{RegDeleteValueW(Key.get(), Name)};
     if (status)
     {
-        UserErrorMessage(L"RegDeleteValueW() failure", status);
-        return false;
+        DWORD lastError{ GetLastError() };
+        switch (lastError)
+        {
+            case ERROR_FILE_NOT_FOUND:
+            case ERROR_PATH_NOT_FOUND:
+                // No such value
+                return true;
+
+            case ERROR_ACCESS_DENIED:
+                std::cerr << "Restart the program with admin rights" << std::endl;
+                return false;
+
+            default:
+                UserErrorMessage(L"RegDeleteValueW() failure", status);
+                return false;
+        }
     }
 
     return true;

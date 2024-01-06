@@ -49,6 +49,12 @@
 *.recipe
 *.aps
 
+# Visual Studio
+*.idb
+*.tlog/
+*.recipe
+*.aps
+
 # Debuggers
 *.debugtarget
 .suo

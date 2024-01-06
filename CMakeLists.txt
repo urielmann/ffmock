@@ -25,3 +25,4 @@ project(ffmock
 
     add_subdirectory(lib)
     add_subdirectory(tst)
+    add_subdirectory(dll)

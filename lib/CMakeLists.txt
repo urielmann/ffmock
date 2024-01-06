@@ -37,7 +37,7 @@ project(Service)
                 Registry.cpp
                 Registry.hpp
         )
-        target_compile_options(${PROJECT_NAME} PRIVATE "/MT")
+        target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
         target_compile_definitions(${PROJECT_NAME}
                 PRIVATE _DEBUG
                         _AMD64_

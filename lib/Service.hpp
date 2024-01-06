@@ -63,11 +63,17 @@ protected:
                                 _In_ DWORD Win32ExitCode = NO_ERROR,
                                 _In_ DWORD WaitHint = 0);
     static void WINAPI SvcCtrlHandler(_In_ DWORD SvcCtrlCode);
-    __declspec(dllexport)
     static void CALLBACK Register(_In_ HWND Wnd,
                                   _In_ HINSTANCE Instance,
-                                  _In_  LPSTR CmdLine,
-                                  _In_  int CmdShow);
-    __declspec(dllexport)
+                                  _In_opt_z_ LPSTR CmdLine,
+                                  _In_ int CmdShow);
+    static void CALLBACK Delete(_In_ HWND Wnd,
+                                _In_ HINSTANCE Instance,
+                                _In_opt_z_ LPSTR CmdLine,
+                                _In_ int CmdShow);
+    static void CALLBACK Start(_In_ HWND Wnd,
+                               _In_ HINSTANCE Instance,
+                               _In_opt_z_ LPSTR CmdLine,
+                               _In_ int CmdShow);
     static void WINAPI ServiceMain(_In_ DWORD /*Argc*/, _In_ PWSTR* /*Argv*/);
 };
