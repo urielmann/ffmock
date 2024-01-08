@@ -23,7 +23,7 @@
 #
 # @brief Service static library
 #
-project(Service_lib)
+project(Demo_lib)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
