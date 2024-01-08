@@ -10,15 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		../README.md = ../README.md
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Service", "dll\Service.vcxproj", "{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffmock", "lib\ffmock.vcxproj", "{23409D44-451E-439A-B18B-AC45617A174E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo_lib", "lib\Demo_lib.vcxproj", "{23409D44-451E-439A-B18B-AC45617A174E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFmockUnitTests_src", "tst\FFmockUnitTests_src.vcxproj", "{B78C0DA4-5F3A-4F81-AE39-E3847F214CA4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FFMockUnitTests_lib", "tst\FFMockUnitTests_lib.vcxproj", "{A13AABEF-7019-40FF-89C0-2DA1CD268E85}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ffmock_tst", "lib\ffmock_tst.vcxproj", "{333FE9EA-C70F-4A9A-A697-6BD504D0CAD8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo_tst", "lib\Demo_tst.vcxproj", "{333FE9EA-C70F-4A9A-A697-6BD504D0CAD8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mocks_dll", "tst\Mocks_dll.vcxproj", "{560B1E85-E2D8-448A-844C-A35F68C01057}"
 EndProject
@@ -32,14 +30,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Debug|x64.ActiveCfg = Debug|x64
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Debug|x64.Build.0 = Debug|x64
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Debug|x86.ActiveCfg = Debug|Win32
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Debug|x86.Build.0 = Debug|Win32
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Release|x64.ActiveCfg = Release|x64
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Release|x64.Build.0 = Release|x64
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Release|x86.ActiveCfg = Release|Win32
-		{9C2F7537-3299-4ECA-953E-3C18AD92BF5D}.Release|x86.Build.0 = Release|Win32
 		{23409D44-451E-439A-B18B-AC45617A174E}.Debug|x64.ActiveCfg = Debug|x64
 		{23409D44-451E-439A-B18B-AC45617A174E}.Debug|x64.Build.0 = Debug|x64
 		{23409D44-451E-439A-B18B-AC45617A174E}.Debug|x86.ActiveCfg = Debug|Win32
