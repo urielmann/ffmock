@@ -67,7 +67,7 @@ project(FFmockUnitTtsts_dll)
                 "/WX"
         )
     target_link_libraries(${PROJECT_NAME}
-        PRIVATE Service_lib
+        PRIVATE Demo_lib
                 Mocks_dll
                 ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
@@ -87,7 +87,7 @@ project(FFmockUnitTtsts_dll)
                 _AMD64_
                 "FFMOCK_IMPORT=__declspec(dllimport)"
         )
-        add_dependencies(${PROJECT_NAME} Mocks_dll Service_lib)
+        add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib)
 
 #
 # @brief Unit tests with included sources
@@ -139,7 +139,7 @@ project(FFmockUnitTtsts_src)
 #
 # @brief Service static library for unit tests
 #
-project(Service_tst)
+project(Demo_tst)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
@@ -200,6 +200,7 @@ project(FFmockUnitTtsts_lib)
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
                 Service_tst
+                Demo_tst
                 ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
                 msvcrtd.lib
@@ -219,4 +220,4 @@ project(FFmockUnitTtsts_lib)
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
-        add_dependencies(${PROJECT_NAME} Mocks_lib Service_tst)
+        add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst)

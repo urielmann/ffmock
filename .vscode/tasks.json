@@ -41,14 +41,14 @@
                 "/nologo",
                 "/WX",
                 "/IGNORE:4217",
-                "/DEFAULTLIB:ffmock.lib",
+                "/DEFAULTLIB:Demo_tst.lib",
                 "/NODEFAULTLIB:ADVAPI32",
                 "/NODEFAULTLIB:LIBCMT",
                 "/NODEFAULTLIB:LIBCMTD",
                 "/INCREMENTAL:NO",
                 "/MAP",
                 "demo/bin/x64/FFmockUnitTests.res",
-                "demo/bin/x64/ffmock.lib",
+                "demo/bin/x64/Demo_tst.lib",
                 "ucrtd.lib",
                 "vcruntimed.lib",
                 "msvcrtd.lib",
@@ -95,7 +95,7 @@
                 "/INCREMENTAL:NO",
                 "/MAP",
                 "demo/bin/x64/FFmockUnitTests.res",
-                "demo/bin/x64/ffmock.lib",
+                "demo/bin/x64/Demo_lib.lib",
                 "demo/bin/x64/Mocks_dll.lib",
                 "vcruntimed.lib",
                 "msvcrtd.lib",
@@ -143,7 +143,7 @@
                 "/INCREMENTAL:NO",
                 "/MAP",
                 "demo/bin/x64/FFmockUnitTests.res",
-                "demo/bin/x64/ffmock.lib",
+                "demo/bin/x64/Demo_lib.lib",
                 "demo/bin/x64/Mocks_dll.lib",
                 "vcruntimed.lib",
                 "msvcrtd.lib",
@@ -313,11 +313,8 @@
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/lib.exe",
             "args": [
                 "/nologo",
-                "demo/bin/x64/SCM.obj",
-                "demo/bin/x64/EventLog.obj",
-                "demo/bin/x64/Service.obj",
                 "demo/bin/x64/Registry.obj",
-                "/OUT:demo/bin/x64/ffmock.lib"
+                "/OUT:demo/bin/x64/Demo_lib.lib"
             ],
             "group": {
                 "kind": "build",
@@ -362,11 +359,8 @@
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/lib.exe",
             "args": [
                 "/nologo",
-                "demo/bin/x64/SCM.obj",
-                "demo/bin/x64/EventLog.obj",
-                "demo/bin/x64/Service.obj",
                 "demo/bin/x64/Registry.obj",
-                "/OUT:demo/bin/x64/ffmock.lib"
+                "/OUT:demo/bin/x64/Demo_tst.lib"
             ],
             "group": {
                 "kind": "build",
