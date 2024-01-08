@@ -23,70 +23,12 @@
 */
 
 #include <gtest/gtest.h>
-#include <SCM.hpp>
-#include <Service.hpp>
 #include <Registry.hpp>
 #include <psapi.h>
 #include <winuser.h>
 #include <thread>
 #include <chrono>
 #include "Mocks.hpp"
-
-/******************************************************
- * @brief Service control manager class unit tests
- *
- * @todo Full functional and branch coverage
- ******************************************************/
-class SCMTestSuite : public testing::Test
-    , public SCM
-{
-protected:
-};
-
-TEST_F(SCMTestSuite, Test_Start_Failed)
-{
-    ASSERT_FALSE(Start(nullptr));
-}
-
-/******************************************************
- * @brief Service class unit tests
- *
- * @todo Full functional and branch coverage
- ******************************************************/
-class ServiceTestSuite : public testing::Test
-                       , public Service
-{
-protected:
-};
-
-TEST_F(ServiceTestSuite, Test_ServiceMain_Failed)
-{
-    wchar_t* argv[] = {L"UnitTest"};
-    Mocks::FFRegisterServiceCtrlHandlerW::Guard rschGuard;
-    Mocks::FFSetServiceStatus::Guard sssGuard(
-        [](_In_ SERVICE_STATUS_HANDLE ServiceHandle,
-           _In_ LPSERVICE_STATUS      ServiceStatus) -> BOOL
-        {
-            EXPECT_EQ(ServiceHandle, nullptr);
-            EXPECT_TRUE(ServiceStatus->dwWin32ExitCode == ERROR_NOT_ENOUGH_MEMORY);
-            EXPECT_TRUE(ServiceStatus->dwCurrentState == SERVICE_STOPPED);
-            return TRUE;
-        });
-
-    Service::ServiceMain(_countof(argv), argv);
-
-    ASSERT_FALSE(SvcStatusHandle);
-}
-
-TEST_F(ServiceTestSuite, Test_Register_Success)
-{
-    char cmdLine[]{"FFmockSvc"};
-    Mocks::FFRegisterServiceCtrlHandlerW::Guard guard;
-
-    Service::Register(nullptr, nullptr, cmdLine, SW_NORMAL);
-
-    ASSERT_FALSE(SvcStatusHandle);
-}
 
 /******************************************************
  * @brief Registry class unit tests

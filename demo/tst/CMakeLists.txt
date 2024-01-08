@@ -28,26 +28,16 @@ project(Mocks_dll)
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        _DEBUG
-        _AMD64_
-        "FFMOCK_IMPORT=__declspec(dllexport)"
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE _AMD64_
+                "FFMOCK_IMPORT=__declspec(dllexport)"
         )
 
 set(MANGLED_MOCKS_DEFINITIONS
-    "ControlService=__mock_ControlService"
-    "RegisterServiceCtrlHandlerW=__mock_RegisterServiceCtrlHandlerW"
-    "SetServiceStatus=__mock_SetServiceStatus"
-    "CreateServiceW=__mock_CreateServiceW"
-    "DeleteService=__mock_DeleteService"
-    "OpenSCManagerW=__mock_OpenSCManagerW"
-    "OpenServiceW=__mock_OpenServiceW"
-    "QueryServiceStatus=__mock_QueryServiceStatus"
-    "StartServiceW=__mock_StartServiceW"
-    "CloseServiceHandle=__mock_CloseServiceHandle"
     "RegCloseKey=__mock_RegCloseKey"
     "RegCreateKeyW=__mock_RegCreateKeyW"
     "RegCreateKeyExW=__mock_RegCreateKeyExW"
+    "RegDeleteValueW=__mock_RegDeleteValueW"
     "RegOpenKeyW=__mock_RegOpenKeyW"
     "RegSetValueExW=__mock_RegSetValueExW"
 )
@@ -87,16 +77,13 @@ project(FFmockUnitTtsts_dll)
         PRIVATE FFmockUnitTests.cpp
                 FFmockUnitTests.manifest
                 Mocks.hpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_sources(${PROJECT_NAME}
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT=__declspec(dllimport)"
         )
         add_dependencies(${PROJECT_NAME} Mocks_dll Service)
@@ -135,10 +122,6 @@ project(FFmockUnitTtsts_src)
                 FFmockUnitTests.manifest
                 Mocks.cpp
                 Mocks.hpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.cpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/Service.cpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
@@ -146,8 +129,7 @@ project(FFmockUnitTtsts_src)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
@@ -162,18 +144,12 @@ project(Service_lib)
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME}
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/lib/SCM.cpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/SCM.hpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/EventLog.cpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/Service.cpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/Service.hpp
-                ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
+        PRIVATE ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
@@ -188,10 +164,9 @@ project(Mocks_lib)
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        _DEBUG
-        _AMD64_
-        "FFMOCK_IMPORT="
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE _AMD64_
+                "FFMOCK_IMPORT="
         )
 
 #
@@ -236,8 +211,7 @@ project(FFmockUnitTtsts_lib)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )

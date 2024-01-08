@@ -24,37 +24,12 @@
 LIBRARY
 
 EXPORTS
-    RegisterServiceCtrlHandlerW
-    SetServiceStatus
-    ControlService
-    CreateServiceW
-    DeleteService
-    OpenSCManagerW
-    OpenServiceW
-    QueryServiceStatus
-    StartServiceW
     RegCloseKey
     RegCreateKeyW
+    RegCreateKeyExW
+    RegDeleteValueW
     RegOpenKeyW
     RegSetValueExW
-    ?RealAPI@?$Mock@PEAUSERVICE_STATUS_HANDLE__@@$$A6APEAU1@PEB_WP6AXK@Z@Z$0A@$07@ffmock@@1V?$function@$$A6APEAUSERVICE_STATUS_HANDLE__@@PEB_WP6AXK@Z@Z@std@@A
-    ?MockAPI@?$Mock@PEAUSERVICE_STATUS_HANDLE__@@$$A6APEAU1@PEB_WP6AXK@Z@Z$0A@$07@ffmock@@1V?$function@$$A6APEAUSERVICE_STATUS_HANDLE__@@PEB_WP6AXK@Z@Z@std@@A
-    ?RealAPI@?$Mock@H$$A6AHPEAUSERVICE_STATUS_HANDLE__@@PEAU_SERVICE_STATUS@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSERVICE_STATUS_HANDLE__@@PEAU_SERVICE_STATUS@@@Z@std@@A
-    ?MockAPI@?$Mock@H$$A6AHPEAUSERVICE_STATUS_HANDLE__@@PEAU_SERVICE_STATUS@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSERVICE_STATUS_HANDLE__@@PEAU_SERVICE_STATUS@@@Z@std@@A
-    ?RealAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@KPEAU_SERVICE_STATUS@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@KPEAU_SERVICE_STATUS@@@Z@std@@A
-    ?MockAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@KPEAU_SERVICE_STATUS@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@KPEAU_SERVICE_STATUS@@@Z@std@@A
-    ?RealAPI@?$Mock@PEAUSC_HANDLE__@@$$A6APEAU1@PEAU1@PEB_W1KKKK11PEAK111@Z$0A@$0FH@@ffmock@@1V?$function@$$A6APEAUSC_HANDLE__@@PEAU1@PEB_W1KKKK11PEAK111@Z@std@@A
-    ?MockAPI@?$Mock@PEAUSC_HANDLE__@@$$A6APEAU1@PEAU1@PEB_W1KKKK11PEAK111@Z$0A@$0FH@@ffmock@@1V?$function@$$A6APEAUSC_HANDLE__@@PEAU1@PEB_W1KKKK11PEAK111@Z@std@@A
-    ?RealAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@@Z@std@@A
-    ?MockAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@@Z@std@@A
-    ?RealAPI@?$Mock@PEAUSC_HANDLE__@@$$A6APEAU1@PEB_W0K@Z$0A@$0FH@@ffmock@@1V?$function@$$A6APEAUSC_HANDLE__@@PEB_W0K@Z@std@@A
-    ?MockAPI@?$Mock@PEAUSC_HANDLE__@@$$A6APEAU1@PEB_W0K@Z$0A@$0FH@@ffmock@@1V?$function@$$A6APEAUSC_HANDLE__@@PEB_W0K@Z@std@@A
-    ?RealAPI@?$Mock@PEAUSC_HANDLE__@@$$A6APEAU1@PEAU1@PEB_WK@Z$0A@$0FH@@ffmock@@1V?$function@$$A6APEAUSC_HANDLE__@@PEAU1@PEB_WK@Z@std@@A
-    ?MockAPI@?$Mock@PEAUSC_HANDLE__@@$$A6APEAU1@PEAU1@PEB_WK@Z$0A@$0FH@@ffmock@@1V?$function@$$A6APEAUSC_HANDLE__@@PEAU1@PEB_WK@Z@std@@A
-    ?RealAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@PEAU_SERVICE_STATUS@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@PEAU_SERVICE_STATUS@@@Z@std@@A
-    ?MockAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@PEAU_SERVICE_STATUS@@@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@PEAU_SERVICE_STATUS@@@Z@std@@A
-    ?RealAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@KPEAPEB_W@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@KPEAPEB_W@Z@std@@A
-    ?MockAPI@?$Mock@H$$A6AHPEAUSC_HANDLE__@@KPEAPEB_W@Z$0A@$05@ffmock@@1V?$function@$$A6AHPEAUSC_HANDLE__@@KPEAPEB_W@Z@std@@A
     ?RealAPI@?$Mock@J$$A6AJPEAUHKEY__@@@Z$05$0A@@ffmock@@1V?$function@$$A6AJPEAUHKEY__@@@Z@std@@A
     ?MockAPI@?$Mock@J$$A6AJPEAUHKEY__@@@Z$05$0A@@ffmock@@1V?$function@$$A6AJPEAUHKEY__@@@Z@std@@A
     ?RealAPI@?$Mock@J$$A6AJPEAUHKEY__@@PEB_WPEAPEAU1@@Z$0DPH@$0A@@ffmock@@1V?$function@$$A6AJPEAUHKEY__@@PEB_WPEAPEAU1@@Z@std@@A

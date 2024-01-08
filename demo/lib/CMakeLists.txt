@@ -30,17 +30,11 @@ project(Service)
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
         )
     target_sources(${PROJECT_NAME}
-        PRIVATE SCM.cpp
-                SCM.hpp
-                EventLog.cpp
-                Service.cpp
-                Service.hpp
-                Registry.cpp
+        PRIVATE Registry.cpp
                 Registry.hpp
         )
         target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
         target_compile_definitions(${PROJECT_NAME}
-                PRIVATE _DEBUG
-                        _AMD64_
+                PRIVATE _AMD64_
                         "FFMOCK_IMPORT="
         )

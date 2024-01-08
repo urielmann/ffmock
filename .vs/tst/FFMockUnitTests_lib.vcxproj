@@ -122,8 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
     <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp" />
   </ItemGroup>
   <ItemGroup>

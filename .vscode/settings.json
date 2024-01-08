@@ -154,5 +154,5 @@
         "*.rh": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
-    "cmake.sourceDirectory": "C:/Play/ffmock/demo"
+    "cmake.sourceDirectory": "${workspaceFolder}"
 }
