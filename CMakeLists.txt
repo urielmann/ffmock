@@ -20,9 +20,8 @@
 
 cmake_minimum_required(VERSION 3.11)
 project(ffmock
-    VERSION 0.1
+    VERSION 0.90
     DESCRIPTION "Free Functions Mocking Library")
 
     add_subdirectory(demo/lib)
     add_subdirectory(demo/tst)
-    add_subdirectory(demo/dll)

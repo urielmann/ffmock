@@ -118,15 +118,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(SourceRoot)demo/lib/Registry.cpp" />
-    <ClCompile Include="$(SourceRoot)demo/lib/SCM.cpp" />
-    <ClCompile Include="$(SourceRoot)demo/lib/Service.cpp" />
     <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp" />
     <ClCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
     <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp" />
   </ItemGroup>
   <ItemGroup>

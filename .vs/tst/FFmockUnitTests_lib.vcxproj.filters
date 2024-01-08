@@ -29,12 +29,6 @@
     <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.rc">
