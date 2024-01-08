@@ -1,7 +1,7 @@
 /**
   @brief VSCode launch configuration
   @author Uriel Mann
-  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+  @copyright 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -80,7 +80,7 @@
             "program": "${workspaceFolder}/demo/py/exports.py",
             "console": "integratedTerminal",
             "justMyCode": false,
-            "args": ["--input=C:/Play/ffmock/demo/bin/x64/Mocks.obj"],
+            "args": ["--input=${workspaceFolder}/build/demo/tst/Debug/Mocks_dll.dll"],
             "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
         },
     ]

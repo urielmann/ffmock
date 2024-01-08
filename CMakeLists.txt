@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Uriel Mann (abba.mann@gmail.com)
+# Copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@ project(ffmock
     VERSION 0.90
     DESCRIPTION "Free Functions Mocking Library")
 
+    set (GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
     find_package(GTest REQUIRED)
 
     add_subdirectory(demo/lib)

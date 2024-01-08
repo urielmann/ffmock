@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Uriel Mann (abba.mann@gmail.com)
+# Copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 #
-# @brief DLL hosted mocks for use by FFmockUnitTtsts_dll unit tests
+# @brief DLL hosted mocks for use by FFmockUnitTtsts unit tests
 #
 project(Mocks_dll)
     add_library(${PROJECT_NAME} SHARED)
@@ -67,7 +67,7 @@ project(FFmockUnitTtsts_dll)
                 "/WX"
         )
     target_link_libraries(${PROJECT_NAME}
-        PRIVATE Service
+        PRIVATE Service_lib
                 Mocks_dll
                 ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
@@ -83,10 +83,11 @@ project(FFmockUnitTtsts_dll)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _AMD64_
+        PRIVATE _DEBUG
+                _AMD64_
                 "FFMOCK_IMPORT=__declspec(dllimport)"
         )
-        add_dependencies(${PROJECT_NAME} Mocks_dll Service)
+        add_dependencies(${PROJECT_NAME} Mocks_dll Service_lib)
 
 #
 # @brief Unit tests with included sources
@@ -129,7 +130,8 @@ project(FFmockUnitTtsts_src)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _AMD64_
+        PRIVATE _DEBUG
+                _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
@@ -137,7 +139,7 @@ project(FFmockUnitTtsts_src)
 #
 # @brief Service static library for unit tests
 #
-project(Service_lib)
+project(Service_tst)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
@@ -149,7 +151,8 @@ project(Service_lib)
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _AMD64_
+        PRIVATE _DEBUG
+                _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
@@ -196,7 +199,7 @@ project(FFmockUnitTtsts_lib)
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
-                Service_lib
+                Service_tst
                 ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
                 msvcrtd.lib
@@ -211,8 +214,9 @@ project(FFmockUnitTtsts_lib)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _AMD64_
+        PRIVATE _DEBUG
+                _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
-        add_dependencies(${PROJECT_NAME} Mocks_lib Service_lib)
+        add_dependencies(${PROJECT_NAME} Mocks_lib Service_tst)

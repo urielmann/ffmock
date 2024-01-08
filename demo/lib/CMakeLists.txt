@@ -1,6 +1,6 @@
 # @brief Mock demo library
 
-# Copyright (C) 2019 Uriel Mann (abba.mann@gmail.com)
+# Copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 #
 # @brief Service static library
 #
-project(Service)
+project(Service_lib)
     add_library(${PROJECT_NAME} STATIC)
     target_include_directories(${PROJECT_NAME}
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
@@ -35,6 +35,7 @@ project(Service)
         )
         target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
         target_compile_definitions(${PROJECT_NAME}
-                PRIVATE _AMD64_
+                PRIVATE _DEBUG
+                        _AMD64_
                         "FFMOCK_IMPORT="
         )
