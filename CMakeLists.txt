@@ -1,5 +1,8 @@
-# Copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
-
+#
+# @brief CMake configuration
+#
+# @copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -26,5 +29,27 @@ project(ffmock
     set (GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
     find_package(GTest REQUIRED)
 
+    # Set a default build type for single-configuration
+    # CMake generators if no build type is set.
+    if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE Debug)
+    endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+
+    # Select flags.
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /EHsc /GR-")
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /MT")
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+    set(CMAKE_CXX_FLAGS_DEBUG  "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /WX
+                                                          /MAP
+                                                          /NODEFAULTLIB:ADVAPI32.lib
+                                                          /NODEFAULTLIB:LIBCMT
+                                                          /NODEFAULTLIB:LIBCMTD
+                                                          /MANIFEST:NO
+                                                          /INCREMENTAL:NO
+                                                          /DEBUG:FULL
+                                                          /LIBPATH:$ENV{ffmock.gtest.lib.dir}/$(Configuration)")
+    include_directories(${CMAKE_SOURCE_DIR}/inc ${CMAKE_SOURCE_DIR}/demo/inc)
+    
     add_subdirectory(demo/lib)
     add_subdirectory(demo/tst)

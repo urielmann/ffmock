@@ -1,5 +1,8 @@
-# Copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
-
+#
+# @brief CMake configuration for various unit tests
+#
+# @copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -19,14 +22,10 @@
 # SOFTWARE.
 
 #
-# @brief DLL hosted mocks for use by FFmockUnitTtsts unit tests
+# @brief DLL hosted mocks for use by FFmockUnitTests unit tests
 #
 project(Mocks_dll)
     add_library(${PROJECT_NAME} SHARED)
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-        )
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE _AMD64_
@@ -41,31 +40,13 @@ set(MANGLED_MOCKS_DEFINITIONS
     "RegOpenKeyW=__mock_RegOpenKeyW"
     "RegSetValueExW=__mock_RegSetValueExW"
 )
+include_directories(${CMAKE_SOURCE_DIR}/demo/lib $ENV{ffmock.gtest.inc.dir})
 
 #
 # @brief DLL hosted mocks unit tests
 #
-project(FFmockUnitTtsts_dll)
+project(FFmockUnitTests_dll)
     add_executable(${PROJECT_NAME})
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-                ${CMAKE_SOURCE_DIR}/demo/lib
-                 ${GTEST_INCLUDE_DIRS}
-        )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
-    target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
-    target_link_options(${PROJECT_NAME}
-        PRIVATE "/NODEFAULTLIB:ADVAPI32.lib"
-                "/NODEFAULTLIB:LIBCMT"
-                "/NODEFAULTLIB:LIBCMTD"
-                "/INCREMENTAL:NO"
-                "/MANIFEST:NO"
-                "/IGNORE:4217,4099"
-                "/DEBUG:FULL"
-                "/MAP"
-                "/WX"
-        )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Demo_lib
                 Mocks_dll
@@ -83,8 +64,7 @@ project(FFmockUnitTtsts_dll)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT=__declspec(dllimport)"
         )
         add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib)
@@ -92,26 +72,10 @@ project(FFmockUnitTtsts_dll)
 #
 # @brief Unit tests with included sources
 #
-project(FFmockUnitTtsts_src)
+project(FFmockUnitTests_src)
     add_executable(${PROJECT_NAME})
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-                ${CMAKE_SOURCE_DIR}/demo/lib
-                 ${GTEST_INCLUDE_DIRS}
-        )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
-    target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
     target_link_options(${PROJECT_NAME}
-        PRIVATE "/NODEFAULTLIB:ADVAPI32.lib"
-                "/NODEFAULTLIB:LIBCMT"
-                "/NODEFAULTLIB:LIBCMTD"
-                "/INCREMENTAL:NO"
-                "/MANIFEST:NO"
-                "/IGNORE:4217,4099"
-                "/DEBUG:FULL"
-                "/MAP"
-                "/WX"
+        PRIVATE "/IGNORE:4217"
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE ${GTEST_BOTH_LIBRARIES}
@@ -130,8 +94,7 @@ project(FFmockUnitTtsts_src)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
@@ -141,31 +104,21 @@ project(FFmockUnitTtsts_src)
 #
 project(Demo_tst)
     add_library(${PROJECT_NAME} STATIC)
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-        )
     target_sources(${PROJECT_NAME}
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
 
 #
-# @brief Static lib hosted mocks for use by FFmockUnitTtsts_lib unit tests
+# @brief Static lib hosted mocks for use by FFmockUnitTests_lib unit tests
 #
 project(Mocks_lib)
     add_library(${PROJECT_NAME} SHARED)
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-        )
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE _AMD64_
@@ -175,27 +128,10 @@ project(Mocks_lib)
 #
 # @brief Unit tests with sources included from static library
 #
-project(FFmockUnitTtsts_lib)
+project(FFmockUnitTests_lib)
     add_executable(${PROJECT_NAME})
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-                ${CMAKE_SOURCE_DIR}/demo/lib
-                ${GTEST_INCLUDE_DIRS}
-
-        )
-    target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
-    target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
     target_link_options(${PROJECT_NAME}
-        PRIVATE "/NODEFAULTLIB:ADVAPI32.lib"
-                "/NODEFAULTLIB:LIBCMT"
-                "/NODEFAULTLIB:LIBCMTD"
-                "/INCREMENTAL:NO"
-                "/MANIFEST:NO"
-                "/IGNORE:4217,4099"
-                "/DEBUG:FULL"
-                "/MAP"
-                "/WX"
+        PRIVATE "/IGNORE:4217"
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
@@ -215,8 +151,7 @@ project(FFmockUnitTtsts_lib)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE _DEBUG
-                _AMD64_
+        PRIVATE _AMD64_
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )

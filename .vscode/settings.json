@@ -43,7 +43,7 @@
     "ffmock.wdk.lib.dir": "${config:ffmock.kits.dir}/Lib/${config:ffmock.sdk.ver}",
     "ffmock.debugger.dir": "${config:ffmock.kits.dir}/Debuggers/x64",
     "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
-    "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib/Debug",
+    "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib",
     "terminal.integrated.env.windows": {
         "PATH": "${env:PATH};${config:ffmock.msvc.dir}/bin/Hostx64/x64",
         "ffmock.sdk.ver": "${config:ffmock.sdk.ver}",
@@ -66,7 +66,7 @@
     },
     "cmake.environment": {
         "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
-        "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib/Debug",
+        "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib",
     },
     "cSpell.words": [
         "EVENTLOG",

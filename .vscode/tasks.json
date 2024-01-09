@@ -66,7 +66,7 @@
             "options": {
                 "env": {
                     "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                    "lib": "${config:ffmock.gtest.lib.dir}/Debug;${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": [
@@ -113,7 +113,7 @@
             "options": {
                 "env": {
                     "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                    "lib": "${config:ffmock.gtest.lib.dir}/Debug;${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": [
@@ -161,7 +161,7 @@
             "options": {
                 "env": {
                     "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                    "lib": "${config:ffmock.gtest.lib.dir}/Debug;${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": [
@@ -209,7 +209,7 @@
             "options": {
                 "env": {
                     "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
-                    "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                    "lib": "${config:ffmock.gtest.lib.dir}/Debug;${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
                 }
             },
             "dependsOn": [
