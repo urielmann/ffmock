@@ -21,7 +21,7 @@ jobs:
 
     steps:
     - uses: ilammy/msvc-dev-cmd@v1
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - uses: Bacondish2023/setup-googletest@v1
       with:
         tag: v1.14.0
