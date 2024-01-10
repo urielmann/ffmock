@@ -1,7 +1,7 @@
 /**
   @brief VSCode configuration
   @author Uriel Mann
-  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+  @copyright 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@
     "ffmock.wdk.lib.dir": "${config:ffmock.kits.dir}/Lib/${config:ffmock.sdk.ver}",
     "ffmock.debugger.dir": "${config:ffmock.kits.dir}/Debuggers/x64",
     "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
-    "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib/Debug",
+    "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib",
     "terminal.integrated.env.windows": {
         "PATH": "${env:PATH};${config:ffmock.msvc.dir}/bin/Hostx64/x64",
         "ffmock.sdk.ver": "${config:ffmock.sdk.ver}",
@@ -66,7 +66,7 @@
     },
     "cmake.environment": {
         "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
-        "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib/Debug",
+        "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib",
     },
     "cSpell.words": [
         "EVENTLOG",
@@ -154,5 +154,5 @@
         "*.rh": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
-    "cmake.sourceDirectory": "C:/Play/ffmock/demo"
+    "cmake.sourceDirectory": "${workspaceFolder}"
 }

@@ -122,8 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
-    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp" />
-    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp" />
     <ClInclude Include="$(SourceRoot)demo/tst/Mocks.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +133,7 @@
     <Manifest Include="$(SourceRoot)demo/tst/FFmockUnitTests.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\ffmock_tst.vcxproj">
+    <ProjectReference Include="..\lib\Demo_tst.vcxproj">
       <Project>{333fe9ea-c70f-4a9a-a697-6bd504d0cad8}</Project>
     </ProjectReference>
   </ItemGroup>

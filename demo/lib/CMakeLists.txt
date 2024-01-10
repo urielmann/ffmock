@@ -1,7 +1,8 @@
+#
 # @brief Mock demo library
-
-# Copyright (C) 2019 Uriel Mann (abba.mann@gmail.com)
-
+#
+# @copyright (C) 2023-2024 Uriel Mann (abba.mann@gmail.com)
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -21,26 +22,15 @@
 # SOFTWARE.
 
 #
-# @brief Service static library
+# @brief Demo static library
 #
-project(Service)
+project(Demo_lib)
     add_library(${PROJECT_NAME} STATIC)
-    target_include_directories(${PROJECT_NAME}
-        PUBLIC ${CMAKE_SOURCE_DIR}/inc
-        PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
-        )
     target_sources(${PROJECT_NAME}
-        PRIVATE SCM.cpp
-                SCM.hpp
-                EventLog.cpp
-                Service.cpp
-                Service.hpp
-                Registry.cpp
+        PRIVATE Registry.cpp
                 Registry.hpp
         )
-        target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
         target_compile_definitions(${PROJECT_NAME}
-                PRIVATE _DEBUG
-                        _AMD64_
+                PRIVATE ${FFMOCK_ARCH}
                         "FFMOCK_IMPORT="
         )
