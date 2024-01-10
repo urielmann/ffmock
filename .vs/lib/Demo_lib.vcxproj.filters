@@ -18,16 +18,10 @@
     <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="$(SourceRoot)demo/lib/SCM.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(SourceRoot)demo/lib/Service.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(SourceRoot)demo/dll/Service.def">
+    <ClCompile Include="$(SourceRoot)demo/lib/Registry.cpp">
       <Filter>Source Files</Filter>
-    </None>
+    </ClCompile>
   </ItemGroup>
 </Project>

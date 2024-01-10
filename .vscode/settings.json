@@ -1,7 +1,7 @@
 /**
   @brief VSCode configuration
   @author Uriel Mann
-  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+  @copyright 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,8 @@
     "ffmock.wdk.lib.dir": "${config:ffmock.kits.dir}/Lib/${config:ffmock.sdk.ver}",
     "ffmock.debugger.dir": "${config:ffmock.kits.dir}/Debuggers/x64",
     "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
-    "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib/Debug",
+    "ffmock.gtest.lib32.dir": "C:/Program Files (x86)/googletest-distribution/lib32",
+    "ffmock.gtest.lib64.dir": "C:/Program Files (x86)/googletest-distribution/lib64",
     "terminal.integrated.env.windows": {
         "PATH": "${env:PATH};${config:ffmock.msvc.dir}/bin/Hostx64/x64",
         "ffmock.sdk.ver": "${config:ffmock.sdk.ver}",
@@ -60,14 +61,20 @@
         "ffmock.wdk.lib.dir": "${config:ffmock.wdk.lib.dir}",
         "ffmock.debugger.dir": "${config:ffmock.debugger.dir}",
         "ffmock.gtest.inc.dir": "${config:ffmock.gtest.inc.dir}",
-        "ffmock.gtest.lib.dir": "${config:ffmock.gtest.lib.dir}",
+        "ffmock.gtest.lib32.dir": "${config:ffmock.gtest.lib32.dir}",
+        "ffmock.gtest.lib64.dir": "${config:ffmock.gtest.lib64.dir}",
         "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
-        "lib": "${config:ffmock.gtest.lib.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+        "lib": "${config:ffmock.gtest.lib64.dir};${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
     },
     "cmake.environment": {
-        "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
-        "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib/Debug",
+        "ffmock.gtest.inc.dir": "C:/Program Files (x86)/googletest-distribution/include",
+        "ffmock.gtest.lib32.dir": "C:/Program Files (x86)/googletest-distribution/lib32",
+        "ffmock.gtest.lib64.dir": "C:/Program Files (x86)/googletest-distribution/lib64",
     },
+    "buildKitTargetArch": "Win32",
+    "cmake.configureArgs": [
+        "-DFFMOCK_ARCH=_X86_",
+    ],
     "cSpell.words": [
         "EVENTLOG",
         "HINTERNET",
@@ -154,5 +161,5 @@
         "*.rh": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled",
-    "cmake.sourceDirectory": "C:/Play/ffmock/demo"
+    "cmake.sourceDirectory": "${workspaceFolder}"
 }

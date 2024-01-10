@@ -1,4 +1,13 @@
-[![Build and Test](https://github.com/urielmann/ffmock/actions/workflows/cmake-single-platform.yml/badge.svg)]
+![MSBuild and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x64-debug.yml/badge.svg)
+![MSBuild and Test x64-Release](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x64-release.yml/badge.svg)
+![MSBuild and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x86-debug.yml/badge.svg)
+![MSBuild and Test x86-Release](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x86-release.yml/badge.svg)  
+
+![Ninja and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/ninja-x64-debug.yml/badge.svg)
+![Ninja and Test x64-Release](https://github.com/urielmann/ffmock/actions/workflows/ninja-x64-release.yml/badge.svg)
+![Ninja and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/ninja-x86-debug.yml/badge.svg)
+![Ninja and Test x86-Release](https://github.com/urielmann/ffmock/actions/workflows/ninja-x86-release.yml/badge.svg)  
+
 # **ffmock** - Microsoft Win32 API mocking library
 ## Table of Content
 
@@ -302,6 +311,7 @@ catch(std::bad_alloc const&)
  > *advapi32.lib(ADVAPI32.dll) : error LNK2005: **ControlService** already defined in Mocks.obj  
 >   Creating library bin\x64\FFmockUnitTests.lib and object bin\x64\FFmockUnitTests.exp  
 > bin\x64\FFmockUnitTests.exe : fatal error LNK1169: one or more multiply defined symbols found*   
+
  * Duplicate template instantiation. Code such as this:  
 ```C++
 DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
@@ -319,6 +329,11 @@ Can cause the following errors:
 DEFINE_MOCK(RegCreateKeyW, LSTATUS, ERROR_REGISTRY_CORRUPT, NO_ERROR);
 DEFINE_MOCK(RegOpenKeyW, LSTATUS, ERROR_REGISTRY_IO_FAILED, NO_ERROR);
 ```
+
  * The mocked API is not getting linked. The linker uses the Microsoft library API.  
  This is a result of the mock APIs DLL listed an incorrect place on the linker's command line. Changing the order of libraries for the linker will probably solve this issue.  
  Make also sure that the original export link library is not forced into you linker by a [comment pragma](https://learn.microsoft.com/en-us/cpp/preprocessor/comment-c-cpp?view=msvc-170) (e.g., *#pragma comment(lib, "emapi")*) in your code.  
+
+ * *Ninja*, *CMake* Generation or Build Failures  
+  It is important to keep in mind that *Ninja* is selecting the architecture based on the Window command prompt. For example, you must start the *CMake* generator from **x86 Native Tools Command Prompt for VS 2022** or **x64 Native Tools Command Prompt for VS 2022** accordingly. This is also true if you generate from within the Visual Studio IDE. You must first start that instance of the IDE directly form one of the above command prompts.  
+

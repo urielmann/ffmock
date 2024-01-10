@@ -1,6 +1,6 @@
 #  @brief Git configuration
 #  @author Uriel Mann
-#  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+#  @copyright 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -48,12 +48,18 @@
 *.tlog/
 *.recipe
 *.aps
-
-# Visual Studio
 *.idb
 *.tlog/
 *.recipe
 *.aps
+*.iobj
+*.ipdb
+*.vcxproj.user
+.vs/
+!.vs/**/*.vcxproj
+!.vs/**/*.vcxproj.filters
+!.vs/**/*.props
+!.vs/*.sln
 
 # Debuggers
 *.debugtarget
@@ -61,7 +67,6 @@
 *.VC.*
 *.ipch
 *.sln
-.vs/
 x64/
 x86/
 

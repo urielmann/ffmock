@@ -1,7 +1,7 @@
 /**
   @brief Win32 API mocks
   @author Uriel Mann
-  @copyright 2023 Uriel Mann (abba.mann@gmail.com)
+  @copyright 2023-2024 Uriel Mann (abba.mann@gmail.com)
 
 :: Permission is hereby granted, free of charge, to any person obtaining a copy
 :: of this software and associated documentation files (the "Software"), to deal
@@ -39,14 +39,14 @@ template<typename T>
 struct function_traits;
 
 /**
- * @brief Template specialization for APIs
+ * @brief Template specialization for __stdcall APIs
  */
 template<typename RetType_t, typename... Args_t>
-struct function_traits<RetType_t(Args_t...)>
+struct function_traits<RetType_t __stdcall(Args_t...)>
 {
     using Ret_t = RetType_t;
-    using Sig_t = Ret_t(Args_t...);
-    using Ptr_t = Ret_t(*)(Args_t...);
+    using Sig_t = Ret_t __stdcall(Args_t...);
+    using Ptr_t = Ret_t(__stdcall*)(Args_t...);
     using Api_t = std::function<Sig_t>;
 
 #pragma warning(push)
@@ -75,22 +75,60 @@ struct function_traits<RetType_t(Args_t...)>
 #pragma warning(pop)
 };
 
+#if !defined(WIN64)
+/**
+ * @brief Template specialization for __cdecl APIs
+ */
+template<typename RetType_t, typename... Args_t>
+struct function_traits<RetType_t __cdecl(Args_t...)>
+{
+    using Ret_t = RetType_t;
+    using Sig_t = Ret_t __cdecl(Args_t...);
+    using Ptr_t = Ret_t(__cdecl*)(Args_t...);
+    using Api_t = std::function<Sig_t>;
+
+#pragma warning(push)
+#pragma warning(disable:4127) // conditional expression is constant
+    /**
+     * @brief Method which always fail returning hard coded return value
+     *
+     * @details Optionally, this method can also set the last error for the OS
+     *
+     * @tparam Error_k - The value to return indicating an error
+     * @tparam Error2Set_k - Set this value as the last error
+     *
+     * @return Ret_t - Always Error_k
+     */
+    template<Ret_t Error_k, DWORD Error2Set_k>
+    __declspec(noinline)
+    static
+    Ret_t AlwaysError(Args_t...)
+    {
+        if (Error2Set_k)
+        {
+            SetLastError(Error2Set_k);
+        }
+        return Error_k;
+    }
+#pragma warning(pop)
+};
+#endif // !defined(WIN64)
+
 /**
  * @brief Template implementing the basic mocking functionality for Win32 APIs
  *
- * @tparam RetType - API return type
- * @tparam API - API signature type
- * @tparam Error - Error value to return as generic failure
+ * @tparam RetType_t - API return type
+ * @tparam API_t - API signature type
+ * @tparam RetValue - Error value to return as generic failure
  * @tparam Error2Set - Value to set as last error (optional)
  */
-#pragma warning(disable:4251)
-template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
+template<typename RetType_t, typename API_t, RetType_t RetValue, DWORD Error2Set = NO_ERROR>
 class
 Mock
 {
 protected:
 
-    using Traits_t = function_traits<API>;
+    using Traits_t = function_traits<API_t>;
     using Ret_t = typename Traits_t::Ret_t;
     using Ptr_t = typename Traits_t::Ptr_t;
     using Api_t = typename Traits_t::Api_t;
@@ -100,7 +138,7 @@ protected:
     static Api_t RealAPI;
     FFMOCK_IMPORT
     static Api_t MockAPI;
-    static constexpr Ret_t Error_k = Error;
+    static constexpr Ret_t Error_k = RetValue;
 
     /**
      * @brief Construct a new Mock object capturing the pointer to the real API call
@@ -164,7 +202,7 @@ public:
          *
          */
         FFMOCK_IMPORT                                                                                   \
-        Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>);
+        Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<RetValue, Error2Set>);
 
         /**
          * @brief Destroy the Guard object and restore the real API
@@ -178,7 +216,7 @@ public:
          * @param MockImpl - See the constructor above for details
          */
         FFMOCK_IMPORT                                                                                   \
-        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<Error, Error2Set>);
+        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<RetValue, Error2Set>);
 
         /**
          * @brief Clear the Guard object and restore the real API

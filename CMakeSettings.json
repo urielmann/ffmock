@@ -1,0 +1,140 @@
+{
+    "configurations": [
+        {
+            "name": "x86-Debug",
+            "generator": "Visual Studio 16 2019",
+            "configurationType": "Debug",
+            "inheritEnvironments": [ "msvc_x86" ],
+            "buildRoot": "${workspaceRoot}\\build\\${name}",
+            "installRoot": "${workspaceRoot}\\${workspaceRoot}\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-v:m",
+            "ctestCommandArgs": "",
+            "variables": [
+                {
+                    "name": "CMAKE_GENERATOR_PLATFORM",
+                    "value": "Win32",
+                    "type": "STRING"
+                },
+                {
+                    "name": "GTest_DIR",
+                    "value": "C:/Program Files (x86)/googletest-distribution",
+                    "type": "PATH"
+                }
+            ]
+        },
+        {
+            "name": "x86-Release",
+            "generator": "Visual Studio 16 2019",
+            "configurationType": "RelWithDebInfo",
+            "inheritEnvironments": [ "msvc_x86" ],
+            "buildRoot": "${workspaceRoot}\\build\\${name}",
+            "installRoot": "${workspaceRoot}\\build\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-v:m",
+            "ctestCommandArgs": "",
+            "variables": [
+                {
+                    "name": "CMAKE_GENERATOR_PLATFORM",
+                    "value": "Win32",
+                    "type": "STRING"
+                },
+                {
+                    "name": "GTest_DIR",
+                    "value": "C:/Program Files (x86)/googletest-distribution",
+                    "type": "PATH"
+                }
+            ]
+        },
+        {
+            "name": "x64-Debug",
+            "generator": "Visual Studio 16 2019 Win64",
+            "configurationType": "Debug",
+            "inheritEnvironments": [ "msvc_x64" ],
+            "buildRoot": "${workspaceRoot}\\build\\${name}",
+            "installRoot": "${workspaceRoot}\\build\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-v:m",
+            "ctestCommandArgs": "",
+            "variables": [
+                {
+                    "name": "CMAKE_GENERATOR_PLATFORM",
+                    "value": "x64",
+                    "type": "STRING"
+                },
+                {
+                    "name": "GTest_DIR",
+                    "value": "C:/Program Files (x86)/googletest-distribution",
+                    "type": "PATH"
+                }
+            ]
+        },
+        {
+            "name": "x64-Release",
+            "generator": "Visual Studio 16 2019 Win64",
+            "configurationType": "RelWithDebInfo",
+            "inheritEnvironments": [ "msvc_x64" ],
+            "buildRoot": "${workspaceRoot}\\build\\${name}",
+            "installRoot": "${workspaceRoot}\\build\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "-v:m",
+            "ctestCommandArgs": "",
+            "variables": [
+                {
+                    "name": "CMAKE_GENERATOR_PLATFORM",
+                    "value": "x64",
+                    "type": "STRING"
+                },
+                {
+                    "name": "GTest_DIR",
+                    "value": "C:/Program Files (x86)/googletest-distribution",
+                    "type": "PATH"
+                }
+            ]
+        },
+        {
+            "name": "x86-Debug-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Debug",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
+        },
+        {
+            "name": "x86-Release-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
+        },
+        {
+            "name": "x64-Debug-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Debug",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
+        },
+        {
+            "name": "x64-Release-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
+        }
+    ]
+}
