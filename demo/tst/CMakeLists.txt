@@ -71,6 +71,7 @@ project(FFmockUnitTtsts_dll)
                 "/NODEFAULTLIB:LIBCMTD"
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
+                "/IGNORE:4217,4099"
                 "/DEBUG:FULL"
                 "/MAP"
                 "/WX"
