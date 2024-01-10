@@ -49,6 +49,7 @@ project(ffmock
                                                           /NODEFAULTLIB:LIBCMTD
                                                           /MANIFEST:NO
                                                           /INCREMENTAL:NO
+                                                          /IGNORE:4099
                                                           /DEBUG:FULL
                                                           /LIBPATH:$ENV{ffmock.gtest.lib.dir}/$(Configuration)")
     include_directories(${CMAKE_SOURCE_DIR}/inc ${CMAKE_SOURCE_DIR}/demo/inc)
