@@ -60,5 +60,7 @@ project(ffmock
                                                           /LIBPATH:$ENV{ffmock.gtest.lib.dir}/$(Configuration)")
     include_directories(${CMAKE_SOURCE_DIR}/inc ${CMAKE_SOURCE_DIR}/demo/inc)
     
+    include(CTest)
+
     add_subdirectory(demo/lib)
     add_subdirectory(demo/tst)

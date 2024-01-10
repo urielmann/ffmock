@@ -69,6 +69,8 @@ project(FFmockUnitTests_dll)
         )
         add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib)
 
+        add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+
 #
 # @brief Unit tests with included sources
 #
@@ -98,6 +100,8 @@ project(FFmockUnitTests_src)
                 "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
+
+        add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 #
 # @brief Service static library for unit tests
@@ -155,3 +159,5 @@ project(FFmockUnitTests_lib)
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
         add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst)
+
+    add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
