@@ -83,7 +83,6 @@ struct function_traits<RetType_t(Args_t...)>
  * @tparam Error - Error value to return as generic failure
  * @tparam Error2Set - Value to set as last error (optional)
  */
-#pragma warning(disable:4251)
 template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
 class
 Mock

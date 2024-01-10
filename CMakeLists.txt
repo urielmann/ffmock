@@ -26,10 +26,16 @@ project(ffmock
     VERSION 0.90
     DESCRIPTION "Free Functions Mocking Library")
 
+    # Set default GTest location
     if(NOT GTEST_ROOT)
         set(GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
     endif(NOT GTEST_ROOT)
     find_package(GTest REQUIRED)
+
+    # Default architecture
+    if(NOT FFMOCK_ARCH)
+        set(FFMOCK_ARCH _AMD64_)
+    endif(NOT FFMOCK_ARCH)
 
     # Set a default build type for single-configuration
     # CMake generators if no build type is set.
