@@ -26,7 +26,9 @@ project(ffmock
     VERSION 0.90
     DESCRIPTION "Free Functions Mocking Library")
 
-    set (GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
+    if(NOT GTEST_ROOT)
+        set(GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
+    endif(NOT GTEST_ROOT)
     find_package(GTest REQUIRED)
 
     # Set a default build type for single-configuration
