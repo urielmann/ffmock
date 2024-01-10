@@ -135,7 +135,6 @@ project(FFmockUnitTests_lib)
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
-                Service_tst
                 Demo_tst
                 ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
