@@ -1,3 +1,4 @@
+[![Build and Test](https://github.com/urielmann/ffmock/actions/workflows/cmake-single-platform.yml)]
 # **ffmock** - Microsoft Win32 API mocking library
 ## Table of Content
 
