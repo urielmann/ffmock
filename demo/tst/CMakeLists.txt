@@ -61,7 +61,7 @@ project(FFmockUnitTtsts_dll)
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
                 ${CMAKE_SOURCE_DIR}/demo/lib
-                "$ENV{ffmock.gtest.inc.dir}"
+                 ${GTEST_INCLUDE_DIRS}
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
@@ -71,6 +71,7 @@ project(FFmockUnitTtsts_dll)
                 "/NODEFAULTLIB:LIBCMTD"
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
+                "/IGNORE:4217,4099"
                 "/DEBUG:FULL"
                 "/MAP"
                 "/WX"
@@ -78,7 +79,7 @@ project(FFmockUnitTtsts_dll)
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Service
                 Mocks_dll
-                gtest.lib
+                ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
                 msvcrtd.lib
         )
@@ -109,7 +110,7 @@ project(FFmockUnitTtsts_src)
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
                 ${CMAKE_SOURCE_DIR}/demo/lib
-                "$ENV{ffmock.gtest.inc.dir}"
+                 ${GTEST_INCLUDE_DIRS}
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
@@ -119,13 +120,13 @@ project(FFmockUnitTtsts_src)
                 "/NODEFAULTLIB:LIBCMTD"
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
-                "/IGNORE:4217"
+                "/IGNORE:4217,4099"
                 "/DEBUG:FULL"
                 "/MAP"
                 "/WX"
         )
     target_link_libraries(${PROJECT_NAME}
-        PRIVATE gtest.lib
+        PRIVATE ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
                 msvcrtd.lib
         )
@@ -202,7 +203,8 @@ project(FFmockUnitTtsts_lib)
         PUBLIC ${CMAKE_SOURCE_DIR}/inc
         PRIVATE ${CMAKE_SOURCE_DIR}/demo/inc
                 ${CMAKE_SOURCE_DIR}/demo/lib
-                "$ENV{ffmock.gtest.inc.dir}"
+                ${GTEST_INCLUDE_DIRS}
+
         )
     target_compile_options(${PROJECT_NAME} PRIVATE "/MT" "/W4" "/WX")
     target_link_directories(${PROJECT_NAME} PRIVATE "$ENV{ffmock.gtest.lib.dir}")
@@ -212,7 +214,7 @@ project(FFmockUnitTtsts_lib)
                 "/NODEFAULTLIB:LIBCMTD"
                 "/INCREMENTAL:NO"
                 "/MANIFEST:NO"
-                "/IGNORE:4217"
+                "/IGNORE:4217,4099"
                 "/DEBUG:FULL"
                 "/MAP"
                 "/WX"
@@ -220,7 +222,7 @@ project(FFmockUnitTtsts_lib)
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
                 Service_lib
-                gtest.lib
+                ${GTEST_BOTH_LIBRARIES}
                 vcruntimed.lib
                 msvcrtd.lib
         )

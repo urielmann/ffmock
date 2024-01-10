@@ -23,6 +23,8 @@ project(ffmock
     VERSION 0.1
     DESCRIPTION "Free Functions Mocking Library")
 
+    find_package(GTest REQUIRED)
+
     add_subdirectory(demo/lib)
     add_subdirectory(demo/tst)
     add_subdirectory(demo/dll)
