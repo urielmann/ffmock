@@ -24,6 +24,7 @@ jobs:
     - uses: Bacondish2023/setup-googletest@v1
       with:
         tag: v1.14.0
+        build-type: Debug
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
