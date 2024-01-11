@@ -68,6 +68,10 @@
         "ffmock.gtest.inc.dir": "C:/Play/googletest/googletest/include",
         "ffmock.gtest.lib.dir": "C:/Play/googletest/build/lib",
     },
+    "buildKitTargetArch": "Win32",
+    "cmake.configureArgs": [
+        "-DFFMOCK_ARCH=_X86_",
+    ],
     "cSpell.words": [
         "EVENTLOG",
         "HINTERNET",

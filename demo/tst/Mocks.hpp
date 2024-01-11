@@ -49,7 +49,7 @@ class FFRegCloseKey
     LSTATUS
     APIENTRY
     ::RegCloseKey(
-        _In_ HKEY hKey
+        _In_ HKEY Key
         );
 
     FFRegCloseKey(HMODULE Module) : Mock_t(Module, "RegCloseKey")
