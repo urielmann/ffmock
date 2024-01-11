@@ -26,11 +26,57 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Unit Tests build with source (x86)",
+            "type": "process",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx86/x86/cl.exe",
+            "args": [
+                "@demo/inc/cl32.rsp",
+                "@demo/inc/def.rsp",
+                "/Fddemo/bin/x64/FFmockUnitTests_src.pdb",
+                "/Fedemo/bin/x64/FFmockUnitTests_src.exe",
+                "/DFFMOCK_IMPORT=",
+                "@demo/inc/src.rsp",
+                "demo/tst/Mocks.cpp",
+                "demo/tst/FFmockUnitTests.cpp",
+                "/link",
+                "/nologo",
+                "/WX",
+                "/IGNORE:4217",
+                "/NODEFAULTLIB:LIBCMT",
+                "/NODEFAULTLIB:LIBCMTD",
+                "/INCREMENTAL:NO",
+                "/MAP",
+                "demo/bin/x64/FFmockUnitTests.res",
+                "ucrtd.lib",
+                "vcruntimed.lib",
+                "msvcrtd.lib",
+                "gtest.lib",
+                "advapi32.lib",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$msCompile",
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                    "lib": "${config:ffmock.gtest.lib.dir}/Debug;${config:ffmock.msvc.dir}/lib/x64;${config:ffmock.wdk.lib.dir}/ucrt/x64;${config:ffmock.wdk.lib.dir}/um/x64",
+                }
+            },
+            "dependsOn": [
+                "Compile unit tests resources (x64)"
+            ]
+        },
+        {
             "label": "Unit Tests build with lib (x64)",
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "@demo/inc/def.rsp",
                 "/Fddemo/bin/x64/FFmockUnitTests_lib.pdb",
                 "/Fedemo/bin/x64/FFmockUnitTests_lib.exe",
@@ -79,7 +125,7 @@
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "/Fddemo/bin/x64/FFmockUnitTests_dll.pdb",
                 "/Fedemo/bin/x64/FFmockUnitTests_dll.exe",
                 "/DFFMOCK_IMPORT=__declspec(dllimport)",
@@ -127,7 +173,7 @@
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "/Fddemo/bin/x64/FFmockUnitTests_dll.pdb",
                 "/Fedemo/bin/x64/FFmockUnitTests_dll.exe",
                 "/DFFMOCK_IMPORT=__declspec(dllimport)",
@@ -175,7 +221,7 @@
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "@demo/inc/def.rsp",
                 "/Fddemo/bin/x64/FFmockUnitTests_src.pdb",
                 "/Fedemo/bin/x64/FFmockUnitTests_src.exe",
@@ -221,7 +267,7 @@
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "/Fddemo/bin/x64/Mocks_dll.pdb",
                 "/Fedemo/bin/x64/Mocks_dll.exe",
                 "/DFFMOCK_IMPORT=__declspec(dllexport)",
@@ -287,7 +333,7 @@
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "/DFFMOCK_IMPORT=",
                 "/c",
                 "@demo/inc/src.rsp",
@@ -332,7 +378,7 @@
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@demo/inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "@demo/inc/def.rsp",
                 "/DFFMOCK_IMPORT=",
                 "/c",
@@ -374,11 +420,36 @@
             "dependsOn": ["Build Static Test Library (x64)"]
         },
         {
+            "label": "Compile current file (x86)",
+            "type": "process",
+            "command": "${config:ffmock.msvc.dir}/bin/Hostx86/x86/cl.exe",
+            "args": [
+                "@demo/inc/cl32.rsp",
+                "/DFFMOCK_IMPORT=__declspec(dllexport)",
+                "/c",
+                "${file}",
+            ],
+            "options": {
+                "env": {
+                    "include": "${config:ffmock.gtest.inc.dir};${config:ffmock.inc.dir};${config:ffmock.demo.inc.dir};${config:ffmock.lib.dir};${config:ffmock.tst.dir};${config:ffmock.sdk.dir};${config:ffmock.shared.dir};${config:ffmock.msvc.dir}/include;${config:ffmock.wdk.inc.dir}/ucrt",
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": "$msCompile",
+        },
+        {
             "label": "Compile current file (x64)",
             "type": "process",
             "command": "${config:ffmock.msvc.dir}/bin/Hostx64/x64/cl.exe",
             "args": [
-                "@inc/cl.rsp",
+                "@demo/inc/cl64.rsp",
                 "/DFFMOCK_IMPORT=__declspec(dllexport)",
                 "/c",
                 "${file}",

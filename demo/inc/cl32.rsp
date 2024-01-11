@@ -1,0 +1,16 @@
+/nologo
+/Fodemo/bin/x64/
+/std:c++17
+/EHsc
+/Z7
+/GR-
+/MTd
+/W4
+/WX
+/DWIN32
+/D_DEBUG
+/D_X86_
+/D_UNICODE
+/DUNICODE
+/D_CONSOLE
+/permissive

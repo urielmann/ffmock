@@ -80,10 +80,10 @@ struct function_traits<RetType_t(Args_t...)>
  *
  * @tparam RetType - API return type
  * @tparam API - API signature type
- * @tparam Error - Error value to return as generic failure
+ * @tparam RetValue - Error value to return as generic failure
  * @tparam Error2Set - Value to set as last error (optional)
  */
-template<typename RetType, typename API, RetType Error, DWORD Error2Set = NO_ERROR>
+template<typename RetType, typename API, RetType RetValue, DWORD Error2Set = NO_ERROR>
 class
 Mock
 {
@@ -99,7 +99,7 @@ protected:
     static Api_t RealAPI;
     FFMOCK_IMPORT
     static Api_t MockAPI;
-    static constexpr Ret_t Error_k = Error;
+    static constexpr Ret_t Error_k = RetValue;
 
     /**
      * @brief Construct a new Mock object capturing the pointer to the real API call
@@ -177,7 +177,7 @@ public:
          * @param MockImpl - See the constructor above for details
          */
         FFMOCK_IMPORT                                                                                   \
-        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<Error, Error2Set>);
+        void Set(const Api_t& MockImpl = &Traits_t::AlwaysError<RetValue, Error2Set>);
 
         /**
          * @brief Clear the Guard object and restore the real API
