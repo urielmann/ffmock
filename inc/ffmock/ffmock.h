@@ -39,13 +39,13 @@ template<typename T>
 struct function_traits;
 
 /**
- * @brief Template specialization for APIs
+ * @brief Template specialization for __stdcall APIs
  */
 template<typename RetType_t, typename... Args_t>
 struct function_traits<RetType_t __stdcall(Args_t...)>
 {
     using Ret_t = RetType_t;
-    using Sig_t = Ret_t(Args_t...);
+    using Sig_t = Ret_t __stdcall(Args_t...);
     using Ptr_t = Ret_t(__stdcall*)(Args_t...);
     using Api_t = std::function<Sig_t>;
 
@@ -74,6 +74,45 @@ struct function_traits<RetType_t __stdcall(Args_t...)>
     }
 #pragma warning(pop)
 };
+
+#if !defined(WIN64)
+/**
+ * @brief Template specialization for __cdecl APIs
+ */
+template<typename RetType_t, typename... Args_t>
+struct function_traits<RetType_t __cdecl(Args_t...)>
+{
+    using Ret_t = RetType_t;
+    using Sig_t = Ret_t __cdecl(Args_t...);
+    using Ptr_t = Ret_t(__cdecl*)(Args_t...);
+    using Api_t = std::function<Sig_t>;
+
+#pragma warning(push)
+#pragma warning(disable:4127) // conditional expression is constant
+    /**
+     * @brief Method which always fail returning hard coded return value
+     *
+     * @details Optionally, this method can also set the last error for the OS
+     *
+     * @tparam Error_k - The value to return indicating an error
+     * @tparam Error2Set_k - Set this value as the last error
+     *
+     * @return Ret_t - Always Error_k
+     */
+    template<Ret_t Error_k, DWORD Error2Set_k>
+    __declspec(noinline)
+    static
+    Ret_t AlwaysError(Args_t...)
+    {
+        if (Error2Set_k)
+        {
+            SetLastError(Error2Set_k);
+        }
+        return Error_k;
+    }
+#pragma warning(pop)
+};
+#endif // !defined(WIN64)
 
 /**
  * @brief Template implementing the basic mocking functionality for Win32 APIs

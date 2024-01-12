@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a13aabef-7019-40ff-89c0-2da1cd268e85}</ProjectGuid>
+    <ProjectGuid>{c1949997-f253-4e2a-acb6-6a5160ed7d5f}</ProjectGuid>
     <RootNamespace>FFmockUnitTests_src</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -60,13 +60,12 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(SolutionDir)ffmock.props" />
-    <Import Project="$(ProjectDir)Mocks.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_X86_;_DEBUG;_CONSOLE;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(GoogleTestDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -76,6 +75,7 @@
       <AdditionalLibraryDirectories>$(GoogleTestDir)lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
+      <MapExports>true</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,24 +90,26 @@
       <AdditionalLibraryDirectories>$(GoogleTestDir)lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
+      <MapExports>true</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN64;_AMD64_;_DEBUG;_CONSOLE;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(GoogleTestDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_AMD64_;_DEBUG;_CONSOLE;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(GoogleTestDir)lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
+      <MapExports>true</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN64;_AMD64_;NDEBUG;_CONSOLE;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(GoogleTestDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_AMD64_;NDEBUG;_CONSOLE;FFMOCK_IMPORT=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -116,11 +118,11 @@
       <AdditionalLibraryDirectories>$(GoogleTestDir)lib64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/IGNORE:4217 %(AdditionalOptions)</AdditionalOptions>
+      <MapExports>true</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="$(SourceRoot)demo/tst/FFmockUnitTests.cpp" />
-    <ClCompile Include="$(SourceRoot)demo/tst/Mocks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(SourceRoot)demo/lib/Registry.hpp" />
@@ -135,8 +137,11 @@
     <Manifest Include="$(SourceRoot)demo/tst/FFmockUnitTests.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib\Demo_tst.vcxproj">
-      <Project>{333fe9ea-c70f-4a9a-a697-6bd504d0cad8}</Project>
+    <ProjectReference Include="..\lib\Demo_lib.vcxproj">
+      <Project>{23409d44-451e-439a-b18b-ac45617a174e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Mocks_dll.vcxproj">
+      <Project>{560b1e85-e2d8-448a-844c-a35f68c01057}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -48,12 +48,18 @@
 *.tlog/
 *.recipe
 *.aps
-
-# Visual Studio
 *.idb
 *.tlog/
 *.recipe
 *.aps
+*.iobj
+*.ipdb
+*.vcxproj.user
+.vs/
+!.vs/**/*.vcxproj
+!.vs/**/*.vcxproj.filters
+!.vs/**/*.props
+!.vs/*.sln
 
 # Debuggers
 *.debugtarget
@@ -61,7 +67,6 @@
 *.VC.*
 *.ipch
 *.sln
-.vs/
 x64/
 x86/
 

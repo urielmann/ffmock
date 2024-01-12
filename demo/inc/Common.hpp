@@ -24,6 +24,7 @@
 
 #pragma once
 
+#include <intrin.h>
 #include <windef.h>
 #include <winbase.h>
 #include <handleapi.h>
