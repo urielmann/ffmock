@@ -1,5 +1,5 @@
 /nologo
-/Fodemo/bin/x64/
+/Fodemo/bin/x86/
 /std:c++17
 /EHsc
 /Z7
@@ -13,4 +13,3 @@
 /D_UNICODE
 /DUNICODE
 /D_CONSOLE
-/permissive

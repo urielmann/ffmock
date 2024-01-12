@@ -42,11 +42,11 @@ struct function_traits;
  * @brief Template specialization for APIs
  */
 template<typename RetType_t, typename... Args_t>
-struct function_traits<RetType_t(Args_t...)>
+struct function_traits<RetType_t __stdcall(Args_t...)>
 {
     using Ret_t = RetType_t;
     using Sig_t = Ret_t(Args_t...);
-    using Ptr_t = Ret_t(*)(Args_t...);
+    using Ptr_t = Ret_t(__stdcall*)(Args_t...);
     using Api_t = std::function<Sig_t>;
 
 #pragma warning(push)
@@ -78,18 +78,18 @@ struct function_traits<RetType_t(Args_t...)>
 /**
  * @brief Template implementing the basic mocking functionality for Win32 APIs
  *
- * @tparam RetType - API return type
- * @tparam API - API signature type
+ * @tparam RetType_t - API return type
+ * @tparam API_t - API signature type
  * @tparam RetValue - Error value to return as generic failure
  * @tparam Error2Set - Value to set as last error (optional)
  */
-template<typename RetType, typename API, RetType RetValue, DWORD Error2Set = NO_ERROR>
+template<typename RetType_t, typename API_t, RetType_t RetValue, DWORD Error2Set = NO_ERROR>
 class
 Mock
 {
 protected:
 
-    using Traits_t = function_traits<API>;
+    using Traits_t = function_traits<API_t>;
     using Ret_t = typename Traits_t::Ret_t;
     using Ptr_t = typename Traits_t::Ptr_t;
     using Api_t = typename Traits_t::Api_t;
@@ -163,7 +163,7 @@ public:
          *
          */
         FFMOCK_IMPORT                                                                                   \
-        Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<Error_k, Error2Set>);
+        Guard(Api_t&& MockImpl = &Traits_t::AlwaysError<RetValue, Error2Set>);
 
         /**
          * @brief Destroy the Guard object and restore the real API
