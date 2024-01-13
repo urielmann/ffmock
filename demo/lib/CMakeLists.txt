@@ -31,6 +31,5 @@ project(Demo_lib)
                 Registry.hpp
         )
         target_compile_definitions(${PROJECT_NAME}
-                PRIVATE ${FFMOCK_ARCH}
-                        "FFMOCK_IMPORT="
+                PRIVATE "FFMOCK_IMPORT="
         )

@@ -64,12 +64,12 @@ project(FFmockUnitTests_dll)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE ${FFMOCK_ARCH}
-                "FFMOCK_IMPORT=__declspec(dllimport)"
+        PRIVATE "FFMOCK_IMPORT=__declspec(dllimport)"
         )
-        add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib)
 
-        add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+    add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib)
+
+    add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
 #
 # @brief Unit tests with included sources
@@ -96,8 +96,7 @@ project(FFmockUnitTests_src)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE ${FFMOCK_ARCH}
-                "FFMOCK_IMPORT="
+        PRIVATE "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
 
@@ -113,8 +112,7 @@ project(Demo_tst)
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE ${FFMOCK_ARCH}
-                "FFMOCK_IMPORT="
+        PRIVATE "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
 
@@ -125,8 +123,7 @@ project(Mocks_lib)
     add_library(${PROJECT_NAME} SHARED)
     target_sources(${PROJECT_NAME} PRIVATE Mocks.cpp Mocks.hpp)
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE ${FFMOCK_ARCH}
-                "FFMOCK_IMPORT="
+        PRIVATE "FFMOCK_IMPORT="
         )
 
 #
@@ -154,10 +151,9 @@ project(FFmockUnitTests_lib)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE ${FFMOCK_ARCH}
-                "FFMOCK_IMPORT="
-                ${MANGLED_MOCKS_DEFINITIONS}
+        PRIVATE ${MANGLED_MOCKS_DEFINITIONS}
         )
-        add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst)
+
+    add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst)
 
     add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})

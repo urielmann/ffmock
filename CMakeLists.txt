@@ -30,12 +30,8 @@ project(ffmock
     if(NOT GTEST_ROOT)
         set(GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
     endif(NOT GTEST_ROOT)
-    find_package(GTest REQUIRED)
 
-    # Default architecture
-    if(NOT FFMOCK_ARCH)
-        set(FFMOCK_ARCH _AMD64_)
-    endif(NOT FFMOCK_ARCH)
+    find_package(GTest REQUIRED)
 
     # Set a default build type for single-configuration
     # CMake generators if no build type is set.
@@ -59,7 +55,17 @@ project(ffmock
                                                           /DEBUG:FULL
                                                           /LIBPATH:$ENV{ffmock.gtest.lib.dir}/$(Configuration)")
     include_directories(${CMAKE_SOURCE_DIR}/inc ${CMAKE_SOURCE_DIR}/demo/inc)
-    
+
+    # Set compiler defines based on architecture
+    string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" ARCHITECTURE)
+    if(ARCHITECTURE STREQUAL "win32")
+        add_compile_definitions(_X86_ WIN32)
+    elseif(ARCHITECTURE STREQUAL "win64")
+        add_compile_definitions(_AMD64_ WIN64)
+    else(ARCHITECTURE STREQUAL "win32")
+        message(FATAL_ERROR "No architecutre was specified!")
+    endif(ARCHITECTURE STREQUAL "win32")
+
     include(CTest)
 
     add_subdirectory(demo/lib)
