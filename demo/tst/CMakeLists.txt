@@ -40,7 +40,7 @@ set(MANGLED_MOCKS_DEFINITIONS
     "RegOpenKeyW=__mock_RegOpenKeyW"
     "RegSetValueExW=__mock_RegSetValueExW"
 )
-include_directories(${CMAKE_SOURCE_DIR}/demo/lib ${GTEST_ROOT}/include)
+include_directories(${CMAKE_SOURCE_DIR}/demo/lib ${CMAKE_SOURCE_DIR}/googletest/googletest/include)
 
 #
 # @brief DLL hosted mocks unit tests
@@ -50,7 +50,7 @@ project(FFmockUnitTests_dll)
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Demo_lib
                 Mocks_dll
-                ${GTEST_BOTH_LIBRARIES}
+                gtest.lib
                 vcruntimed.lib
                 msvcrtd.lib
         )
@@ -67,7 +67,7 @@ project(FFmockUnitTests_dll)
         PRIVATE "FFMOCK_IMPORT=__declspec(dllimport)"
         )
 
-    add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib)
+    add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib gtest)
 
     add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
@@ -80,7 +80,7 @@ project(FFmockUnitTests_src)
         PRIVATE "/IGNORE:4217"
         )
     target_link_libraries(${PROJECT_NAME}
-        PRIVATE ${GTEST_BOTH_LIBRARIES}
+        PRIVATE gtest.lib
                 vcruntimed.lib
                 msvcrtd.lib
         )
@@ -99,6 +99,8 @@ project(FFmockUnitTests_src)
         PRIVATE "FFMOCK_IMPORT="
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
+
+        add_dependencies(${PROJECT_NAME} gtest)
 
         add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
@@ -137,7 +139,7 @@ project(FFmockUnitTests_lib)
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
                 Demo_tst
-                ${GTEST_BOTH_LIBRARIES}
+                gtest.lib
                 vcruntimed.lib
                 msvcrtd.lib
         )
@@ -155,6 +157,6 @@ project(FFmockUnitTests_lib)
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
 
-    add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst)
+    add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst gtest)
 
     add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
