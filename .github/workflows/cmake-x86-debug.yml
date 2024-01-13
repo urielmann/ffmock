@@ -1,6 +1,5 @@
 # This starter workflow is for a CMake project running on a single platform and single architecture
 name: CMake on x64 Debug
-author: Uriel Mann
 
 on:
   push:
@@ -14,7 +13,7 @@ jobs:
 
     steps:
       - id: SendParamIntoCustomAction
-        uses: ./.github/workflows/cmake-base
+        uses: ./.github/actions/cmake-base
         with:
           build-type: 'Debug'
           build-arch: 'Win32'
