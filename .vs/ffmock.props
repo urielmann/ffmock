@@ -2,11 +2,11 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <SourceRoot>$(SolutionDir)../</SourceRoot>
-    <GoogleTestDir>C:/Play/googletest/</GoogleTestDir>
+    <GoogleTestDir>C:/Program Files (x86)/googletest-distribution/</GoogleTestDir>
   </PropertyGroup>
   <PropertyGroup>
-    <IntDir>$(SourceRoot)demo/bin/x64/$(ProjectName)/</IntDir>
-    <OutDir>$(SourceRoot)demo/bin/x64/</OutDir>
+    <IntDir>$(SourceRoot)demo/bin/$(PatformTarget)/$(ProjectName)/</IntDir>
+    <OutDir>$(SourceRoot)demo/bin/$(PatformTarget)/</OutDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemGroup>
@@ -19,12 +19,15 @@
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
+      <SDLCheck>true</SDLCheck>
       <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <AdditionalIncludeDirectories>$(SourceRoot)inc;$(SourceRoot)demo/inc;$(SourceRoot)demo/lib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_AMD64_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <ConformanceMode>false</ConformanceMode>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
