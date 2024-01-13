@@ -60,7 +60,7 @@ project(ffmock
     string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" ARCHITECTURE)
     if(ARCHITECTURE STREQUAL "win32")
         add_compile_definitions(_X86_ WIN32)
-    elseif(ARCHITECTURE STREQUAL "win64")
+    elseif(ARCHITECTURE STREQUAL "x64")
         add_compile_definitions(_AMD64_ WIN64)
     else(ARCHITECTURE STREQUAL "win32")
         message(FATAL_ERROR "No architecutre was specified!")

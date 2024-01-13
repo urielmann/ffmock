@@ -40,7 +40,7 @@ set(MANGLED_MOCKS_DEFINITIONS
     "RegOpenKeyW=__mock_RegOpenKeyW"
     "RegSetValueExW=__mock_RegSetValueExW"
 )
-include_directories(${CMAKE_SOURCE_DIR}/demo/lib $ENV{ffmock.gtest.inc.dir})
+include_directories(${CMAKE_SOURCE_DIR}/demo/lib ${GTEST_ROOT}/include)
 
 #
 # @brief DLL hosted mocks unit tests
@@ -151,7 +151,8 @@ project(FFmockUnitTests_lib)
         PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
-        PRIVATE ${MANGLED_MOCKS_DEFINITIONS}
+        PRIVATE "FFMOCK_IMPORT="
+                ${MANGLED_MOCKS_DEFINITIONS}
         )
 
     add_dependencies(${PROJECT_NAME} Mocks_lib Demo_tst)
