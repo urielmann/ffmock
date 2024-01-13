@@ -13,7 +13,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: ./.github/workflows/cmake-base
-      with:
-        build-type: 'Debug'
-        build-arch: 'x64'
+      - id: SendParamIntoCustomAction
+        uses: ./.github/workflows/cmake-base
+        with:
+          build-type: 'Debug'
+          build-arch: 'x64'
