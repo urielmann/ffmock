@@ -1,5 +1,5 @@
-[![Build and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/cmake-x64-debug.yml/badge.svg)]  
-[![Build and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/cmake-x64-debug.yml/badge.svg)]  
+![Build and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/cmake-x64-debug.yml/badge.svg)  
+![Build and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/cmake-x86-debug.yml/badge.svg)  
 
 # **ffmock** - Microsoft Win32 API mocking library
 ## Table of Content
