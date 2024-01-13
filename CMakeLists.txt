@@ -58,7 +58,7 @@ project(ffmock
     elseif(ARCHITECTURE STREQUAL "x64")
         add_compile_definitions(_AMD64_ WIN64)
     else(ARCHITECTURE STREQUAL "win32")
-        message(FATAL_ERROR "No architecutre was specified!")
+        message(FATAL_ERROR "No architecture was specified!")
     endif(ARCHITECTURE STREQUAL "win32")
 
     include(CTest)

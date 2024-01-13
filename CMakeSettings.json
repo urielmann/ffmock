@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "x86-Debug",
-            "generator": "Visual Studio 17 2022",
+            "generator": "Visual Studio 16 2019",
             "configurationType": "Debug",
             "inheritEnvironments": [ "msvc_x86" ],
             "buildRoot": "${workspaceRoot}\\build\\${name}",
@@ -12,20 +12,20 @@
             "ctestCommandArgs": "",
             "variables": [
                 {
+                    "name": "CMAKE_GENERATOR_PLATFORM",
+                    "value": "Win32",
+                    "type": "STRING"
+                },
+                {
                     "name": "GTest_DIR",
                     "value": "C:/Program Files (x86)/googletest-distribution",
                     "type": "PATH"
-                },
-                {
-                    "name": "FFMOCK_ARCH",
-                    "value": "_X86_",
-                    "type": "STRING"
                 }
             ]
         },
         {
             "name": "x86-Release",
-            "generator": "Visual Studio 17 2022",
+            "generator": "Visual Studio 16 2019",
             "configurationType": "RelWithDebInfo",
             "inheritEnvironments": [ "msvc_x86" ],
             "buildRoot": "${workspaceRoot}\\build\\${name}",
@@ -35,20 +35,20 @@
             "ctestCommandArgs": "",
             "variables": [
                 {
+                    "name": "CMAKE_GENERATOR_PLATFORM",
+                    "value": "Win32",
+                    "type": "STRING"
+                },
+                {
                     "name": "GTest_DIR",
                     "value": "C:/Program Files (x86)/googletest-distribution",
                     "type": "PATH"
-                },
-                {
-                    "name": "FFMOCK_ARCH",
-                    "value": "_X86_",
-                    "type": "STRING"
                 }
             ]
         },
         {
             "name": "x64-Debug",
-            "generator": "Visual Studio 17 2022",
+            "generator": "Visual Studio 16 2019 Win64",
             "configurationType": "Debug",
             "inheritEnvironments": [ "msvc_x64" ],
             "buildRoot": "${workspaceRoot}\\build\\${name}",
@@ -59,24 +59,19 @@
             "variables": [
                 {
                     "name": "CMAKE_GENERATOR_PLATFORM",
-                    "value": "Win64",
+                    "value": "x64",
                     "type": "STRING"
                 },
                 {
                     "name": "GTest_DIR",
                     "value": "C:/Program Files (x86)/googletest-distribution",
                     "type": "PATH"
-                },
-                {
-                    "name": "FFMOCK_ARCH",
-                    "value": "_AMD64_",
-                    "type": "STRING"
                 }
             ]
         },
         {
             "name": "x64-Release",
-            "generator": "Visual Studio 17 2022",
+            "generator": "Visual Studio 16 2019 Win64",
             "configurationType": "RelWithDebInfo",
             "inheritEnvironments": [ "msvc_x64" ],
             "buildRoot": "${workspaceRoot}\\build\\${name}",
@@ -87,18 +82,13 @@
             "variables": [
                 {
                     "name": "CMAKE_GENERATOR_PLATFORM",
-                    "value": "Win64",
+                    "value": "x64",
                     "type": "STRING"
                 },
                 {
                     "name": "GTest_DIR",
                     "value": "C:/Program Files (x86)/googletest-distribution",
                     "type": "PATH"
-                },
-                {
-                    "name": "FFMOCK_ARCH",
-                    "value": "_AMD64_",
-                    "type": "STRING"
                 }
             ]
         }
