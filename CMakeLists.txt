@@ -21,17 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+option(BUILD_GMOCK "Build gmock" OFF)
+
 cmake_minimum_required(VERSION 3.11)
 project(ffmock
     VERSION 0.90
     DESCRIPTION "Free Functions Mocking Library")
-
-    # Set default GTest location
-    if(NOT GTEST_ROOT)
-        set(GTEST_ROOT "C:/Program Files (x86)/googletest-distribution")
-    endif(NOT GTEST_ROOT)
-
-    find_package(GTest REQUIRED)
 
     # Set a default build type for single-configuration
     # CMake generators if no build type is set.
@@ -53,7 +48,7 @@ project(ffmock
                                                           /INCREMENTAL:NO
                                                           /IGNORE:4099
                                                           /DEBUG:FULL
-                                                          /LIBPATH:$ENV{ffmock.gtest.lib.dir}/$(Configuration)")
+                                                          /LIBPATH:${CMAKE_BINARY_DIR}/lib/$(Configuration)")
     include_directories(${CMAKE_SOURCE_DIR}/inc ${CMAKE_SOURCE_DIR}/demo/inc)
 
     # Set compiler defines based on architecture
@@ -68,5 +63,7 @@ project(ffmock
 
     include(CTest)
 
+    set(GOOGLETEST_VERSION 1.14.0)
+    add_subdirectory(googletest/googletest)
     add_subdirectory(demo/lib)
     add_subdirectory(demo/tst)
