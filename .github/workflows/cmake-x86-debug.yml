@@ -9,8 +9,10 @@ on:
 
 jobs:
   build:
-    name: CMake base action
-    uses: ./.github/actions/cmake-base/action.yml
-    with:
-      build-type: 'Debug'
-      build-arch: 'Win32'
+    runs-on: windows-latest
+    steps:
+      - name: CMake base action
+        uses: ./.github/actions/cmake-base/action.yml@feature/CMake+Visual-Studio
+        with:
+          build-type: 'Debug'
+          build-arch: 'Win32'
