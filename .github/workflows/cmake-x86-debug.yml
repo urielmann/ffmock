@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: SendParamIntoCustomAction
+    name: CMake base action
     uses: ./.github/actions/cmake-base/action.yml
     with:
       build-type: 'Debug'

@@ -6,15 +6,15 @@ author: Uriel Mann
 on:
   workflow_call:
 
-inputs:
-  build-type:  # id of input
-    Type: 'Type of CMock configuration'
-    required: true
-    default: 'Debug'
-  build-arch:  # id of input
-    Type: 'Type of CMock architecture'
-    required: true
-    default: 'x64'
+    inputs:
+      build-type:  # id of input
+        Type: 'Type of CMock configuration'
+        required: true
+        default: 'Debug'
+      build-arch:  # id of input
+        Type: 'Type of CMock architecture'
+        required: true
+        default: 'x64'
 
 jobs:
   build:
