@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: CMake base action
-        uses: ./.github/actions/cmake-base/action.yml@feature/CMake+Visual-Studio
+        uses: ./.github/actions/cmake-base/action.yml@master
         with:
           build-type: 'Debug'
           build-arch: 'Win32'
