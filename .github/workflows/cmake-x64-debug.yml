@@ -11,6 +11,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v4
       - name: CMake base action
         uses: ./.github/actions/cmake-base/action.yml@feature/CMake+Visual-Studio
         with:
