@@ -3,6 +3,9 @@
 name: CMake base action
 author: Uriel Mann
 
+on:
+  workflow_call:
+
 inputs:
   build-type:  # id of input
     Type: 'Type of CMock configuration'
@@ -12,12 +15,6 @@ inputs:
     Type: 'Type of CMock architecture'
     required: true
     default: 'x64'
-
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
   build:

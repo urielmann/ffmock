@@ -9,11 +9,8 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
-
-    steps:
-      - id: SendParamIntoCustomAction
-        uses: ./.github/actions/cmake-base
-        with:
-          build-type: 'Debug'
-          build-arch: 'x64'
+    name: SendParamIntoCustomAction
+    uses: ./.github/actions/cmake-base/action.yml
+    with:
+      build-type: 'Debug'
+      build-arch: 'x64'
