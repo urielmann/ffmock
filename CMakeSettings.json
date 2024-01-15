@@ -91,6 +91,24 @@
                     "type": "PATH"
                 }
             ]
+        },
+        {
+            "name": "x64-Debug-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Debug",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": [],
+            "variables": [
+                {
+                    "name": "GTest_DIR",
+                    "value": "C:/Program Files (x86)/googletest-distribution",
+                    "type": "PATH"
+                }
+            ]
         }
     ]
 }
