@@ -56,17 +56,15 @@ project(FFmockUnitTests_dll)
         )
     target_sources(${PROJECT_NAME}
         PRIVATE FFmockUnitTests.cpp
-                FFmockUnitTests.manifest
                 Mocks.hpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
         )
-    target_sources(${PROJECT_NAME}
-        PRIVATE FFmockUnitTests.rc
+    target_link_options(${PROJECT_NAME}
+        PRIVATE /MANIFESTUAC:level='highestAvailable'
         )
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE "FFMOCK_IMPORT=__declspec(dllimport)"
         )
-
     add_dependencies(${PROJECT_NAME} Mocks_dll Demo_lib gtest)
 
     add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
@@ -77,7 +75,8 @@ project(FFmockUnitTests_dll)
 project(FFmockUnitTests_src)
     add_executable(${PROJECT_NAME})
     target_link_options(${PROJECT_NAME}
-        PRIVATE "/IGNORE:4217"
+        PRIVATE /MANIFESTUAC:level='highestAvailable'
+        /IGNORE:4217
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE gtest.lib
@@ -86,14 +85,10 @@ project(FFmockUnitTests_src)
         )
     target_sources(${PROJECT_NAME}
         PRIVATE FFmockUnitTests.cpp
-                FFmockUnitTests.manifest
                 Mocks.cpp
                 Mocks.hpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.cpp
                 ${CMAKE_SOURCE_DIR}/demo/lib/Registry.hpp
-        )
-    target_sources(${PROJECT_NAME}
-        PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE "FFMOCK_IMPORT="
@@ -134,7 +129,8 @@ project(Mocks_lib)
 project(FFmockUnitTests_lib)
     add_executable(${PROJECT_NAME})
     target_link_options(${PROJECT_NAME}
-        PRIVATE "/IGNORE:4217"
+        PRIVATE /MANIFESTUAC:level='highestAvailable'
+        /IGNORE:4217
         )
     target_link_libraries(${PROJECT_NAME}
         PRIVATE Mocks_lib
@@ -145,12 +141,8 @@ project(FFmockUnitTests_lib)
         )
     target_sources(${PROJECT_NAME}
         PRIVATE FFmockUnitTests.cpp
-                FFmockUnitTests.manifest
                 Mocks.cpp
                 Mocks.hpp
-        )
-    target_sources(${PROJECT_NAME}
-        PRIVATE FFmockUnitTests.rc
         )
     target_compile_definitions(${PROJECT_NAME}
         PRIVATE "FFMOCK_IMPORT="

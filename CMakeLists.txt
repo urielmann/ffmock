@@ -36,7 +36,7 @@ project(ffmock
     endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
     # Select flags.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /EHsc /GR- /Oi /wd4163 /Zc:externC-")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /EHsc /GR-")
     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /MT")
     set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} /MT")
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
@@ -46,25 +46,39 @@ project(ffmock
                                                           /NODEFAULTLIB:ADVAPI32.lib
                                                           /NODEFAULTLIB:LIBCMT
                                                           /NODEFAULTLIB:LIBCMTD
-                                                          /MANIFEST:NO
                                                           /INCREMENTAL:NO
                                                           /IGNORE:4099
                                                           /DEBUG:FULL
                                                           /LIBPATH:${CMAKE_BINARY_DIR}/lib/$(Configuration)")
     include_directories(${CMAKE_SOURCE_DIR}/inc ${CMAKE_SOURCE_DIR}/demo/inc)
 
-    # Set compiler defines based on architecture
+    # Set compiler defines based on architecture and generator
     string(TOLOWER "${CMAKE_GENERATOR_PLATFORM}" ARCHITECTURE)
     if(CMAKE_GENERATOR STREQUAL "Ninja")
-        message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}")
-        add_compile_definitions(_AMD64_ WIN64)
+        message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}, Platform = $ENV{Platform}")
+        string(TOLOWER "$ENV{Platform}" ARCHITECTURE)
+        if(ARCHITECTURE STREQUAL "x86")
+            add_compile_definitions(_X86_ WIN32)
+        elseif(ARCHITECTURE STREQUAL "x64")
+            add_compile_definitions(_AMD64_ WIN64)
+        else(ARCHITECTURE STREQUAL "x86")
+            message(FATAL_ERROR "No architecture was specified!")
+        endif(ARCHITECTURE STREQUAL "x86")
+
         string(REPLACE "/W3 " "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
         string(REPLACE "/GR " "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
         string(REPLACE "/MD " "" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
         string(REPLACE "/MD " "" CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL}")
         string(REPLACE "/MD " "" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
         string(REPLACE "/MDd " "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+        string(REPLACE "/LIBPATH:${CMAKE_BINARY_DIR}/lib/$(Configuration)"
+                       "/LIBPATH:${CMAKE_BINARY_DIR}/lib"
+                       CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+        string(REGEX REPLACE "[ \t\r\n]+"
+                       " "
+                       CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
         message(STATUS "CMAKE_CXX_FLAGS = '${CMAKE_CXX_FLAGS}'")
+        message(STATUS "CMAKE_EXE_LINKER_FLAGS = '${CMAKE_EXE_LINKER_FLAGS}'")
     elseif(ARCHITECTURE STREQUAL "win32")
         add_compile_definitions(_X86_ WIN32)
     elseif(ARCHITECTURE STREQUAL "x64")
