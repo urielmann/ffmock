@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
-name: Ninja on x64 Debug
+name: Ninja on x86 Debug
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: 'x64'
+          arch: 'x86'
 
       - uses: actions/checkout@v4
         with:

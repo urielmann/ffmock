@@ -95,7 +95,7 @@ project(FFmockUnitTests_src)
                 ${MANGLED_MOCKS_DEFINITIONS}
         )
 
-        add_dependencies(${PROJECT_NAME} gtest)
+    add_dependencies(${PROJECT_NAME} gtest)
 
         add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
 
