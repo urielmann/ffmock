@@ -1,7 +1,12 @@
-![Build and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/cmake-x64-debug.yml/badge.svg)  
-![Build and Test x64-Release](https://github.com/urielmann/ffmock/actions/workflows/cmake-x64-release.yml/badge.svg)  
-![Build and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/cmake-x86-debug.yml/badge.svg)  
-![Build and Test x86-Release](https://github.com/urielmann/ffmock/actions/workflows/cmake-x86-release.yml/badge.svg)  
+![MSBuild and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x64-debug.yml/badge.svg)
+![MSBuild and Test x64-Release](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x64-release.yml/badge.svg)
+![MSBuild and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x86-debug.yml/badge.svg)
+![MSBuild and Test x86-Release](https://github.com/urielmann/ffmock/actions/workflows/msbuild-x86-release.yml/badge.svg)  
+
+![Ninja and Test x64-Debug](https://github.com/urielmann/ffmock/actions/workflows/ninja-x64-debug.yml/badge.svg)
+![Ninja and Test x64-Release](https://github.com/urielmann/ffmock/actions/workflows/ninja-x64-release.yml/badge.svg)
+![Ninja and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/ninja-x86-debug.yml/badge.svg)
+![Ninja and Test x86-Release](https://github.com/urielmann/ffmock/actions/workflows/ninja-x86-release.yml/badge.svg)  
 
 # **ffmock** - Microsoft Win32 API mocking library
 ## Table of Content
