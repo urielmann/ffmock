@@ -93,6 +93,28 @@
             ]
         },
         {
+            "name": "x86-Debug-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Debug",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
+        },
+        {
+            "name": "x86-Release-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
+        },
+        {
             "name": "x64-Debug-Ninja",
             "generator": "Ninja",
             "configurationType": "Debug",
@@ -101,14 +123,18 @@
             "cmakeCommandArgs": "",
             "buildCommandArgs": "",
             "ctestCommandArgs": "",
-            "inheritEnvironments": [],
-            "variables": [
-                {
-                    "name": "GTest_DIR",
-                    "value": "C:/Program Files (x86)/googletest-distribution",
-                    "type": "PATH"
-                }
-            ]
+            "inheritEnvironments": []
+        },
+        {
+            "name": "x64-Release-Ninja",
+            "generator": "Ninja",
+            "configurationType": "Release",
+            "buildRoot": "${projectDir}\\out\\build\\${name}",
+            "installRoot": "${projectDir}\\out\\install\\${name}",
+            "cmakeCommandArgs": "",
+            "buildCommandArgs": "",
+            "ctestCommandArgs": "",
+            "inheritEnvironments": []
         }
     ]
 }
