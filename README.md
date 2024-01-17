@@ -8,6 +8,8 @@
 ![Ninja and Test x86-Debug](https://github.com/urielmann/ffmock/actions/workflows/ninja-x86-debug.yml/badge.svg)
 ![Ninja and Test x86-Release](https://github.com/urielmann/ffmock/actions/workflows/ninja-x86-release.yml/badge.svg)  
 
+![Doxygen](https://github.com/urielmann/ffmock/actions/workflows/doxygen.yml/badge.svg)  
+
 # **ffmock** - Microsoft Win32 API mocking library
 ## Table of Content
 

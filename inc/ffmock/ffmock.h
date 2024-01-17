@@ -40,13 +40,20 @@ struct function_traits;
 
 /**
  * @brief Template specialization for __stdcall APIs
+ *
+ * @tparam RetType_t - Free function return type
+ * @tparam Args_t - Free function arguments pack
  */
 template<typename RetType_t, typename... Args_t>
 struct function_traits<RetType_t __stdcall(Args_t...)>
 {
+    //! @brief Return type of mocked free function
     using Ret_t = RetType_t;
+    //! @brief Free function (API) signature
     using Sig_t = Ret_t __stdcall(Args_t...);
+    //! @brief Free function (API) pointer
     using Ptr_t = Ret_t(__stdcall*)(Args_t...);
+    //! @brief Functor declaration for the API
     using Api_t = std::function<Sig_t>;
 
 #pragma warning(push)
@@ -78,13 +85,20 @@ struct function_traits<RetType_t __stdcall(Args_t...)>
 #if !defined(WIN64)
 /**
  * @brief Template specialization for __cdecl APIs
+ *
+ * @tparam RetType_t - Free function return type
+ * @tparam Args_t - Free function arguments pack
  */
 template<typename RetType_t, typename... Args_t>
 struct function_traits<RetType_t __cdecl(Args_t...)>
 {
+    //! @brief Return type of mocked free function
     using Ret_t = RetType_t;
-    using Sig_t = Ret_t __cdecl(Args_t...);
-    using Ptr_t = Ret_t(__cdecl*)(Args_t...);
+    //! @brief Free function (API) signature
+    using Sig_t = Ret_t __stdcall(Args_t...);
+    //! @brief Free function (API) pointer
+    using Ptr_t = Ret_t(__stdcall*)(Args_t...);
+    //! @brief Functor declaration for the API
     using Api_t = std::function<Sig_t>;
 
 #pragma warning(push)
@@ -128,10 +142,17 @@ Mock
 {
 protected:
 
+    //! @brief API traits specialization
     using Traits_t = function_traits<API_t>;
+    //! @brief Return type of mocked free function
     using Ret_t = typename Traits_t::Ret_t;
+    //! @brief Free function (API) signature
+    using Sig_t = typename Traits_t::Sig_t;
+    //! @brief Free function (API) pointer
     using Ptr_t = typename Traits_t::Ptr_t;
+    //! @brief Functor declaration for the API
     using Api_t = typename Traits_t::Api_t;
+    //! @brief Type declaration for this template
     using Mock_t = Mock;
 
     FFMOCK_IMPORT
