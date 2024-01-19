@@ -6,7 +6,7 @@
 # @see https://satviksr.medium.com/automatically-publish-documentation-of-your-code-using-github-actions-and-doxygen-e9aaa75f6347
 #
 
-name: Doxygen Action
+name: Doxygen Generation
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch

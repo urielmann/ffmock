@@ -25,6 +25,9 @@
     - [Mangle mocked APIs' names](#mangle-mocked-apis-names)
     - [Host all mocks in a separate DLL.](#host-all-mocks-in-a-separate-dll)
   - [Troubleshooting](#troubleshooting)
+  
+[Doxygen Docymentation](https://urielmann.github.io/ffmock/)
+
 ## General
 This library is a header only package to provide simple and versatile method of mocking Microsoft's Win32 native API. Most mocking packages are geared to mocking C++ objects (classes, structs). It makes it easy to inject dependencies, if the mocks are wrapped in an interface. They are not designed to mock free functions. For example, the popular Google Test (gtest) tells you that you need to [wrap free functions into interfaces](https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#mocking-free-functions). While this approach would work, it presents both an additional work, as well as, additional executional overhead.
 
