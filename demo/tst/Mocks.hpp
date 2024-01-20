@@ -26,7 +26,6 @@
 
 #include <ffmock/ffmock.h>
 #include <Common.hpp>
-#include <winsvc.h>
 #include <winreg.h>
 
 

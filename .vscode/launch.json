@@ -83,5 +83,18 @@
             "args": ["--input=${workspaceFolder}/build/demo/tst/Debug/Mocks_dll.dll"],
             "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
         },
+        {
+            "name": "Python: Generate mocks (Integrated Terminal)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/py/generate_mocks.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "--input=C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/um/winreg.h",
+                "--api=RegCloseKey"
+            ],
+            "env": { "PYTHONPATH": "C:/Play/ffmock/demo/py",},
+        },
     ]
 }
